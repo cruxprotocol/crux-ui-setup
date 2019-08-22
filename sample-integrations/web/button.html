@@ -1,0 +1,33 @@
+<button id="button1">Register</button>
+<div id='coinswitch-container'></div>
+<div id="userInformation" style="display:none">
+  <div id="newPayIDName"></div>
+  <div id="encryptedNewPayIDPass"></div>
+</div>
+<script src="https://s3-ap-southeast-1.amazonaws.com/files.coinswitch.co/openpay-setup/sample-integrations/web/helper.js"></script>
+<script src="https://s3-ap-southeast-1.amazonaws.com/files.coinswitch.co/openpay-setup/openpay-iframe-interface.js"></script>
+<script>
+
+    function thirdPartyIntegrationCode (data){
+        if (data.type === 'emailPrepopulation') {
+          alert('Received Email Message: ' + data);
+        } else if (data.type === 'register') {
+          alert('Received after register message: '+ data);
+          displayUserInformation(data);
+        }
+    }
+
+</script>
+<script>
+var options = {
+    "publicKey": "xxxxxxx", // Enter the Key ID generated from the Dashboard
+    //"payIDName": "umang@exodus.id",
+    "payIDName": null,
+    "handler": thirdPartyIntegrationCode
+};
+var cs = new OpenPay(options);
+document.getElementById('button1').onclick = function(e){
+    cs.open();
+    e.preventDefault();
+}
+</script>
