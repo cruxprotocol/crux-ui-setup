@@ -99,19 +99,18 @@
 <script type="text/javascript">
 
 	var currentInput = {
-	    payIDName: 'abcdef',
-        availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS'],
-		publicAddressCurrencies: ['BTC', 'EOS']
+	    // payIDName: 'abcdef',
+        // availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS'],
+		// publicAddressCurrencies: ['BTC', 'EOS']
     };
+
+
 	window.addEventListener('message', function (event) {
 		console.log('event message received');
 		console.log(event);
 
-		var data = JSON.parse(event.data);
-		if (data.type === 'register') {
-			currentInput = data;
-			initVue();
-		}
+		currentInput = JSON.parse(event.data);
+		initVue();
 	}, false);
 
 	let initVue = function(){
@@ -124,6 +123,8 @@
 				}
 			},
 			mounted() {
+				console.log("== Mounted setup page ==")
+				console.log(currentInput);
 				this.checkedCurrencies = [...this.publicAddressCurrencies];
 			},
 			methods: {
@@ -143,15 +144,19 @@
 				backToWallet: function() {
 					console.log('===back to wallet==');
 					console.log(this.checkedCurrencies);
-					let nullMessage = {
-						type: 'null',
+					//if(this.checkedCurrencies === )
+					let existingMessange = {
+						type: 'editExisting',
+						data: {
+							checkedCurrencies: this.checkedCurrencies
+						}
 					};
-					window.parent.postMessage(JSON.stringify(nullMessage), '*');
+					window.parent.postMessage(JSON.stringify(existingMessange), '*');
 				}
 			}
 		})
 	}
-	initVue();
+	//initVue();
 </script>
 
 
