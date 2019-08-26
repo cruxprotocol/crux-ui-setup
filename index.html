@@ -51,13 +51,13 @@
 
 				<div id="newIDSetup" v-if="!payIDName">
 					<div class="wrap-input100 validate-input" data-validate = "Valid OpenPay Name is Required - Minimum 6 characters">
-						<input v-bind:class="{ 'alert-validate': showNameAlert }" v-model="inputPayIDName" class="input100" type="text" name="openPayName" placeholder="Please choose an OpenPay Name">
+						<input v-model="inputPayIDName" class="input100" type="text" name="openPayName" placeholder="Please choose an OpenPay Name">
 						<span class="focus-input100-1"></span>
 						<span class="focus-input100-2"></span>
 					</div>
 
 					<div class="wrap-input100 rs1 validate-input" data-validate="Minimum 6 characters">
-						<input v-bind:class="{ 'alert-validate': showPassAlert }" v-model="inputPayIDPass" class="input100" type="password" name="pass" placeholder="Password">
+						<input v-model="inputPayIDPass" class="input100" type="password" name="pass" placeholder="Password">
 						<span class="focus-input100-1"></span>
 						<span class="focus-input100-2"></span>
 					</div>
@@ -107,10 +107,14 @@
 			data: currentInput,
 			methods: {
 				createNewID: function () {
+					if(this.inputPayIDName && this.inputPayIDPass) {
+					}
 					let registerMessage = {
-						type: 'register',
-						newPayIDName: this.inputPayIDName,
-						newPayIDPass: this.inputPayIDPass
+						type: 'createNew',
+						data: {
+							newPayIDName: this.inputPayIDName,
+							newPayIDPass: this.inputPayIDPass
+						}
 					};
 					window.parent.postMessage(JSON.stringify(registerMessage), '*');
 
