@@ -70,7 +70,17 @@
 				</div>
 
 				<div id="existingIDSetup"  class="idDisplay" v-if="payIDName">
-					<span>Your ID is {{payIDName}}</span>
+					<span>Your ID is {{payIDName}}</span><br>
+                    <span>Public Currencies:</span>
+                    <ul id="availableCurrencyList">
+                        <li v-for="cur in availableCurrencies">
+
+							<input type="checkbox"  :value="cur" v-model="checkedCurrencies">
+							<label>{{cur}}</label>
+
+                        </li>
+
+                    </ul>
 					<div class="container-login100-form-btn m-t-20">
 						<button type="button" v-on:click="backToWallet" class="login100-form-btn">
 							Back to Wallet
@@ -88,15 +98,18 @@
 
 <script type="text/javascript">
 
-	var currentInput = {};
+	var currentInput = {
+	    payIDName: 'abcdef',
+        availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS'],
+		publicAddressCurrencies: ['BTC', 'EOS']
+    };
 	window.addEventListener('message', function (event) {
 		console.log('event message received');
 		console.log(event);
 
-		var data = JSON.parse(event.data);                                        // Use JSON.parse to convert a string to javascript object.
-		if (data.type === 'register') {                                           // We are sending a type so we want to check to make sure the type is correct. TODO: abstract to a function
-			currentInput = data;						   						  // set the value of the register form to the message value
-			// window.parent.postMessage(JSON.stringify({ type: 'emailPrepopulation' }), '*');  // Send confirmation message back to the parent.
+		var data = JSON.parse(event.data);
+		if (data.type === 'register') {
+			currentInput = data;
 			initVue();
 		}
 	}, false);
@@ -104,7 +117,15 @@
 	let initVue = function(){
 		new Vue({
 			el: '#appBase',
-			data: currentInput,
+			data: function(){
+				return {
+					...currentInput,
+					checkedCurrencies: []
+				}
+			},
+			mounted() {
+				this.checkedCurrencies = [...this.publicAddressCurrencies];
+			},
 			methods: {
 				createNewID: function () {
 					if(this.inputPayIDName && this.inputPayIDPass) {
@@ -120,6 +141,8 @@
 
 				},
 				backToWallet: function() {
+					console.log('===back to wallet==');
+					console.log(this.checkedCurrencies);
 					let nullMessage = {
 						type: 'null',
 					};
@@ -128,7 +151,7 @@
 			}
 		})
 	}
-
+	initVue();
 </script>
 
 
