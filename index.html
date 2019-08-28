@@ -103,14 +103,13 @@
 		// publicAddressCurrencies: ['BTC', 'EOS']
     };
 
-
 	window.addEventListener('message', function (event) {
         console.log('event message received');
         console.log(event);
         var data = JSON.parse(event.data);
         if (data.type === 'close') {
             window.close();
-        } else {
+        } else if (data.type === 'register') {
             currentInput = data;
             initVue();
 		}
@@ -141,7 +140,12 @@
 							newPayIDPass: this.inputPayIDPass
 						}
 					};
-					window.parent.postMessage(JSON.stringify(registerMessage), '*');
+
+                    if (currentInput.experience == 'iframe') {
+                        window.parent.postMessage(JSON.stringify(registerMessage), '*');
+                    } else {
+                        window.opener.postMessage(JSON.stringify(registerMessage), '*');
+                    }
 
 				},
 				backToWallet: function() {
