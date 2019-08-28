@@ -5,29 +5,32 @@
   <div id="encryptedNewPayIDPass"></div>
 </div>
 <script src="https://s3-ap-southeast-1.amazonaws.com/files.coinswitch.co/openpay-setup/sample-integrations/web/helper.js"></script>
-<script src="https://s3-ap-southeast-1.amazonaws.com/files.coinswitch.co/openpay-setup/openpay-iframe-interface.js"></script>
+<script src="http://127.0.0.1:8777/dist/openpay-dom.js"></script>
+
 <script>
 
     function thirdPartyIntegrationCode (data){
         if (data.type === 'emailPrepopulation') {
-          alert('Received Email Message: ' + data);
+          	console.log('Received Email Message: ' + data);
         } else if (data.type === 'register') {
-          alert('Received after register message: '+ data);
-          displayUserInformation(data);
+            console.log('Received after register message: '+ data);
+          	displayUserInformation(data);
         }
     }
 
 </script>
 <script>
+var openpay = new OpenPay.OpenPayWallet();
 var options = {
     "publicKey": "xxxxxxx", // Enter the Key ID generated from the Dashboard
     //"payIDName": "umang@exodus.id",
     "payIDName": null,
+    "experience": "iframe",
+	"iframeEmbedElementId": "coinswitch-container",
     "handler": thirdPartyIntegrationCode
 };
-var cs = new OpenPay(options);
 document.getElementById('button1').onclick = function(e){
-    cs.open();
+    var cs = openpay.invokeSetup(options);
     e.preventDefault();
 }
 </script>

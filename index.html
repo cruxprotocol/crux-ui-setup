@@ -105,11 +105,15 @@
 
 
 	window.addEventListener('message', function (event) {
-		console.log('event message received');
-		console.log(event);
-
-		currentInput = JSON.parse(event.data);
-		initVue();
+        console.log('event message received');
+        console.log(event);
+        var data = JSON.parse(event.data);
+        if (data.type === 'close') {
+            window.close();
+        } else {
+            currentInput = data;
+            initVue();
+		}
 	}, false);
 
 	let initVue = function(){
