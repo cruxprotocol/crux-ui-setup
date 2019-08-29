@@ -64,7 +64,8 @@
 
 					<div class="container-login100-form-btn m-t-20">
 						<button type="button" v-on:click="createNewID" class="login100-form-btn">
-							Create New ID
+							<img v-if="showButtonLoader" src="images/ajax-loader.gif" alt="" style="height:20px; padding-right:20px;">
+							<span>Create New ID</span>
 						</button>
 					</div>
 				</div>
@@ -131,8 +132,7 @@
 			},
 			methods: {
 				createNewID: function () {
-					if(this.inputPayIDName && this.inputPayIDPass) {
-					}
+					this.showButtonLoader = true;
 					let registerMessage = {
 						type: 'createNew',
 						data: {
