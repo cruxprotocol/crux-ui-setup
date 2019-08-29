@@ -41,10 +41,10 @@
 </head>
 <body>
 
-	<div id="appBase" class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-				<form class="login100-form validate-form">
+<div id="appBase" class="limiter">
+	<div class="container-login100">
+		<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+			<form class="login100-form validate-form">
 					<span class="login100-form-title p-b-33">
 						OpenPay Setup
 					</span>
@@ -92,6 +92,7 @@
 			</form>
 		</div>
 	</div>
+
 </div>
 
 
@@ -103,16 +104,13 @@
 		// publicAddressCurrencies: ['BTC', 'EOS']
     };
 
+
 	window.addEventListener('message', function (event) {
-        console.log('event message received');
-        console.log(event);
-        var data = JSON.parse(event.data);
-        if (data.type === 'close') {
-            window.close();
-        } else if (data.type === 'register') {
-            currentInput = data;
-            initVue();
-		}
+		console.log('event message received');
+		console.log(event);
+
+		currentInput = JSON.parse(event.data);
+		initVue();
 	}, false);
 
 	let initVue = function(){
@@ -140,12 +138,7 @@
 							newPayIDPass: this.inputPayIDPass
 						}
 					};
-
-                    if (currentInput.experience == 'iframe') {
-                        window.parent.postMessage(JSON.stringify(registerMessage), '*');
-                    } else {
-                        window.opener.postMessage(JSON.stringify(registerMessage), '*');
-                    }
+					window.parent.postMessage(JSON.stringify(registerMessage), '*');
 
 				},
 				backToWallet: function() {
