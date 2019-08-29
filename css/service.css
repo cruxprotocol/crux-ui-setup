@@ -1,6 +1,6 @@
 #overlay {
 	position: absolute;
-	display: none;
+	display: block;
 	top: 0;
 	left: 0;
 	bottom: 0;
@@ -13,17 +13,17 @@
 
 .opacity {
 	opacity: 1;
-	display: block
+	display: block;
 }
 
-#error-message {
+#block-message {
 	-webkit-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
 	background: #fff;
 	bottom: -55px;
 	position: absolute;
 	width: 100%;
-	display: none;
+	display: block;
 	-webkit-box-shadow: 0 -2px 8px rgba(0,0,0,0.16);
 	box-shadow: 0 -2px 8px rgba(0,0,0,0.16);
 	height: 220px;
@@ -34,30 +34,14 @@
 	z-index: 100;
 }
 
-#error-message .link {
-	display: none
-}
-
-#error-message.loading .link {
-	display: inline-block
-}
-
-#error-message.loading .spin {
-	display: block
-}
-
-#error-message.loading #retry-button {
-	display: none
-}
-
-#error-message-text {
+#block-message-text {
 	white-space: normal;
 	padding: 20px 30px;
 	line-height: 22px
 }
 
 .spin {
-	display: none;
+	display: block;
 	position: relative;
 	width: 64px;
 	height: 64px;
@@ -89,8 +73,10 @@
 	}
 }
 
-.loading .spin {
-	display: block
+.spin div,
+.link
+{
+	border-color: #736df8!important;
 }
 
 .link {
@@ -98,10 +84,4 @@
 	cursor: pointer;
 	font-size: 12px;
 	border-bottom: 1px solid;
-}
-
-.spin div,
-.link
-{
-	border-color: #736df8!important;
 }
