@@ -69,7 +69,8 @@
             user_data: {
                 'authenticate_long': false,
                 'openpay_password': null,
-                'openpay_id': null
+                'openpay_id': null,
+                'public_key': null
             },
             show_overlay: false,
             show_loader: false,
@@ -85,6 +86,8 @@
                 this.show_loader = true
                 this.show_overlay = true
                 this.current_block_message_text = this.block_message_text['send-payment-request']
+                // Request for the user's publicKey information
+                this.send_message('get_public_key', {openpay_id: this.user_data.openpay_id})
             },
             payment_failed: function(){
                 this.show_overlay = true
@@ -101,6 +104,18 @@
                 this.show_overlay = true
                 this.show_loader = true
                 this.current_block_message_text = this.block_message_text['channel-created']
+            },
+            set_user_public_key: function(public_key){
+                console.log(`using the user public key as ${public_key}`)
+                this.user_data.public_key = public_key;
+                // Generate an accessToken using the TokenController and passback 
+                let encryptionPayload = OpenPay.TokenController.generateAccessToken(this.user_data.openpay_password, this.user_data.public_key)
+                // { accessToken: string, ephemeralPublicKey?: string, iv?: string, encryptedValidity?: string }
+                console.log(`Encrytion payload generated: `, encryptionPayload)
+                this.send_message('encryption_payload', {encryptionPayload})
+            },
+            send_message: function(type, data){
+                mp.communicator.postMessage(type, data)
             }
         }
     })
@@ -115,14 +130,17 @@
             case "channel_creation_acknowledged":
                 app.channel_creation_acknowledged();
                 break;
+            case "public_key":
+                app.set_user_public_key(message.data.public_key);
+                break;
             default:
                 console.warn('unhandled:' + JSON.stringify(message))
         }
     }
 
     window.onload = function () {
-        new OpenPay.MessageProcessor(type='newtab', source=window.parent, target='*', handler=onPostMessage);
-        // new OpenPay.MessageProcessor(type='iframe', source=window.opener, target='*', handler=onPostMessage);
+        window.mp = new OpenPay.MessageProcessor(type='newtab', source=window.opener, target='*', handler=onPostMessage);
+        // new OpenPay.MessageProcessor(type='iframe', source=window.parent, target='*', handler=onPostMessage);
     };
 
     // }
