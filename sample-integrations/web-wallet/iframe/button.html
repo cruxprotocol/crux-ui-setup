@@ -1,4 +1,4 @@
-<button id="button1">Send OpenPay Payment Request</button>
+<button id="button1">Register</button>
 <div id='coinswitch-container'></div>
 <div id="userInformation" style="display:none">
 	<div id="newPayIDName"></div>
@@ -20,22 +20,18 @@
 
 </script>
 <script>
-    var openpay = new OpenPay.OpenPayService();
+    var openpay = new OpenPay.OpenPayWallet();
     var options = {
-        paymentRequest: {
-            format: "",
-            currency: "btc",
-            toAddress: {
-                addressHash: "1AhAcsURooE2VSavYoGihL8WoLmrRpiycH"
-            },
-            value: 2
-        },
-        serviceName: "Keys4Coins",
-        experience: "newTab",
-        handler: thirdPartyIntegrationCode
+        "publicKey": "xxxxxxx", // Enter the Key ID generated from the Dashboard
+        //"payIDName": "umang@exodus.id",
+        "payIDName": null,
+        "experience": "iframe",
+        "availableCurrencies": ['eth', 'btc'],
+        "iframeEmbedElementId": "coinswitch-container",
+        "handler": thirdPartyIntegrationCode
     };
     document.getElementById('button1').onclick = function(e){
-        var cs = openpay.invokeServiceSetup(options);
+        var cs = openpay.invokeSetup(options);
         e.preventDefault();
     }
 </script>
