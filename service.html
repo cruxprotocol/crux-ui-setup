@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
 	<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+	<script src="http://127.0.0.1:8777/dist/openpay-dom.js"></script>
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
@@ -13,95 +14,119 @@
 	<!--===============================================================================================-->
 </head>
 <body>
-	<div id="app" class="container">
-		<div class="card box-shadow">
-			<div id="overlay" v-if="show_overlay"></div>
-			<h5 class="card-header">Send Payment Request</h5>
-			<div class="card-body">
-				<form>
-					<div class="form-group">
-						<label for="openpay_id">ENTER YOUR OPENPAY ID</label>
-						<input type="text" v-model="user_data.openpay_id" class="form-control" id="openpay_id" placeholder="Enter your OpenPay Id" pattern=".+@.+" title="Please enter a valid OpenPay Id of the form username@wallet.id" >
-					</div>
-					<div class="form-group">
-						<label for="openpay_password">PASSWORD</label>
-						<input type="password" v-model="user_data.openpay_password" class="form-control" id="openpay_password" placeholder="Password">
-					</div>
-					<div class="form-check">
-						<input type="checkbox" v-model="user_data.authenticate_long" class="form-check-input" id="authenticate_long">
-						<label class="form-check-label" for="authenticate_long">Authenticate for 30 days</label>
-					</div>
-				</form>
-			</div>
-			<div class="card-footer text-center">
-				<button id="send-payment-request" v-on:click="send_payment_request" type="submit" class="btn btn-primary">
-					Send Payment Request
-				</button>
-			</div>
-			<div id="block-message" class="text-center" v-if="show_overlay">
-				<div id="block-message-text">
-					{{ current_block_message_text }}
+<div id="app" class="container">
+	<div class="card box-shadow">
+		<div id="overlay" v-if="show_overlay"></div>
+		<h5 class="card-header">Send Payment Request</h5>
+		<div class="card-body">
+			<form>
+				<div class="form-group">
+					<label for="openpay_id">ENTER YOUR OPENPAY ID</label>
+					<input type="text" v-model="user_data.openpay_id" class="form-control" id="openpay_id" placeholder="Enter your OpenPay Id" pattern=".+@.+" title="Please enter a valid OpenPay Id of the form username@wallet.id" >
 				</div>
-				<div class="spin" style="margin: 0 auto;" v-if="show_loader">
-					<div></div>
-					<div></div>
+				<div class="form-group">
+					<label for="openpay_password">PASSWORD</label>
+					<input type="password" v-model="user_data.openpay_password" class="form-control" id="openpay_password" placeholder="Password">
 				</div>
-				<button id="retry-button" v-if="show_retry_button" v-on:click="retry" class="btn btn-danger">
-					Retry
-				</button>
+				<div class="form-check">
+					<input type="checkbox" v-model="user_data.authenticate_long" class="form-check-input" id="authenticate_long">
+					<label class="form-check-label" for="authenticate_long">Authenticate for 30 days</label>
+				</div>
+			</form>
+		</div>
+		<div class="card-footer text-center">
+			<button id="send-payment-request" v-on:click="send_payment_request" type="submit" class="btn btn-primary">
+				Send Payment Request
+			</button>
+		</div>
+		<div id="block-message" class="text-center" v-if="show_overlay">
+			<div id="block-message-text">
+				{{ current_block_message_text }}
 			</div>
+			<div class="spin" style="margin: 0 auto;" v-if="show_loader">
+				<div></div>
+				<div></div>
+			</div>
+			<button id="retry-button" v-if="show_retry_button" v-on:click="retry" class="btn btn-danger">
+				Retry
+			</button>
 		</div>
 	</div>
-	<!--===============================================================================================-->
-	<script src="js/service.js"></script>
-	<script>
-        // var initVue = function(){
-			var app = new Vue({
-				el: '#app',
-				data: {
-					block_message_text: {
-						'send-payment-request': 'Please login into your OpenPay enabled app where you want to receive payment request.',
-						'payment-failed': 'Payment failed because OpenPay request expired.',
-						'payment-success': 'Transaction confirmed',
-						'channel-created': 'Please accept the request from Uber on your OpenPay enabled app.'
-					},
-					user_data: {
-                        'authenticate_long': false,
-                        'openpay_password': null,
-                        'openpay_id': null
-					},
-					show_overlay: false,
-					show_loader: false,
-					show_retry_button: false,
-					current_block_message_text: ""
-				},
-				methods: {
-					retry: function(){
-						this.show_overlay = false
-                        this.show_retry_button = false
-					},
-					send_payment_request: function(e){
-						this.show_loader = true
-						this.show_overlay = true
-						this.current_block_message_text = this.block_message_text['send-payment-request']
-					},
-					payment_failed: function(){
-						this.show_loader = false
-						this.show_retry_button = true
-						this.current_block_message_text = this.block_message_text['payment-failed']
-					},
-					payment_success: function(){
-						this.show_loader = false
-						this.current_block_message_text = this.block_message_text['payment-success']
-					},
-					channel_creation_acknowledged: function(){
-						this.show_loader = true
-						this.current_block_message_text = this.block_message_text['channel-created']
-					}
-				}
-			})
-	// }
-	// initVue();
-	</script>
+</div>
+<!--===============================================================================================-->
+<script src="js/service.js"></script>
+<script>
+    // var initVue = function(){
+    var app = new Vue({
+        el: '#app',
+        data: {
+            block_message_text: {
+                'send-payment-request': 'Please login into your OpenPay enabled app where you want to receive payment request.',
+                'payment-failed': 'Payment failed because OpenPay request expired.',
+                'payment-success': 'Transaction confirmed',
+                'channel-created': 'Please accept the request from Uber on your OpenPay enabled app.'
+            },
+            user_data: {
+                'authenticate_long': false,
+                'openpay_password': null,
+                'openpay_id': null
+            },
+            show_overlay: false,
+            show_loader: false,
+            show_retry_button: false,
+            current_block_message_text: ""
+        },
+        methods: {
+            retry: function(){
+                this.show_overlay = false
+                this.show_retry_button = false
+            },
+            send_payment_request: function(e){
+                this.show_loader = true
+                this.show_overlay = true
+                this.current_block_message_text = this.block_message_text['send-payment-request']
+            },
+            payment_failed: function(){
+                this.show_overlay = true
+                this.show_loader = false
+                this.show_retry_button = true
+                this.current_block_message_text = this.block_message_text['payment-failed']
+            },
+            payment_success: function(){
+            	this.show_overlay = true
+                this.show_loader = false
+                this.current_block_message_text = this.block_message_text['payment-success']
+            },
+            channel_creation_acknowledged: function(){
+                this.show_overlay = true
+                this.show_loader = true
+                this.current_block_message_text = this.block_message_text['channel-created']
+            }
+        }
+    })
+    function onPostMessage(message){
+        switch(message.type){
+            case "payment_failed":
+                app.payment_failed();
+                break;
+            case "payment_success":
+                app.payment_success();
+                break;
+            case "channel_creation_acknowledged":
+                app.channel_creation_acknowledged();
+                break;
+            default:
+                console.warn('unhandled:' + JSON.stringify(message))
+        }
+    }
+
+    window.onload = function () {
+        new OpenPay.MessageProcessor(type='newtab', source=window.parent, target='*', handler=onPostMessage);
+        // new OpenPay.MessageProcessor(type='iframe', source=window.opener, target='*', handler=onPostMessage);
+    };
+
+    // }
+    // initVue();
+</script>
 </body>
 </html>
