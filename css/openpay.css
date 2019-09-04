@@ -4,7 +4,6 @@
 }
 body {
     font-family: "Open Sans", sans-serif;
-    background: transparent;
 }
 .no-focus:focus {
     outline: none;
@@ -15,7 +14,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .openpay__container {
@@ -322,4 +320,12 @@ body {
 .awaiting-pill .message {
     color: var(--dark);
     font-size: 14px;
+}
+
+.openpay__iframe{
+    background: transparent;
+}
+
+.openpay__iframe #app{
+    background-color: rgba(0, 0, 0, 0.6);
 }
