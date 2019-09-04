@@ -29,43 +29,6 @@
 
 <body>
     <div id="app" class="openpay">
-        <!-- <div class="mdc-card mdc-card--outlined">
-		<div id="overlay" v-if="show_overlay"></div>
-		<h5 class="card-header">Send Payment Request</h5>
-		<div class="card-body">
-			<form>
-				<div class="form-group">
-					<label for="openpay_id">ENTER YOUR OPENPAY ID</label>
-					<input type="text" v-model="user_data.openpay_id" class="form-control" id="openpay_id" placeholder="Enter your OpenPay Id" pattern=".+@.+" title="Please enter a valid OpenPay Id of the form username@wallet.id" >
-				</div>
-				<div class="form-group">
-					<label for="openpay_password">PASSWORD</label>
-					<input type="password" v-model="user_data.openpay_password" class="form-control" id="openpay_password" placeholder="Password">
-				</div>
-				<div class="form-check">
-					<input type="checkbox" v-model="user_data.authenticate_long" class="form-check-input" id="authenticate_long">
-					<label class="form-check-label" for="authenticate_long">Authenticate for 30 days</label>
-				</div>
-			</form>
-		</div>
-		<div class="card-footer text-center">
-			<button id="send-payment-request" v-on:click="send_payment_request" type="submit" class="btn btn-primary">
-				Send Payment Request
-			</button>
-		</div>
-		<div id="block-message" class="text-center" v-if="show_overlay">
-			<div id="block-message-text">
-				{{ current_block_message_text }}
-			</div>
-			<div class="spin" style="margin: 0 auto;" v-if="show_loader">
-				<div></div>
-				<div></div>
-			</div>
-			<button id="retry-button" v-if="show_retry_button" v-on:click="retry" class="btn btn-danger">
-				Retry
-			</button>
-		</div>
-	</div> -->
         <div class="mdc-card mdc-card--outlined openpay__container">
             <div class="openpay__base">
                 <form class="openpay__send-request screen" id="screen-1">
