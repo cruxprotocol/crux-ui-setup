@@ -1,0 +1,56 @@
+:root{
+    --brand: #736df8;
+    --dark: #333648;
+}
+body{
+    font-family: 'Open Sans', sans-serif;
+}
+.no-focus:focus{
+    outline: none;
+}
+#app{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.openpay__container{
+    width: 400px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.openpay__send-request{
+    width: 100%;
+    padding: 32px;
+}
+
+.openpay__brand{
+    color: var(--dark);
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 12px;
+}
+.openpay__title{
+    color: var(--dark);
+    font-size: 18px;
+    text-align: center;
+    margin: 8px 0px;
+    margin-bottom: 24px;
+}
+
+.openpay__footer{
+    margin: 24px 0px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.openpay__send-request .mdc-text-field{
+    margin: 16px 0px;
+    width: 100%;
+}
