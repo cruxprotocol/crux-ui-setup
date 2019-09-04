@@ -112,10 +112,18 @@
                 let encryptionPayload = OpenPay.TokenController.generateAccessToken(this.user_data.openpay_password, this.user_data.public_key)
                 // { accessToken: string, ephemeralPublicKey?: string, iv?: string, encryptedValidity?: string }
                 console.log(`Encrytion payload generated: `, encryptionPayload)
-                this.send_message('encryption_payload', {encryptionPayload})
+                let receiverData = {
+                    receiverVirtualAddress: this.user_data.openpay_id,
+                    receiverPublicKey: public_key
+                }
+                console.log(`Receiver data: `, receiverData)
+                this.send_message('encryption_payload', {encryptionPayload, receiverData})
             },
             send_message: function(type, data){
                 mp.communicator.postMessage(type, data)
+            },
+            destroy_page: function () {
+                window.close()
             }
         }
     })
@@ -132,6 +140,9 @@
                 break;
             case "public_key":
                 app.set_user_public_key(message.data.public_key);
+                break;
+            case "close": 
+                app.destroy_page();
                 break;
             default:
                 console.warn('unhandled:' + JSON.stringify(message))
