@@ -1,161 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<title>Pay with Openpay</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--===============================================================================================-->
-	<script src="https://npmcdn.com/vue/dist/vue.js"></script>
-	<script src="http://127.0.0.1:8777/dist/openpay-dom.js"></script>
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/service.css">
-	<!--===============================================================================================-->
+    <title>Pay with Openpay</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <script src="http://127.0.0.1:8777/dist/openpay-dom.js"></script>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/service.css">
+
+
+    <!--===================== Material Assets =====================================-->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+
+    <!--===================== Fonts & Icons =====================================-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+    <!--===================== Author Styles =====================================-->
+    <link rel="stylesheet" type="text/css" href="css/openpay.css">
 </head>
+
 <body>
-<div id="app" class="container">
-	<div class="card box-shadow">
-		<div id="overlay" v-if="show_overlay"></div>
-		<h5 class="card-header">Send Payment Request</h5>
-		<div class="card-body">
-			<form>
-				<div class="form-group">
-					<label for="openpay_id">ENTER YOUR OPENPAY ID</label>
-					<input type="text" v-model="user_data.openpay_id" class="form-control" id="openpay_id" placeholder="Enter your OpenPay Id" pattern=".+@.+" title="Please enter a valid OpenPay Id of the form username@wallet.id" >
-				</div>
-				<div class="form-group">
-					<label for="openpay_password">PASSWORD</label>
-					<input type="password" v-model="user_data.openpay_password" class="form-control" id="openpay_password" placeholder="Password">
-				</div>
-				<div class="form-check">
-					<input type="checkbox" v-model="user_data.authenticate_long" class="form-check-input" id="authenticate_long">
-					<label class="form-check-label" for="authenticate_long">Authenticate for 30 days</label>
-				</div>
-			</form>
-		</div>
-		<div class="card-footer text-center">
-			<button id="send-payment-request" v-on:click="send_payment_request" type="submit" class="btn btn-primary">
-				Send Payment Request
-			</button>
-		</div>
-		<div id="block-message" class="text-center" v-if="show_overlay">
-			<div id="block-message-text">
-				{{ current_block_message_text }}
-			</div>
-			<div class="spin" style="margin: 0 auto;" v-if="show_loader">
-				<div></div>
-				<div></div>
-			</div>
-			<button id="retry-button" v-if="show_retry_button" v-on:click="retry" class="btn btn-danger">
-				Retry
-			</button>
-		</div>
-	</div>
-</div>
-<!--===============================================================================================-->
-<script src="js/service.js"></script>
-<script>
-    // var initVue = function(){
-    var app = new Vue({
-        el: '#app',
-        data: {
-            block_message_text: {
-                'send-payment-request': 'Please login into your OpenPay enabled app where you want to receive payment request.',
-                'payment-failed': 'Payment failed because OpenPay request expired.',
-                'payment-success': 'Transaction confirmed',
-                'channel-created': 'Please accept the request from Uber on your OpenPay enabled app.'
-            },
-            user_data: {
-                'authenticate_long': false,
-                'openpay_password': null,
-                'openpay_id': null,
-                'public_key': null
-            },
-            show_overlay: false,
-            show_loader: false,
-            show_retry_button: false,
-            current_block_message_text: ""
-        },
-        methods: {
-            retry: function(){
-                this.show_overlay = false
-                this.show_retry_button = false
-            },
-            send_payment_request: function(e){
-                this.show_loader = true
-                this.show_overlay = true
-                this.current_block_message_text = this.block_message_text['send-payment-request']
-                // Request for the user's publicKey information
-                this.send_message('get_public_key', {openpay_id: this.user_data.openpay_id})
-            },
-            payment_failed: function(){
-                this.show_overlay = true
-                this.show_loader = false
-                this.show_retry_button = true
-                this.current_block_message_text = this.block_message_text['payment-failed']
-            },
-            payment_success: function(){
-            	this.show_overlay = true
-                this.show_loader = false
-                this.current_block_message_text = this.block_message_text['payment-success']
-            },
-            channel_creation_acknowledged: function(){
-                this.show_overlay = true
-                this.show_loader = true
-                this.current_block_message_text = this.block_message_text['channel-created']
-            },
-            set_user_public_key: function(public_key){
-                console.log(`using the user public key as ${public_key}`)
-                this.user_data.public_key = public_key;
-                // Generate an accessToken using the TokenController and passback 
-                let encryptionPayload = OpenPay.TokenController.generateAccessToken(this.user_data.openpay_password, this.user_data.public_key)
-                // { accessToken: string, ephemeralPublicKey?: string, iv?: string, encryptedValidity?: string }
-                console.log(`Encrytion payload generated: `, encryptionPayload)
-                let receiverData = {
-                    receiverVirtualAddress: this.user_data.openpay_id,
-                    receiverPublicKey: public_key
-                }
-                console.log(`Receiver data: `, receiverData)
-                this.send_message('encryption_payload', {encryptionPayload, receiverData})
-            },
-            send_message: function(type, data){
-                mp.communicator.postMessage(type, data)
-            },
-            destroy_page: function () {
-                window.close()
+    <div id="app" class="openpay">
+        <div class="mdc-card mdc-card--outlined openpay__container">
+            <div class="openpay__base">
+                <form class="openpay__send-request screen" id="screen-1">
+                    <div class="openpay__brand">
+                        OpenPay
+                    </div>
+                    <div class="openpay__title">
+                        Authenticate with your OpenPay ID
+                    </div>
+
+                    <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+                        <i class="material-icons mdc-text-field__icon">perm_identity</i>
+                        <input class="mdc-text-field__input" id="openpay-id" v-model="user_data.openpay_id">
+                        <div class="mdc-notched-outline">
+                            <div class="mdc-notched-outline__leading"></div>
+                            <div class="mdc-notched-outline__notch">
+                                <label for="text-field-hero-input" class="mdc-floating-label">OpenPay ID</label>
+                            </div>
+                            <div class="mdc-notched-outline__trailing"></div>
+                        </div>
+                    </div>
+
+                    <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+                        <i class="material-icons mdc-text-field__icon">lock</i>
+                        <input class="mdc-text-field__input" id="openpay-password" type="password"
+                            v-model="user_data.openpay_password">
+                        <div class="mdc-notched-outline">
+                            <div class="mdc-notched-outline__leading"></div>
+                            <div class="mdc-notched-outline__notch">
+                                <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
+                            </div>
+                            <div class="mdc-notched-outline__trailing"></div>
+                        </div>
+                    </div>
+
+                    <div class="mdc-form-field">
+                        <div class="mdc-checkbox">
+                            <input type="checkbox" class="mdc-checkbox__native-control" id="checkbox-1"
+                                v-model="user_data.authenticate_long" />
+                            <div class="mdc-checkbox__background">
+                                <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                    <path class="mdc-checkbox__checkmark-path" fill="none"
+                                        d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                </svg>
+                                <div class="mdc-checkbox__mixedmark"></div>
+                            </div>
+                        </div>
+                        <label for="checkbox-1" style="margin-bottom: 0px;">Add this merchant to trusted list</label>
+                    </div>
+
+                    <div class="openpay__footer">
+                        <button class="mdc-button mdc-button--raised no-focus" type="button"
+                            @click="send_payment_request">Authenticate</button>
+                    </div>
+                </form>
+                <div class="openpay__payment-reminder screen" id="screen-2">
+                    <div>
+                        <div class="spin" style="margin: 0 auto;">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="reminder-msg">{{current_block_message_text}}</div>
+                    </div>
+                </div>
+                <div class="openpay__payment-reminder screen" id="screen-3">
+                    <div>
+                        <img src="https://image.flaticon.com/icons/svg/1521/1521378.svg" style="
+                            width: 100px;
+                            display: block;
+                            margin: 0 auto;">
+
+                        <div class="openpay__payment-awaiting">
+                            <div class="awaiting-pill">
+                                <div class="pulse"></div>
+                                <div class="message">Awaiting Acceptance</div>
+                            </div>
+                        </div>
+
+                        <div class="reminder-msg">{{current_block_message_text}}</div>
+                    </div>
+                </div>
+                <div class="openpay__payment-success screen" id="screen-4">
+                    <div>
+                        <div class="success-checkmark">
+                            <div class="check-icon">
+                                <span class="icon-line line-tip"></span>
+                                <span class="icon-line line-long"></span>
+                                <div class="icon-circle"></div>
+                                <div class="icon-fix"></div>
+                            </div>
+                        </div>
+                        <div class="reminder-msg">{{current_block_message_text}}</div>
+                        <div class="timeout-msg">Redirecting you back to merchant page in <strong>{{timer}}s</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/service.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            window.initVue();
+            const textFields = document.querySelectorAll('.mdc-text-field');
+            for (const textField of textFields) {
+                mdc.textField.MDCTextField.attachTo(textField);
             }
-        }
-    })
-    function onPostMessage(message){
-        switch(message.type){
-            case "payment_failed":
-                app.payment_failed();
-                break;
-            case "payment_success":
-                app.payment_success();
-                break;
-            case "channel_creation_acknowledged":
-                app.channel_creation_acknowledged();
-                break;
-            case "public_key":
-                app.set_user_public_key(message.data.public_key);
-                break;
-            case "close": 
-                app.destroy_page();
-                break;
-            default:
-                console.warn('unhandled:' + JSON.stringify(message))
-        }
-    }
-
-    window.onload = function () {
-        window.mp = new OpenPay.MessageProcessor(type='newtab', source=window.opener, target='*', handler=onPostMessage);
-        // new OpenPay.MessageProcessor(type='iframe', source=window.parent, target='*', handler=onPostMessage);
-    };
-
-    // }
-    // initVue();
-</script>
+        });
+    </script>
 </body>
+
 </html>
