@@ -17,7 +17,8 @@ window.initVue = function() {
 			show_overlay: false,
 			show_loader: false,
 			show_retry_button: false,
-			current_block_message_text: ""
+			current_block_message_text: "",
+			timer: 10
 		},
 		methods: {
 			retry: function() {
@@ -32,6 +33,7 @@ window.initVue = function() {
 				this.send_message('get_public_key', {
 					openpay_id: this.user_data.openpay_id
 				})
+				document.querySelector('.openpay__base').style.transform = `translateX(${-1/4 * 100}%)`;
 			},
 			payment_failed: function() {
 				this.show_overlay = true
@@ -39,15 +41,19 @@ window.initVue = function() {
 				this.show_retry_button = true
 				this.current_block_message_text = this.block_message_text['payment-failed']
 			},
-			payment_success: function() {
+			payment_initiated: function() {
 				this.show_overlay = true
 				this.show_loader = false
 				this.current_block_message_text = this.block_message_text['payment-success']
+				document.querySelector('.openpay__base').style.transform = `translateX(${-3/4 * 100}%)`;
+				document.querySelector('.check-icon').style.display = 'block';
+				this.initCountdown();
 			},
-			channel_creation_acknowledged: function() {
+			payment_request_received: function() {
 				this.show_overlay = true
 				this.show_loader = true
 				this.current_block_message_text = this.block_message_text['channel-created']
+				document.querySelector('.openpay__base').style.transform = `translateX(${-2/4 * 100}%)`;
 			},
 			set_user_public_key: function(public_key) {
 				console.log(`using the user public key as ${public_key}`)
@@ -71,6 +77,15 @@ window.initVue = function() {
 			},
 			destroy_page: function() {
 				window.close()
+			},
+			initCountdown() {
+				let localTimer = this.timer;
+				if (localTimer-- > 0) {
+					this.timer--;
+					setTimeout(this.initCountdown, 1000);
+				}else{
+					this.destroy_page();
+				}
 			}
 		}
 	})
@@ -80,11 +95,11 @@ window.initVue = function() {
 			case "payment_failed":
 				app.payment_failed();
 				break;
-			case "payment_success":
-				app.payment_success();
+			case "payment_initiated":
+				app.payment_initiated();
 				break;
-			case "channel_creation_acknowledged":
-				app.channel_creation_acknowledged();
+			case "payment_request_received":
+				app.payment_request_received();
 				break;
 			case "public_key":
 				app.set_user_public_key(message.data.public_key);
