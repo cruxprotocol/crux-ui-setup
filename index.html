@@ -39,10 +39,10 @@
 	</style>
 
 </head>
-<body>
+<body style="background-color: #fff0;">
 
 	<div id="appBase" class="limiter">
-		<div class="container-login100">
+		<div class="container-login100" style="background-color: #ffffff00;">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
 				<form class="login100-form validate-form">
 					<span class="login100-form-title p-b-33">
@@ -110,9 +110,11 @@
         console.log(event);
         var data = JSON.parse(event.data);
         if (data.type === 'close') {
-            window.close();
+        	console.log("Close message received")
+            // window.close();
         } else if (data.type === 'register') {
             currentInput = data;
+			console.log("Register message received")
             initVue();
 		}
 	}, false);
