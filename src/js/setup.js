@@ -1,4 +1,15 @@
 $(document).ready(function () {
+    let currentInput;
+    window.addEventListener('message', function (event) {
+        currentInput = JSON.parse(event.data);
+        console.log('currentInput', currentInput);
+        if (currentInput && currentInput.payIDName) {
+            //display currency selection
+        } else {
+            //display setup page
+        }
+    }, false);
+
     const textFields = document.querySelectorAll(".mdc-text-field");
     for (const textField of textFields) {
         mdc.textField.MDCTextField.attachTo(textField);
@@ -26,12 +37,17 @@ $(document).ready(function () {
             cruxpayId.inputParent.removeClass('mdc-text-field--invalid');
             cruxpayId.parentContainer.removeClass('has-error');
             cruxpayId.helperText.html(message);
-        }
+        },
+        getId() {
+            return this.input.val();
+        },
+        isValid: false
     }
 
     let timer = null;
     cruxpayId.input.on('keyup', (e) => {
         cruxpayId.displayHelpText(`Checking availability`);
+        cruxpayId.isValid = false;
         clearTimeout(timer);
         timer = setTimeout(function () {
             if (e.target.value && e.target.value.length > 0) {
@@ -44,10 +60,12 @@ $(document).ready(function () {
             type: "GET",
             url: `https://167.71.234.131:3000/status/${id}`,
             success: function (response) {
+                cruxpayId.isValid = false;
                 cruxpayId.displayError(`${id} is unavailable`);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 if (xhr.status == 404) {
+                    cruxpayId.isValid = true;
                     cruxpayId.displaySuccess(`${id} is available`);
                 }
             }
@@ -59,6 +77,7 @@ $(document).ready(function () {
         helperText: $('#cruxpay-password__helper-text'),
         inputParent: $('.cruxpay-password__container'),
         parentContainer: $('.cruxpay-password__container').parent(),
+        isValid: false,
         validation: {
             isValid(p) {
                 const re = /^[a-zA-Z0-9$@!#^&%_-]{8,50}$/;
@@ -106,6 +125,7 @@ $(document).ready(function () {
         },
         setValidation(name, state) {
             let validationEl = $(`#validation-${name}`);
+            this.isValid = state;
             if (validationEl && validationEl.length > 0) {
                 if (state) {
                     validationEl.removeClass('rule-isInvalid');
@@ -115,52 +135,96 @@ $(document).ready(function () {
                     validationEl.removeClass('rule-isValid');
                 }
             }
+        },
+        getPassword() {
+            return this.input.val();
+        },
+        runValidations(passphrase) {
+            if (this.validation.isValid(passphrase)) {
+                this.setValidation('charLen', true);
+            } else {
+                this.setValidation('charLen', false);
+                this.displayError('Minimum length required is 8. Only following special characters !,#,$,%,&,?,@ are allowed');
+            }
+
+            if (!this.validation.containsId(passphrase)) {
+                this.setValidation('sameAsId', true);
+            } else {
+                this.setValidation('sameAsId', false);
+                this.displayError('Password must be different from CruxPay ID');
+            }
+
+            if (this.validation.hasDigit(passphrase)) {
+                this.setValidation('digit', true);
+            } else {
+                this.setValidation('digit', false);
+                this.displayError('Password must be have atleast one number');
+            }
+
+            if (this.validation.hasLowerCase(passphrase)) {
+                this.setValidation('lowercase', true);
+            } else {
+                this.setValidation('lowercase', false);
+                this.displayError('Password must be have atleast one lowercase letter');
+            }
+
+            if (this.validation.hasUpperCase(passphrase)) {
+                this.setValidation('uppercase', true);
+            } else {
+                this.setValidation('uppercase', false);
+                this.displayError('Password must be have atleast one uppercase letter');
+            }
+
+            if (this.validation.hasSpecialCharacter(passphrase)) {
+                this.setValidation('specialCharater', true);
+                // this.toggleValidationBlock(false);
+                this.clearAllError();
+            } else {
+                this.setValidation('specialCharater', false);
+                this.displayError('Password must be have atleast one of following special characters !,#,$,%,&,?,@ are allowed');
+            }
         }
     }
 
     password.input.on('keyup', (e) => {
-        /* TODO(IMP): Clean this code and run validations in parallel */
         password.toggleValidationBlock(true);
         if (e.target.value && e.target.value.length > 0) {
             let passphrase = e.target.value;
-            if (password.validation.isValid(passphrase)) {
-                password.setValidation('charLen', true);
-                if (!password.validation.containsId(passphrase)) {
-                    password.setValidation('sameAsId', true);
-                    if (password.validation.hasDigit(passphrase)) {
-                        password.setValidation('digit', true);
-                        if (password.validation.hasLowerCase(passphrase)) {
-                            password.setValidation('lowercase', true);
-                            if (password.validation.hasUpperCase(passphrase)) {
-                                password.setValidation('uppercase', true);
-                                if (password.validation.hasSpecialCharacter(passphrase)) {
-                                    password.setValidation('specialCharater', true);
-                                    password.toggleValidationBlock(false);
-                                    password.clearAllError();
-                                } else {
-                                    password.setValidation('specialCharater', false);
-                                    password.displayError('Password must be have atleast one of following special characters !,#,$,%,&,?,@ are allowed');
-                                }
-                            } else {
-                                password.setValidation('uppercase', false);
-                                password.displayError('Password must be have atleast one uppercase letter');
-                            }
-                        } else {
-                            password.setValidation('lowercase', false);
-                            password.displayError('Password must be have atleast one lowercase letter');
-                        }
-                    } else {
-                        password.setValidation('digit', false);
-                        password.displayError('Password must be have atleast one number');
-                    }
-                } else {
-                    password.setValidation('sameAsId', false);
-                    password.displayError('Password must be different from CruxPay ID');
-                }
-            } else {
-                password.setValidation('charLen', false);
-                password.displayError('Minimum length required is 8. Only following special characters !,#,$,%,&,?,@ are allowed');
-            }
+            password.runValidations(passphrase);
         }
     })
+
+    $('#createId').on('click', createNewID);
+    function createNewID() {
+        if (cruxpayId.isValid && password.isValid) {
+            let inputPayIDName = cruxpayId.getId();
+            let inputPayIDPass = password.getPassword();
+            // TODO: Add loader to button
+
+            let registerMessage = {
+                type: 'createNew',
+                data: {
+                    newPayIDName: inputPayIDName,
+                    newPayIDPass: inputPayIDPass
+                }
+            };
+
+            if (currentInput.experience == 'iframe') {
+                window.parent.postMessage(JSON.stringify(registerMessage), '*');
+            } else {
+                window.opener.postMessage(JSON.stringify(registerMessage), '*');
+            }
+        } else {
+            if (!password.isValid) {
+                password.runValidations(password.getPassword());
+            }
+            if (!cruxpayId.isValid) {
+                cruxpayId.displayError(
+                    cruxpayId.getId() && cruxpayId.getId().length > 0 ?
+                        `${cruxpayId.getId()} is unavailable` :
+                        'cruxpay id is needed'
+                );
+            }
+        }
+    }
 });
