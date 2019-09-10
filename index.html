@@ -128,6 +128,22 @@
 				console.log("== Mounted setup page ==")
 				console.log(currentInput);
 				this.checkedCurrencies = [...this.publicAddressCurrencies];
+
+				function getParam(paramName){
+					let paramsArray = window.location.href.split("?")[1]
+					if(typeof paramsArray == 'string'){
+						paramsArray = [paramsArray]
+					}
+					for(i=0; i<paramsArray.length; i++){
+						if(paramsArray[i].split("=")[0] == paramName)
+							return paramsArray[i].split("=")[1]
+					}
+					return null
+				}
+
+				let encryptionKey = getParam('encryptionKey')
+				this.encryptionKey = encryptionKey
+
 			},
 			methods: {
 				createNewID: function () {
@@ -142,9 +158,13 @@
 					};
 
                     if (currentInput.experience == 'iframe') {
-                        window.parent.postMessage(JSON.stringify(registerMessage), '*');
+						let message = JSON.stringify(registerMessage)
+						if(this.encryptionKey){
+							message = OpenPay.Encryption.eciesEncryptString(message, this.encryptionKey)
+						}
+                        window.parent.postMessage(message, '*');
                     } else {
-                        window.opener.postMessage(JSON.stringify(registerMessage), '*');
+                        window.opener.postMessage(message, '*');
                     }
 
 				},
@@ -158,14 +178,17 @@
 							checkedCurrencies: this.checkedCurrencies
 						}
 					};
-					window.parent.postMessage(JSON.stringify(existingMessange), '*');
+					let message = JSON.stringify(existingMessange)
+						if(this.encryptionKey){
+							message = OpenPay.Encryption.eciesEncryptString(message, this.encryptionKey)
+					}
+					window.parent.postMessage(message, '*');
 				}
 			}
 		})
 	}
 	//initVue();
 </script>
-
 
 <!--===============================================================================================-->
 <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -182,6 +205,7 @@
 <!--===============================================================================================-->
 <script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
+<script src="http://127.0.0.1:8777/dist/openpay-dom.js"></script>
 <script src="js/main.js"></script>
 
 </body>
