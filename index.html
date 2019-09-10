@@ -14,8 +14,43 @@
 <body>
 
     <div class="setup">
-        <div class="mdc-card setup__card mdc-card--outlined">
+        <div class="mdc-card mdc-card--outlined">
+            <div class="setup-card">
+                <div class="setup-card__form">
+                    <div class="setup-card__brand">CruxPay</div>
+                    <div class="setup-card__headline">Create your CruxPay Account</div>
+                    <div class="setup-card__body">Continue to CruxPay</div>
 
+                    <form>
+                        <div class="mdc-text-field mdc-text-field--outlined">
+                            <input class="mdc-text-field__input" id="text-field-hero-input" type="text">
+                            <div class="mdc-notched-outline">
+                                <div class="mdc-notched-outline__leading"></div>
+                                <div class="mdc-notched-outline__notch">
+                                    <label for="text-field-hero-input" class="mdc-floating-label">OpenPay ID</label>
+                                </div>
+                                <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                        </div>
+
+                        <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+                            <input class="mdc-text-field__input" id="text-field-hero-input" type="password">
+                            <div class="mdc-notched-outline">
+                                <div class="mdc-notched-outline__leading"></div>
+                                <div class="mdc-notched-outline__notch">
+                                    <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
+                                </div>
+                                <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="setup-card__description">
+                    <img src="https://s3-ap-southeast-1.amazonaws.com/cs-public-uploads-dev/c660582e-af3a-4f37-bfa0-71dceb273d7e"
+                        width="350" />
+                </div>
+            </div>
         </div>
     </div>
 
@@ -23,7 +58,10 @@
         integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
-
+            const textFields = document.querySelectorAll('.mdc-text-field');
+            for (const textField of textFields) {
+                mdc.textField.MDCTextField.attachTo(textField);
+            }
         });
     </script>
 </body>

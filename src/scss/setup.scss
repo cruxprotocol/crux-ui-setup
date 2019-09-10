@@ -1,15 +1,83 @@
-@import 'variables';
+@import "variables";
+$card-height: 500px;
 
-.setup{
+.setup {
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    &__card{
+    .mdc-card {
         width: 65%;
+        max-width: 900px;
         height: auto;
-        min-height: 500px;
+        min-height: $card-height;
+    }
+}
+
+.setup-card {
+    display: flex;
+
+    &__form {
+        width: 80%;
+        height: auto;
+        min-height: $card-height;
+        padding: 32px;
+
+        form {
+            margin-top: 16px;
+        }
+
+        .mdc-text-field {
+            width: 80%;
+            margin-top: 24px;
+            height: 40px;
+
+            .mdc-text-field__input {
+                font-size: 14px;
+                padding: 7px 11px;
+            }
+
+            .mdc-floating-label {
+                font-size: 14px;
+                top: 11px;
+            }
+
+            .mdc-floating-label--float-above {
+                transform: translateY(-96%) scale(0.75) !important;
+            }
+        }
+    }
+
+    &__description {
+        width: 40%;
+        height: auto;
+        min-height: $card-height;
+        padding: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__brand {
+        color: $dark;
+        font-weight: 700;
+        font-size: 24px;
+    }
+
+    &__headline {
+        color: $dark;
+        font-weight: 400;
+        font-size: 24px;
+        padding-top: 16px;
+        text-align: left;
+    }
+
+    &__body {
+        color: $dark;
+        font-weight: 400;
+        font-size: 16px;
+        margin-top: 8px;
     }
 }

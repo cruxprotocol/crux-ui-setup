@@ -51,4 +51,5 @@ function watchFiles() {
   gulp.watch("src/scss/**/*.scss", css);
   gulp.watch("src/js/**/*.js", js);
 }
-exports.default = parallel(css, js, watchFiles);
+exports.default = parallel(css, js);
+exports.watch = parallel(watchFiles);
