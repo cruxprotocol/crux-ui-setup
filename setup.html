@@ -100,23 +100,14 @@
 <script type="text/javascript">
 
 	var currentInput = {
-	    // payIDName: 'abcdef',
-        // availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS'],
-		// publicAddressCurrencies: ['BTC', 'EOS']
+	    payIDName: 'abcdef',
+        availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS'],
+		publicAddressCurrencies: ['BTC', 'EOS']
     };
 
 	window.addEventListener('message', function (event) {
-        console.log('event message received');
-        console.log(event);
-        var data = JSON.parse(event.data);
-        if (data.type === 'close') {
-        	console.log("Close message received")
-            // window.close();
-        } else if (data.type === 'register') {
             currentInput = data;
-			console.log("Register message received")
             initVue();
-		}
 	}, false);
 
 	let initVue = function(){
