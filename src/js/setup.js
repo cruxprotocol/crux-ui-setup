@@ -188,10 +188,7 @@ $(document).ready(function () {
 
     password.input.on('keyup', (e) => {
         password.toggleValidationBlock(true);
-        if (e.target.value && e.target.value.length > 0) {
-            let passphrase = e.target.value;
-            password.runValidations(passphrase);
-        }
+        password.runValidations(password.getPassword());
     })
 
     $('#createId').on('click', createNewID);
