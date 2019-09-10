@@ -96,8 +96,13 @@ $(document).ready(function () {
             this.parentContainer.removeClass('has-error');
             this.helperText.html('');
         },
-        displayValidationBlock() {
-            $('.validation-rules').show();
+        toggleValidationBlock(state) {
+            if (state) {
+                $('.validation-rules').css('opacity', 1);
+            } else {
+                $('.validation-rules').css('opacity', 0);
+            }
+
         },
         setValidation(name, state) {
             let validationEl = $(`#validation-${name}`);
@@ -114,8 +119,8 @@ $(document).ready(function () {
     }
 
     password.input.on('keyup', (e) => {
-        /* TODO: Clean this code */
-        password.displayValidationBlock();
+        /* TODO(IMP): Clean this code and run validations in parallel */
+        password.toggleValidationBlock(true);
         if (e.target.value && e.target.value.length > 0) {
             let passphrase = e.target.value;
             if (password.validation.isValid(passphrase)) {
@@ -130,6 +135,7 @@ $(document).ready(function () {
                                 password.setValidation('uppercase', true);
                                 if (password.validation.hasSpecialCharacter(passphrase)) {
                                     password.setValidation('specialCharater', true);
+                                    password.toggleValidationBlock(false);
                                     password.clearAllError();
                                 } else {
                                     password.setValidation('specialCharater', false);

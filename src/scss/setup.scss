@@ -13,6 +13,10 @@ $card-height: 500px;
         max-width: 900px;
         height: auto;
         min-height: $card-height;
+
+        @media only screen and (max-width: 992px) {
+            width: 90%;
+        }
     }
 }
 
@@ -20,17 +24,23 @@ $card-height: 500px;
     display: flex;
 
     &__form {
-        width: 80%;
+        width: 60%;
         height: auto;
         min-height: $card-height;
         padding: 32px;
 
+        @media only screen and (max-width: 768px) {
+            width: 100%;
+        }
+
         form {
             margin-top: 16px;
+            display: flex;
+            flex-direction: column;
         }
 
         .text-field-container {
-            width: 80%;
+            width: 100%;
             margin-top: 32px;
         }
 
@@ -71,8 +81,8 @@ $card-height: 500px;
         }
 
         .validation-rules {
-			margin-top: 12px;
-			display: none;
+            margin-top: 12px;
+            opacity: 0;
 
             .rule {
                 display: flex;
@@ -130,6 +140,16 @@ $card-height: 500px;
         .helper-text--success {
             color: $brand !important;
         }
+
+        .form__footer {
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+
+            .mdc-button {
+                margin-left: auto;
+            }
+        }
     }
 
     &__description {
@@ -140,6 +160,10 @@ $card-height: 500px;
         display: flex;
         justify-content: center;
         align-items: center;
+
+        @media only screen and (max-width: 768px) {
+            display: none;
+        }
     }
 
     &__brand {
