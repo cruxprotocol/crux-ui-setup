@@ -145,11 +145,8 @@
 						}
 					};
 
-                    if (currentInput.experience == 'iframe') {
-                        window.parent.postMessage(JSON.stringify(registerMessage), '*');
-                    } else {
-                        window.opener.postMessage(JSON.stringify(registerMessage), '*');
-                    }
+					window.parent.postMessage(JSON.stringify(registerMessage), '*');
+
 
 				},
 				backToWallet: function() {
