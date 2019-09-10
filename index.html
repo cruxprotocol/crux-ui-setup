@@ -61,16 +61,25 @@
                                     numbers & symbols</p>
                             </div>
                             <div class="validation-rules">
-                                <div class="rule rule-isValid">
+                                <div class="rule rule-isInvalid" id="validation-charLen">
                                     <i class="material-icons icon-invalid">
                                         clear
                                     </i>
                                     <i class="material-icons icon-valid">
                                         done
                                     </i>
-                                    <span>Must be 8 or more 8 or more characters</span>
+                                    <span>Must be 8 or more characters</span>
                                 </div>
-                                <div class="rule rule-isInvalid">
+                                <div class="rule rule-isInvalid" id="validation-sameAsId">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Should not be similar to CruxPay Id</span>
+                                </div>
+                                <div class="rule rule-isInvalid" id="validation-digit">
                                     <i class="material-icons icon-invalid">
                                         clear
                                     </i>
@@ -78,6 +87,33 @@
                                         done
                                     </i>
                                     <span>Must have atleast one number</span>
+                                </div>
+                                <div class="rule rule-isInvalid" id="validation-lowercase">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must have atleast one lowercase letter</span>
+                                </div>
+                                <div class="rule rule-isInvalid" id="validation-uppercase">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must have atleast one lowercase uppercase letter</span>
+                                </div>
+                                <div class="rule rule-isInvalid" id="validation-specialCharater">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must have atleast one special characters</span>
                                 </div>
                             </div>
                         </div>

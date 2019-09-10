@@ -71,7 +71,8 @@ $card-height: 500px;
         }
 
         .validation-rules {
-            margin-top: 12px;
+			margin-top: 12px;
+			display: none;
 
             .rule {
                 display: flex;

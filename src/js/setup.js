@@ -95,35 +95,64 @@ $(document).ready(function () {
             this.inputParent.removeClass('mdc-text-field--invalid');
             this.parentContainer.removeClass('has-error');
             this.helperText.html('');
+        },
+        displayValidationBlock() {
+            $('.validation-rules').show();
+        },
+        setValidation(name, state) {
+            let validationEl = $(`#validation-${name}`);
+            if (validationEl && validationEl.length > 0) {
+                if (state) {
+                    validationEl.removeClass('rule-isInvalid');
+                    validationEl.addClass('rule-isValid');
+                } else {
+                    validationEl.addClass('rule-isInvalid');
+                    validationEl.removeClass('rule-isValid');
+                }
+            }
         }
     }
 
     password.input.on('keyup', (e) => {
+        /* TODO: Clean this code */
+        password.displayValidationBlock();
         if (e.target.value && e.target.value.length > 0) {
             let passphrase = e.target.value;
             if (password.validation.isValid(passphrase)) {
+                password.setValidation('charLen', true);
                 if (!password.validation.containsId(passphrase)) {
+                    password.setValidation('sameAsId', true);
                     if (password.validation.hasDigit(passphrase)) {
+                        password.setValidation('digit', true);
                         if (password.validation.hasLowerCase(passphrase)) {
+                            password.setValidation('lowercase', true);
                             if (password.validation.hasUpperCase(passphrase)) {
+                                password.setValidation('uppercase', true);
                                 if (password.validation.hasSpecialCharacter(passphrase)) {
+                                    password.setValidation('specialCharater', true);
                                     password.clearAllError();
                                 } else {
+                                    password.setValidation('specialCharater', false);
                                     password.displayError('Password must be have atleast one of following special characters !,#,$,%,&,?,@ are allowed');
                                 }
                             } else {
+                                password.setValidation('uppercase', false);
                                 password.displayError('Password must be have atleast one uppercase letter');
                             }
                         } else {
+                            password.setValidation('lowercase', false);
                             password.displayError('Password must be have atleast one lowercase letter');
                         }
                     } else {
+                        password.setValidation('digit', false);
                         password.displayError('Password must be have atleast one number');
                     }
                 } else {
+                    password.setValidation('sameAsId', false);
                     password.displayError('Password must be different from CruxPay ID');
                 }
             } else {
+                password.setValidation('charLen', false);
                 password.displayError('Minimum length required is 8. Only following special characters !,#,$,%,&,?,@ are allowed');
             }
         }
