@@ -21,26 +21,45 @@
                     <div class="setup-card__headline">Create your CruxPay Account</div>
                     <div class="setup-card__body">Continue to CruxPay</div>
 
-                    <form>
-                        <div class="mdc-text-field mdc-text-field--outlined">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" type="text">
-                            <div class="mdc-notched-outline">
-                                <div class="mdc-notched-outline__leading"></div>
-                                <div class="mdc-notched-outline__notch">
-                                    <label for="text-field-hero-input" class="mdc-floating-label">OpenPay ID</label>
+                    <form autocomplete="off">
+                        <input autocomplete="false" name="hidden" type="text" style="display:none;">
+                        <div class="text-field-container">
+                            <div class="mdc-text-field mdc-text-field--outlined cruxpay-id__container">
+                                <input class="mdc-text-field__input" id="cruxpayId" type="text">
+                                <div class="mdc-notched-outline">
+                                    <div class="mdc-notched-outline__leading"></div>
+                                    <div class="mdc-notched-outline__notch">
+                                        <label for="text-field-hero-input" class="mdc-floating-label">CruxPay ID</label>
+                                    </div>
+                                    <div class="mdc-notched-outline__trailing">
+                                        <div class="id-status">
+                                            .curxpay.id
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                            <div class="mdc-text-field-helper-line">
+                                <p class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg"
+                                    id="cruxpay-id__helper-text">Enter a unique user id</p>
                             </div>
                         </div>
 
-                        <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
-                            <input class="mdc-text-field__input" id="text-field-hero-input" type="password">
-                            <div class="mdc-notched-outline">
-                                <div class="mdc-notched-outline__leading"></div>
-                                <div class="mdc-notched-outline__notch">
-                                    <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
+                        <div class="text-field-container">
+                            <div class="mdc-text-field mdc-text-field--outlined">
+                                <!-- mdc-text-field--invalid -->
+                                <input class="mdc-text-field__input" id="text-field-hero-input" type="password">
+                                <div class="mdc-notched-outline">
+                                    <div class="mdc-notched-outline__leading"></div>
+                                    <div class="mdc-notched-outline__notch">
+                                        <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
+                                    </div>
+                                    <div class="mdc-notched-outline__trailing"></div>
                                 </div>
-                                <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                            <div class="mdc-text-field-helper-line">
+                                <p class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg"
+                                    id="text-field-outlined-helper-text">Use 8 or more characters with a mix of letters,
+                                    numbers & symbols</p>
                             </div>
                         </div>
 
@@ -54,16 +73,9 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function () {
-            const textFields = document.querySelectorAll('.mdc-text-field');
-            for (const textField of textFields) {
-                mdc.textField.MDCTextField.attachTo(textField);
-            }
-        });
-    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="/build/js/setup.min.js"></script>
 </body>
 
 </html>

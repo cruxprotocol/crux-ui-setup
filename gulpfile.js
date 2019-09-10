@@ -27,24 +27,20 @@ function css(cb) {
 }
 
 function js(cb) {
-  gulp.task("js", function() {
-    return gulp
-      .src("src/js/**/*.js")
-      .pipe(concat("main.js"))
-      .pipe(
-        babel({
-          presets: ["@babel/env"],
-          plugins: ["angularjs-annotate"]
-        })
-      )
-      .pipe(uglify())
-      .pipe(
-        rename({
-          extname: ".min.js"
-        })
-      )
-      .pipe(gulp.dest("build/js/"));
-  });
+  gulp
+    .src("src/js/**/*.js")
+    .pipe(
+      babel({
+        presets: ["@babel/env"]
+      })
+    )
+    .pipe(uglify())
+    .pipe(
+      rename({
+        extname: ".min.js"
+      })
+    )
+    .pipe(gulp.dest("build/js/"));
   cb();
 }
 function watchFiles() {
