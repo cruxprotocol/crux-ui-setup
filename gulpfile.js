@@ -7,7 +7,7 @@ const csso = require("gulp-csso");
 const babel = require("gulp-babel");
 const rename = require("gulp-rename");
 const uglify = require("gulp-uglify");
-const { series, parallel } = require("gulp");
+const { series, parallel, watch } = require("gulp");
 
 function css(cb) {
   gulp
@@ -45,6 +45,10 @@ function js(cb) {
       )
       .pipe(gulp.dest("build/js/"));
   });
+  cb();
 }
-
-exports.default = parallel(css, js);
+function watchFiles() {
+  gulp.watch("src/scss/**/*.scss", css);
+  gulp.watch("src/js/**/*.js", js);
+}
+exports.default = parallel(css, js, watchFiles);
