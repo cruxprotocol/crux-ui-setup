@@ -45,9 +45,8 @@
                         </div>
 
                         <div class="text-field-container">
-                            <div class="mdc-text-field mdc-text-field--outlined">
-                                <!-- mdc-text-field--invalid -->
-                                <input class="mdc-text-field__input" id="text-field-hero-input" type="password">
+                            <div class="mdc-text-field mdc-text-field--outlined cruxpay-password__container">
+                                <input class="mdc-text-field__input" id="cruxpayPassword" type="text">
                                 <div class="mdc-notched-outline">
                                     <div class="mdc-notched-outline__leading"></div>
                                     <div class="mdc-notched-outline__notch">
@@ -58,8 +57,28 @@
                             </div>
                             <div class="mdc-text-field-helper-line">
                                 <p class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg"
-                                    id="text-field-outlined-helper-text">Use 8 or more characters with a mix of letters,
+                                    id="cruxpay-password__helper-text">Use 8 or more characters with a mix of letters,
                                     numbers & symbols</p>
+                            </div>
+                            <div class="validation-rules">
+                                <div class="rule rule-isValid">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must be 8 or more 8 or more characters</span>
+                                </div>
+                                <div class="rule rule-isInvalid">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must have atleast one number</span>
+                                </div>
                             </div>
                         </div>
 

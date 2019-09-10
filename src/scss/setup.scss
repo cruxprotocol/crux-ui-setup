@@ -70,6 +70,62 @@ $card-height: 500px;
             }
         }
 
+        .validation-rules {
+            margin-top: 12px;
+
+            .rule {
+                display: flex;
+                align-items: center;
+                margin-top: 8px;
+
+                .material-icons {
+                    font-size: 16px;
+                    margin-right: 12px;
+                }
+
+                span {
+                    font-weight: 400;
+                    font-size: 12px;
+                }
+            }
+
+            .rule-isValid {
+                .icon-invalid {
+                    display: none;
+                }
+
+                .icon-valid {
+                    display: block;
+                }
+
+                .material-icons {
+                    color: $success;
+                }
+
+                span {
+                    color: $success;
+                }
+            }
+
+            .rule-isInvalid {
+                .icon-invalid {
+                    display: block;
+                }
+
+                .icon-valid {
+                    display: none;
+                }
+
+                .material-icons {
+                    color: $error;
+                }
+
+                span {
+                    color: $error;
+                }
+            }
+        }
+
         .helper-text--success {
             color: $brand !important;
         }
