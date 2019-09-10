@@ -1,1 +1,0 @@
-{"version":3,"sources":["setup.css"],"names":[],"mappings":"AAAA,I,CAAA,I,CACA,W,CACA,U,CACA,Y","file":"main.min.css","sourcesContent":["html, body {\n  height: 100%;\n  width: 100%;\n  display: flex; }\n"]}

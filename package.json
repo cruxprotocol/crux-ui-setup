@@ -22,7 +22,10 @@
 		"gulp-rename": "^1.4.0",
 		"gulp-sass": "4.0.2",
 		"gulp-sourcemaps": "2.6.5",
-		"gulp-uglify": "3.0.2"
+		"gulp-uglify": "3.0.2",
+		"@babel/core": "7.4.3",
+		"@babel/preset-env": "7.4.3",
+		"babel-plugin-angularjs-annotate": "0.10.0"
 	},
 	"browserslist": [
 		"last 2 version"

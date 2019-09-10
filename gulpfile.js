@@ -11,7 +11,7 @@ const { series, parallel } = require("gulp");
 
 function css(cb) {
   gulp
-    .src("scss/**/*.scss")
+    .src("src/scss/**/*.scss")
     .pipe(sass())
     .pipe(sourcemaps.init())
     .pipe(autoprefixer())
@@ -22,8 +22,29 @@ function css(cb) {
       })
     )
     .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest("css/"));
+    .pipe(gulp.dest("build/css/"));
   cb();
 }
 
-exports.default = parallel(css);
+function js(cb) {
+  gulp.task("js", function() {
+    return gulp
+      .src("src/js/**/*.js")
+      .pipe(concat("main.js"))
+      .pipe(
+        babel({
+          presets: ["@babel/env"],
+          plugins: ["angularjs-annotate"]
+        })
+      )
+      .pipe(uglify())
+      .pipe(
+        rename({
+          extname: ".min.js"
+        })
+      )
+      .pipe(gulp.dest("build/js/"));
+  });
+}
+
+exports.default = parallel(css, js);
