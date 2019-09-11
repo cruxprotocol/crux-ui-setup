@@ -274,6 +274,25 @@ $(document).ready(function () {
         container: $('#currencyContainer'),
         selectedCurCintainer: $('#selectedCurContainer'),
         search: $('#cruxSearchCur'),
+        selectedRadio: 'custom',
+        radioContainer: $('.customisation__radio-select'),
+        availableRadios: [{
+            id: 'selectCustom',
+            value: 'custom',
+            name: 'Custom'
+        }, {
+            id: 'selectAll',
+            value: 'all',
+            name: 'All'
+        }, {
+            id: 'selectPopular',
+            value: 'popular',
+            name: 'Popular'
+        }, {
+            id: 'selectNone',
+            value: 'none',
+            name: 'None'
+        }],
         list: [{
             name: 'Bitcoin',
             symbol: 'btc',
@@ -289,6 +308,12 @@ $(document).ready(function () {
             name: 'Litecoin',
             symbol: 'ltc',
             img: 'https://files.coinswitch.co/public/coins/ltc.png',
+            selected: false
+        },
+        {
+            name: 'Binance Coin',
+            symbol: 'bnb',
+            img: 'https://files.coinswitch.co/public/coins/bnb.png',
             selected: false
         }],
         renderCurList(curlist) {
@@ -347,6 +372,28 @@ $(document).ready(function () {
                 </div>
             `
         },
+        renderRadios() {
+            let template = '';
+            for (let radio of this.availableRadios) {
+                template += this.renderRadioEl(radio);
+            }
+            $(this.radioContainer).html(template);
+            this.bindRadioEvents();
+        },
+        renderRadioEl({ id, value, name }) {
+            return `
+            <div class="mdc-form-field">
+                <div class="mdc-radio mdc-custom-radio">
+                    <input class="mdc-radio__native-control" type="radio" id="${id}" name="radios" value="${value}">
+                    <div class="mdc-radio__background">
+                        <div class="mdc-radio__outer-circle"></div>
+                        <div class="mdc-radio__inner-circle"></div>
+                    </div>
+                </div>
+                <label for="${id}">${name}</label>
+            </div>
+            `
+        },
         filter(list, query) {
             let searchString = query || '';
             try {
@@ -379,12 +426,55 @@ $(document).ready(function () {
                         this.list[index].selected = false
                     }
                 }
-                currency.renderCurList(this.list);
-                currency.renderSelectedCurPills(this.list);
+                this.renderCurList(this.list);
+                this.renderSelectedCurPills(this.list);
             })
+        },
+        bindRadioEvents() {
+            $('.mdc-radio__native-control').on('click', (event) => {
+                switch (event.target.value) {
+                    case 'custom':
+                        // code block
+                        break;
+                    case 'popular':
+                        let popularCoins = ['btc', 'eth', 'xrp', 'bch', 'ltc'];
+                        for (let index in currency.list) {
+                            let coin = currency.list[index];
+                            if (popularCoins.includes(coin.symbol)) {
+                                currency.list[index].selected = true;
+                            } else {
+                                currency.list[index].selected = false;
+                            }
+                        }
+                        currency.renderCurList(currency.list);
+                        currency.renderSelectedCurPills(currency.list);
+                        break;
+                    case 'all':
+                        for (let index in currency.list) {
+                            currency.list[index].selected = true;
+                        }
+                        currency.renderCurList(currency.list);
+                        currency.renderSelectedCurPills(currency.list);
+                        break;
+                    case 'none':
+                        for (let index in currency.list) {
+                            currency.list[index].selected = false;
+                        }
+                        currency.renderCurList(currency.list);
+                        currency.renderSelectedCurPills(currency.list);
+                        break;
+                }
+            })
+            let radios = $('.mdc-radio__native-control');
+            for (let radio of radios) {
+                if (this.selectedRadio === radio.value) {
+                    radio.setAttribute('checked','true');
+                }
+            }
         }
     }
 
+    currency.renderRadios();
     currency.search.on('keyup', (event) => {
         let filteredList = currency.filter(currency.list, event.target.value);
         currency.renderCurList(filteredList);
