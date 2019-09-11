@@ -277,19 +277,19 @@ $(document).ready(function () {
         selectedRadio: 'custom',
         radioContainer: $('.customisation__radio-select'),
         availableRadios: [{
-            id: 'selectCustom',
+            id: 'radio-selectCustom',
             value: 'custom',
             name: 'Custom'
         }, {
-            id: 'selectAll',
+            id: 'radio-selectAll',
             value: 'all',
             name: 'All'
         }, {
-            id: 'selectPopular',
+            id: 'radio-selectPopular',
             value: 'popular',
             name: 'Popular'
         }, {
-            id: 'selectNone',
+            id: 'radio-selectNone',
             value: 'none',
             name: 'None'
         }],
@@ -414,6 +414,8 @@ $(document).ready(function () {
                         this.list[index].selected = el.is(':checked')
                     }
                 }
+
+                $('#radio-selectCustom').prop('checked', 'true');
                 this.renderSelectedCurPills(this.list);
             })
         },
@@ -426,6 +428,7 @@ $(document).ready(function () {
                         this.list[index].selected = false
                     }
                 }
+                $('#radio-selectCustom').prop('checked', 'true');
                 this.renderCurList(this.list);
                 this.renderSelectedCurPills(this.list);
             })
