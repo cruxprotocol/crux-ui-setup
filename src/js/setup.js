@@ -488,14 +488,14 @@ $(document).ready(function () {
         currentInput = JSON.parse(event.data);
         console.log('currentInput', currentInput);
         if (currentInput && currentInput.payIDName) {
-            appCtrl.renderState('registration')
-        } else {
             appCtrl.renderState('customisation');
             currency.init({
                 payIDName: currentInput.payIDName,
                 availableCurrencies: currentInput.availableCurrencies,
                 publicAddressCurrencies: currentInput.publicAddressCurrencies
             });
+        } else {
+            appCtrl.renderState('registration')
         }
     }, false);
 
