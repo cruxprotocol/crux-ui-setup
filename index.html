@@ -39,10 +39,10 @@
 	</style>
 
 </head>
-<body>
+<body style="background-color: #fff0;">
 
 	<div id="appBase" class="limiter">
-		<div class="container-login100">
+		<div class="container-login100" style="background-color: #ffffff00;">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
 				<form class="login100-form validate-form">
 					<span class="login100-form-title p-b-33">
@@ -64,7 +64,8 @@
 
 					<div class="container-login100-form-btn m-t-20">
 						<button type="button" v-on:click="createNewID" class="login100-form-btn">
-							Create New ID
+							<img v-if="showButtonLoader" src="images/ajax-loader.gif" alt="" style="height:20px; padding-right:20px;">
+							<span>Create New ID</span>
 						</button>
 					</div>
 				</div>
@@ -83,7 +84,8 @@
                     </ul>
 					<div class="container-login100-form-btn m-t-20">
 						<button type="button" v-on:click="backToWallet" class="login100-form-btn">
-							Back to Wallet
+							<img v-if="showButtonLoader" src="images/ajax-loader.gif" alt="" style="height:20px; padding-right:20px;">
+							<span>Save</span>
 						</button>
 					</div>
 
@@ -107,7 +109,8 @@
         console.log(`event message received:- `, event);
         var data = JSON.parse(event.data);
         if (data.type === 'close') {
-            window.close();
+        	console.log("Close message received")
+            // window.close();
         } else if (data.type === 'register') {
             currentInput = data;
 			if(currentInput.encryptionKey){
@@ -123,7 +126,8 @@
 			data: function(){
 				return {
 					...currentInput,
-					checkedCurrencies: []
+					checkedCurrencies: [],
+					showButtonLoader: false
 				}
 			},
 			mounted() {
@@ -133,8 +137,7 @@
 			},
 			methods: {
 				createNewID: function () {
-					if(this.inputPayIDName && this.inputPayIDPass) {
-					}
+					this.showButtonLoader = true;
 					let registerMessage = {
 						type: 'createNew',
 						data: {
@@ -154,6 +157,7 @@
 				},
 				backToWallet: function() {
 					console.log('===back to wallet==');
+					this.showButtonLoader = true;
 					console.log(this.checkedCurrencies);
 					//if(this.checkedCurrencies === )
 					let existingMessange = {
