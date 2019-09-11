@@ -32,20 +32,6 @@ $(document).ready(function () {
         }
     }
 
-    appCtrl.renderState('customisation') //FIXME
-
-
-    let currentInput;
-    window.addEventListener('message', function (event) {
-        currentInput = JSON.parse(event.data);
-        console.log('currentInput', currentInput);
-        if (currentInput && currentInput.payIDName) {
-            appCtrl.renderState('registration')
-        } else {
-            appCtrl.renderState('customisation')
-        }
-    }, false);
-
     /*******************************
             Registration
     ********************************/
@@ -276,6 +262,32 @@ $(document).ready(function () {
         search: $('#cruxSearchCur'),
         selectedRadio: 'custom',
         radioContainer: $('.customisation__radio-select'),
+        init({ payIDName, availableCurrencies, publicAddressCurrencies }) {
+            $('#cruxpayIdName').html(payIDName);
+            let currenciesToRender = [];
+            for (let currency of allCurrencies) {
+                if (availableCurrencies.includes(currency.symbol.toUpperCase())) {
+                    if (publicAddressCurrencies.includes(currency.symbol.toUpperCase())) {
+                        currency.selected = true;
+                    } else {
+                        currency.selected = false;
+                    }
+                    currenciesToRender.push(currency);
+                }
+            }
+
+            this.list = currenciesToRender;
+
+            this.renderRadios();
+            this.search.on('keyup', (event) => {
+                let filteredList = this.filter(this.list, event.target.value);
+                this.renderCurList(filteredList);
+            })
+
+            this.renderCurList(this.list);
+            this.renderSelectedCurPills(this.list);
+
+        },
         availableRadios: [{
             id: 'radio-selectCustom',
             value: 'custom',
@@ -292,29 +304,6 @@ $(document).ready(function () {
             id: 'radio-selectNone',
             value: 'none',
             name: 'None'
-        }],
-        list: [{
-            name: 'Bitcoin',
-            symbol: 'btc',
-            img: 'https://files.coinswitch.co/public/coins/btc.png',
-            selected: true
-        }, {
-            name: 'Ethereum',
-            symbol: 'eth',
-            img: 'https://files.coinswitch.co/public/coins/eth.png',
-            selected: true
-        },
-        {
-            name: 'Litecoin',
-            symbol: 'ltc',
-            img: 'https://files.coinswitch.co/public/coins/ltc.png',
-            selected: false
-        },
-        {
-            name: 'Binance Coin',
-            symbol: 'bnb',
-            img: 'https://files.coinswitch.co/public/coins/bnb.png',
-            selected: false
         }],
         renderCurList(curlist) {
             let template = '';
@@ -480,12 +469,38 @@ $(document).ready(function () {
         }
     }
 
-    currency.renderRadios();
-    currency.search.on('keyup', (event) => {
-        let filteredList = currency.filter(currency.list, event.target.value);
-        currency.renderCurList(filteredList);
-    })
+    /**** FIXME ****/
+    let allCurrencies = [{ name: "Bitcoin", symbol: "btc", img: "https://files.coinswitch.co/public/coins/btc.png" }, { name: "Ethereum", symbol: "eth", img: "https://files.coinswitch.co/public/coins/eth.png" }, { name: "Litecoin", symbol: "ltc", img: "https://files.coinswitch.co/public/coins/ltc.png" }, { name: "Binance Coin", symbol: "bnb", img: "https://files.coinswitch.co/public/coins/bnb.png" }, { name: "Tron", symbol: "trx", img: "https://files.coinswitch.co/public/coins/trx.png" }, { name: "EOS", symbol: "eos", img: "https://files.coinswitch.co/public/coins/eos.png" }];
+    /*let currentInput = {
+        payIDName: 'amitasaurus.exodus.id',
+        availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS'],
+        publicAddressCurrencies: ['BTC', 'EOS']
+    }
+    appCtrl.renderState('customisation');
+    currency.init({
+        payIDName: currentInput.payIDName,
+        availableCurrencies: currentInput.availableCurrencies,
+        publicAddressCurrencies: currentInput.publicAddressCurrencies
+    });*/
+    /**** End of FIXME ****/
+    let currentInput;
+    window.addEventListener('message', function (event) {
+        currentInput = JSON.parse(event.data);
+        console.log('currentInput', currentInput);
+        if (currentInput && currentInput.payIDName) {
+            appCtrl.renderState('registration')
+        } else {
+            appCtrl.renderState('customisation');
+            currency.init({
+                payIDName: currentInput.payIDName,
+                availableCurrencies: currentInput.availableCurrencies,
+                publicAddressCurrencies: currentInput.publicAddressCurrencies
+            });
+        }
+    }, false);
 
-    currency.renderCurList(currency.list); //FIXME
-    currency.renderSelectedCurPills(currency.list); //FIXME
 });
+
+
+
+
