@@ -1,14 +1,54 @@
 $(document).ready(function () {
+    let appCtrl = new function () {
+        this.availableStates = ['registration', 'customisation'];
+        this.registration = {
+            el: $('#registration'),
+            hide() {
+                this.el.addClass('cs-hide');
+            },
+            show() {
+                this.el.removeClass('cs-hide');
+            }
+        };
+        this.customisation = {
+            el: $('#customisation'),
+            hide() {
+                this.el.addClass('cs-hide');
+            },
+            show() {
+                this.el.removeClass('cs-hide');
+            }
+        };
+        this.renderState = (state) => {
+            if (this.availableStates.includes(state)) {
+                for (let thisState of this.availableStates) {
+                    if (thisState === state) {
+                        this[thisState].show();
+                    } else {
+                        this[thisState].hide();
+                    }
+                }
+            }
+        }
+    }
+
+    appCtrl.renderState('customisation') //FIXME
+
+
     let currentInput;
     window.addEventListener('message', function (event) {
         currentInput = JSON.parse(event.data);
         console.log('currentInput', currentInput);
         if (currentInput && currentInput.payIDName) {
-            //display currency selection
+            appCtrl.renderState('registration')
         } else {
-            //display setup page
+            appCtrl.renderState('customisation')
         }
     }, false);
+
+    /*******************************
+            Registration
+    ********************************/
 
     const textFields = document.querySelectorAll(".mdc-text-field");
     for (const textField of textFields) {
@@ -224,4 +264,48 @@ $(document).ready(function () {
             }
         }
     }
+
+
+
+    /*******************************
+            Customisation
+    ********************************/
+    let currency = {
+        container: $('#currencyContainer'),
+        list : [{
+            name: 'Bitcoin',
+            symbol: 'btc',
+            img: 'https://files.coinswitch.co/public/coins/btc.png',
+            selected: true
+        },{
+            name: 'Ethereum',
+            symbol: 'eth',
+            img: 'https://files.coinswitch.co/public/coins/eth.png',
+            selected: true
+        },
+        {
+            name: 'Litecoin',
+            symbol: 'ltc',
+            img: 'https://files.coinswitch.co/public/coins/ltc.png',
+            selected: false
+        }],
+        renderCurList(curlist){
+            let template = '';
+            for(let cur of curlist){
+                template += this.renderCur(cur);
+            }
+            $(this.container).html(template);
+        },
+        renderCur({name, symbol, img, selected}){
+            return `
+            <div class="customisation__currency ${selected ? 'customisation__currency--isSelected' : ''} ">
+                <img class="customisation__currency-logo" src="${img}" />
+                <div class="customisation__currency-name">${name}</div>
+                <div class="customisation__currency-symbol">${symbol.toUpperCase()}</div>
+            </div>
+            `
+        }
+    }
+
+    currency.renderCurList(currency.list); //FIXME
 });
