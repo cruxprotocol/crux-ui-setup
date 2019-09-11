@@ -22,6 +22,16 @@ $card-height: 500px;
             width: 90%;
         }
     }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        margin-top: auto;
+
+        .mdc-button {
+            margin-left: auto;
+        }
+    }
 }
 
 .setup-card {
@@ -159,16 +169,6 @@ $card-height: 500px;
             margin: auto;
         }
 
-        &__footer {
-            display: flex;
-            align-items: center;
-            margin-top: auto;
-
-            .mdc-button {
-                margin-left: auto;
-            }
-        }
-
         @media only screen and (max-width: 768px) {
             display: none;
         }
@@ -203,8 +203,10 @@ $card-height: 500px;
         width: 50%;
         height: auto;
         min-height: $card-height;
-        padding: 32px;
+        padding: 32px 32px 8px 32px;
         border-right: 1px solid darken($color: #f3f5f8, $amount: 5%);
+        display: flex;
+        flex-direction: column;
     }
 
     &__description {
@@ -212,6 +214,8 @@ $card-height: 500px;
         height: auto;
         min-height: $card-height;
         padding: 32px;
+        display: flex;
+        flex-direction: column;
     }
 
     &__brand {
@@ -259,19 +263,24 @@ $card-height: 500px;
     }
 
     &__currency {
-        width: 100%;
+        width: 99%;
         min-height: 45px;
         display: flex;
         align-items: center;
         border: 1px solid #dadada;
         border-radius: 4px;
         margin: 16px 0px;
-        cursor: pointer;
+    }
+
+    &__currency-list {
+        height: 325px;
+        overflow-x: hidden;
+        overflow-y: scroll;
     }
 
     &__currency-logo {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         margin-left: 16px;
     }
 
@@ -288,5 +297,62 @@ $card-height: 500px;
         font-weight: 700;
         margin-left: auto;
         margin-right: 16px;
+    }
+
+    &__checkbox-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    &__description-id {
+        margin-bottom: 16px;
+    }
+
+    .description-heading {
+        color: #8a8a8a;
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.0625em;
+    }
+
+    .description-id {
+        color: $dark;
+        font-size: 32px;
+        margin-top: -3px;
+    }
+
+    &__selected-currencies{
+        margin-top: 32px;
+    }
+
+    &__selected-currencies-list {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    .selected-currency__pill {
+        min-width: 100px;
+        height: 35px;
+        border-radius: 1000px;
+        background-color: #f3f5f8;
+        color: $dark;
+        display: flex;
+        align-items: center;
+        padding: 0px 8px;
+        margin: 12px 12px 12px 0px;
+
+        strong {
+            margin-left: 16px;
+            margin-right: auto;
+            font-size: 14px;
+        }
+
+        .material-icons {
+            font-size: 18px;
+            cursor: pointer;
+            margin-right: 3px;
+        }
     }
 }

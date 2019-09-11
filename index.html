@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="build/css/setup.min.css">
     <style>
-        :root{
+        :root {
             --mdc-theme-secondary: #736df8;
         }
     </style>
@@ -126,8 +126,8 @@
                 </div>
                 <div class="setup-card__description">
                     <img src="./images/mobile-pay.svg" width="250" />
-                    <div class="setup-card__description__footer">
-                        <button class="mdc-button mdc-button--raised" id="createId" type="button">Create ID</button>
+                    <div class="setup__footer">
+                        <button class="mdc-button mdc-button--raised" id="nextState" type="button">Next</button>
                     </div>
                 </div>
             </div>
@@ -194,10 +194,30 @@
                         </div>
                     </div>
                     <div class="customisation__currency-list" id="currencyContainer">
-                        
+
                     </div>
                 </div>
-                <div class="customisation__description"></div>
+                <div class="customisation__description">
+                    <div class="customisation__description-id">
+                        <div class="description-heading">
+                            Your Id
+                        </div>
+                        <div class="description-id">
+                            amitasaurus
+                        </div>
+                    </div>
+                    <div class="customisation__selected-currencies">
+                        <div class="description-heading">
+                            Public Currencies
+                        </div>
+                        <div class="customisation__selected-currencies-list" id="selectedCurContainer">
+
+                        </div>
+                    </div>
+                    <div class="setup__footer">
+                            <button class="mdc-button mdc-button--raised" id="createId" type="button">Create ID</button>
+                        </div>
+                </div>
             </div>
         </div>
     </div>

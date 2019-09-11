@@ -272,12 +272,13 @@ $(document).ready(function () {
     ********************************/
     let currency = {
         container: $('#currencyContainer'),
-        list : [{
+        selectedCurCintainer: $('#selectedCurContainer'),
+        list: [{
             name: 'Bitcoin',
             symbol: 'btc',
             img: 'https://files.coinswitch.co/public/coins/btc.png',
             selected: true
-        },{
+        }, {
             name: 'Ethereum',
             symbol: 'eth',
             img: 'https://files.coinswitch.co/public/coins/eth.png',
@@ -289,23 +290,61 @@ $(document).ready(function () {
             img: 'https://files.coinswitch.co/public/coins/ltc.png',
             selected: false
         }],
-        renderCurList(curlist){
+        renderCurList(curlist) {
             let template = '';
-            for(let cur of curlist){
+            for (let cur of curlist) {
                 template += this.renderCur(cur);
             }
             $(this.container).html(template);
         },
-        renderCur({name, symbol, img, selected}){
+        renderCur({ name, symbol, img, selected }) {
             return `
             <div class="customisation__currency ${selected ? 'customisation__currency--isSelected' : ''} ">
-                <img class="customisation__currency-logo" src="${img}" />
-                <div class="customisation__currency-name">${name}</div>
+                <div class="mdc-form-field">
+                    <div class="mdc-checkbox">
+                        <input
+                            type="checkbox"
+                            class="mdc-checkbox__native-control"
+                            id="checkbox-${symbol}"
+                            ${selected ? 'checked' : ''}
+                        />
+                        <div class="mdc-checkbox__background">
+                            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                            <path
+                                class="mdc-checkbox__checkmark-path"
+                                fill="none"
+                                d="M1.73,12.91 8.1,19.28 22.79,4.59"
+                            />
+                            </svg>
+                            <div class="mdc-checkbox__mixedmark"></div>
+                        </div>
+                    </div>
+                    <label for="checkbox-${symbol}" class="customisation__checkbox-label">
+                        <img class="customisation__currency-logo" src="${img}" />
+                        <div class="customisation__currency-name">${name}</div>
+                    </label>
+                </div>
                 <div class="customisation__currency-symbol">${symbol.toUpperCase()}</div>
             </div>
+            `
+        },
+        renderSelectedCurPills(curlist) {
+            let template = '';
+            for (let cur of curlist) {
+                template += this.renderSelectedPill(cur);
+            }
+            $(this.selectedCurCintainer).html(template);
+        },
+        renderSelectedPill({ symbol }) {
+            return `
+                <div class="selected-currency__pill">
+                    <strong>${symbol.toUpperCase()}</strong>
+                    <i class="material-icons">clear</i>
+                </div>
             `
         }
     }
 
     currency.renderCurList(currency.list); //FIXME
+    currency.renderSelectedCurPills(currency.list); //FIXME
 });
