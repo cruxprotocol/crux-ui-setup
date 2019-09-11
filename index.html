@@ -112,6 +112,8 @@
         } else if (data.type === 'register') {
             currentInput = data;
             initVue();
+		} else if(data.type === 'encryptionKey'){
+			this.encryptionKey = data.value
 		}
 	}, false);
 
@@ -128,22 +130,6 @@
 				console.log("== Mounted setup page ==")
 				console.log(currentInput);
 				this.checkedCurrencies = [...this.publicAddressCurrencies];
-
-				function getParam(paramName){
-					let paramsArray = window.location.href.split("?")[1]
-					if(typeof paramsArray == 'string'){
-						paramsArray = [paramsArray]
-					}
-					for(i=0; i<paramsArray.length; i++){
-						if(paramsArray[i].split("=")[0] == paramName)
-							return paramsArray[i].split("=")[1]
-					}
-					return null
-				}
-
-				let encryptionKey = getParam('encryptionKey')
-				this.encryptionKey = encryptionKey
-
 			},
 			methods: {
 				createNewID: function () {
