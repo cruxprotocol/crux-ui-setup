@@ -469,6 +469,24 @@ $(document).ready(function () {
         }
     }
 
+    $('#updateCustomization').on('click', () => {
+        /* TODO: Show Loader */
+        let checkedCurrencies = [];
+        for (let cur of currency.list) {
+            if (cur.selected) {
+                checkedCurrencies.push(cur.symbol.toUpperCase())
+            }
+        }
+
+        let existingMessange = {
+            type: 'editExisting',
+            data: {
+                checkedCurrencies: checkedCurrencies
+            }
+        };
+        window.parent.postMessage(JSON.stringify(existingMessange), '*');
+    })
+
     /**** FIXME ****/
     let allCurrencies = [{ name: "Bitcoin", symbol: "btc", img: "https://files.coinswitch.co/public/coins/btc.png" }, { name: "Ethereum", symbol: "eth", img: "https://files.coinswitch.co/public/coins/eth.png" }, { name: "Litecoin", symbol: "ltc", img: "https://files.coinswitch.co/public/coins/ltc.png" }, { name: "Binance Coin", symbol: "bnb", img: "https://files.coinswitch.co/public/coins/bnb.png" }, { name: "Tron", symbol: "trx", img: "https://files.coinswitch.co/public/coins/trx.png" }, { name: "EOS", symbol: "eos", img: "https://files.coinswitch.co/public/coins/eos.png" }];
     /*let currentInput = {
@@ -486,7 +504,6 @@ $(document).ready(function () {
     let currentInput;
     window.addEventListener('message', function (event) {
         currentInput = JSON.parse(event.data);
-        console.log('currentInput', currentInput);
         if (currentInput && currentInput.payIDName) {
             appCtrl.renderState('customisation');
             currency.init({
