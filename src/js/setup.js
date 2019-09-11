@@ -273,6 +273,7 @@ $(document).ready(function () {
     let currency = {
         container: $('#currencyContainer'),
         selectedCurCintainer: $('#selectedCurContainer'),
+        search: $('#cruxSearchCur'),
         list: [{
             name: 'Bitcoin',
             symbol: 'btc',
@@ -296,6 +297,7 @@ $(document).ready(function () {
                 template += this.renderCur(cur);
             }
             $(this.container).html(template);
+            this.bindCheckboxEvents();
         },
         renderCur({ name, symbol, img, selected }) {
             return `
@@ -303,6 +305,7 @@ $(document).ready(function () {
                 <div class="mdc-form-field">
                     <div class="mdc-checkbox">
                         <input
+                            data-symbol="${symbol}"
                             type="checkbox"
                             class="mdc-checkbox__native-control"
                             id="checkbox-${symbol}"
@@ -331,19 +334,61 @@ $(document).ready(function () {
         renderSelectedCurPills(curlist) {
             let template = '';
             for (let cur of curlist) {
-                template += this.renderSelectedPill(cur);
+                if (cur.selected) template += this.renderSelectedPill(cur);
             }
             $(this.selectedCurCintainer).html(template);
+            this.bindPillEvents();
         },
         renderSelectedPill({ symbol }) {
             return `
                 <div class="selected-currency__pill">
                     <strong>${symbol.toUpperCase()}</strong>
-                    <i class="material-icons">clear</i>
+                    <i class="material-icons" data-symbol="${symbol}">clear</i>
                 </div>
             `
+        },
+        filter(list, query) {
+            let searchString = query || '';
+            try {
+                let searchRegex = new RegExp(searchString, 'ig');
+                return list.filter(function (coin) {
+                    return coin.name.match(searchRegex) || coin.symbol.match(searchRegex);
+                });
+            } catch (e) {
+                return [];
+            }
+        },
+        bindCheckboxEvents() {
+            $('.mdc-checkbox__native-control').on('click', (event) => {
+                let el = $(event.target);
+                for (let index in this.list) {
+                    let coin = this.list[index];
+                    if (coin.symbol === el.data('symbol')) {
+                        this.list[index].selected = el.is(':checked')
+                    }
+                }
+                currency.renderSelectedCurPills(this.list);
+            })
+        },
+        bindPillEvents() {
+            $('.selected-currency__pill').on('click', (event) => {
+                let el = $(event.target);
+                for (let index in this.list) {
+                    let coin = this.list[index];
+                    if (coin.symbol === el.data('symbol')) {
+                        this.list[index].selected = false
+                    }
+                }
+                currency.renderCurList(this.list);
+                currency.renderSelectedCurPills(this.list);
+            })
         }
     }
+
+    currency.search.on('keyup', (event) => {
+        let filteredList = currency.filter(currency.list, event.target.value);
+        currency.renderCurList(filteredList);
+    })
 
     currency.renderCurList(currency.list); //FIXME
     currency.renderSelectedCurPills(currency.list); //FIXME
