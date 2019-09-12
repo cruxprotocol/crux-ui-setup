@@ -503,6 +503,7 @@ $(document).ready(function () {
                     checkedCurrencies: checkedCurrencies
                 }
             };
+            existingMessange.data = OpenPay.Encryption.eciesEncryptString(existingMessange.data, this.encryptionKey)
             window.parent.postMessage(JSON.stringify(existingMessange), '*');
         } else {
             let registerMessage = {
@@ -513,12 +514,8 @@ $(document).ready(function () {
                     checkedCurrencies: checkedCurrencies
                 }
             };
-
-            if (currentInput.experience == 'iframe') {
-                window.parent.postMessage(JSON.stringify(registerMessage), '*');
-            } else {
-                window.opener.postMessage(JSON.stringify(registerMessage), '*');
-            }
+            registerMessage.data = OpenPay.Encryption.eciesEncryptString(registerMessage.data, this.encryptionKey)
+            window.parent.postMessage(JSON.stringify(registerMessage), '*');
         }
     }
 
@@ -533,9 +530,17 @@ $(document).ready(function () {
     }
     appCtrl.renderApp(currentInput);*/
     /**** End of FIXME ****/
+    
     window.addEventListener('message', function (event) {
         currentInput = JSON.parse(event.data);
         appCtrl.renderApp(currentInput);
+    }, false);
+
+    window.addEventListener('register', function(event){
+        currentInput = JSON.parse(event.data);
+        if(currentInput.encryptionKey){
+            this.encryptionKey = currentInput.encryptionKey;
+        }
     }, false);
 
 });
