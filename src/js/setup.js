@@ -32,6 +32,17 @@ $(document).ready(function () {
         }
     }
 
+    let loader = {
+        show(el, handlerFn) {
+            el.attr('disabled', 'true');
+            el.off('click', handlerFn);
+        },
+        hide(el, handlerFn) {
+            el.removeAttr('disabled', 'false');
+            el.on('click', handlerFn);
+        }
+    }
+
     /*******************************
             Registration
     ********************************/
@@ -220,9 +231,9 @@ $(document).ready(function () {
     $('#createId').on('click', createNewID);
     function createNewID() {
         if (cruxpayId.isValid && password.isValid) {
+            loader.show($('#createId'), createNewID);
             let inputPayIDName = cruxpayId.getId();
             let inputPayIDPass = password.getPassword();
-            // TODO: Add loader to button
 
             let registerMessage = {
                 type: 'createNew',
@@ -469,8 +480,8 @@ $(document).ready(function () {
         }
     }
 
-    $('#updateCustomization').on('click', () => {
-        /* TODO: Show Loader */
+    function handleCustomisation() {
+        loader.show($('#updateCustomization'), handleCustomisation);
         let checkedCurrencies = [];
         for (let cur of currency.list) {
             if (cur.selected) {
@@ -485,7 +496,9 @@ $(document).ready(function () {
             }
         };
         window.parent.postMessage(JSON.stringify(existingMessange), '*');
-    })
+    }
+
+    $('#updateCustomization').on('click', handleCustomisation);
 
     /**** FIXME ****/
     let allCurrencies = [{ name: "Bitcoin", symbol: "btc", img: "https://files.coinswitch.co/public/coins/btc.png" }, { name: "Ethereum", symbol: "eth", img: "https://files.coinswitch.co/public/coins/eth.png" }, { name: "Litecoin", symbol: "ltc", img: "https://files.coinswitch.co/public/coins/ltc.png" }, { name: "Binance Coin", symbol: "bnb", img: "https://files.coinswitch.co/public/coins/bnb.png" }, { name: "Tron", symbol: "trx", img: "https://files.coinswitch.co/public/coins/trx.png" }, { name: "EOS", symbol: "eos", img: "https://files.coinswitch.co/public/coins/eos.png" }];
