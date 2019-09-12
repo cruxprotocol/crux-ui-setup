@@ -10,42 +10,42 @@ const uglify = require("gulp-uglify");
 const { series, parallel, watch } = require("gulp");
 
 function css(cb) {
-  gulp
-    .src("src/scss/**/*.scss")
-    .pipe(sass())
-    .pipe(sourcemaps.init())
-    .pipe(autoprefixer())
-    .pipe(csso())
-    .pipe(
-      rename({
-        extname: ".min.css"
-      })
-    )
-    .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest("build/css/"));
-  cb();
+	gulp
+		.src("src/scss/**/*.scss")
+		.pipe(sass())
+		.pipe(sourcemaps.init())
+		.pipe(autoprefixer())
+		.pipe(csso())
+		.pipe(
+			rename({
+				extname: ".min.css"
+			})
+		)
+		.pipe(sourcemaps.write("."))
+		.pipe(gulp.dest("build/css/"));
+	cb();
 }
 
 function js(cb) {
-  gulp
-    .src("src/js/**/*.js")
-    .pipe(
-      babel({
-        presets: ["@babel/env"]
-      })
-    )
-    .pipe(uglify())
-    .pipe(
-      rename({
-        extname: ".min.js"
-      })
-    )
-    .pipe(gulp.dest("build/js/"));
-  cb();
+	gulp
+		.src("src/js/**/*.js")
+		.pipe(
+			babel({
+				presets: ["@babel/env"]
+			})
+		)
+		// .pipe(uglify())
+		.pipe(
+			rename({
+				extname: ".min.js"
+			})
+		)
+		.pipe(gulp.dest("build/js/"));
+	cb();
 }
 function watchFiles() {
-  gulp.watch("src/scss/**/*.scss", css);
-  gulp.watch("src/js/**/*.js", js);
+	gulp.watch("src/scss/**/*.scss", css);
+	gulp.watch("src/js/**/*.js", js);
 }
 exports.default = parallel(css, js);
 exports.watch = parallel(watchFiles);
