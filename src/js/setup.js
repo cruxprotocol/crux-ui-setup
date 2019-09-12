@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    let currentInput;
     let appCtrl = new function () {
         this.availableStates = ['registration', 'customisation'];
         this.registration = {
@@ -28,6 +29,20 @@ $(document).ready(function () {
                         this[thisState].hide();
                     }
                 }
+            }
+        }
+        this.renderApp = (currentInput) => {
+            if (currentInput && currentInput.payIDName) {
+                this.renderState('customisation');
+                currency.init({
+                    payIDName: currentInput.payIDName,
+                    availableCurrencies: currentInput.availableCurrencies,
+                    publicAddressCurrencies: currentInput.publicAddressCurrencies
+                });
+                this.isExistingAccount = true;
+            } else {
+                this.renderState('registration')
+                this.isExistingAccount = false;
             }
         }
     }
@@ -234,20 +249,12 @@ $(document).ready(function () {
             loader.show($('#createId'), createNewID);
             let inputPayIDName = cruxpayId.getId();
             let inputPayIDPass = password.getPassword();
-
-            let registerMessage = {
-                type: 'createNew',
-                data: {
-                    newPayIDName: inputPayIDName,
-                    newPayIDPass: inputPayIDPass
-                }
-            };
-
-            if (currentInput.experience == 'iframe') {
-                window.parent.postMessage(JSON.stringify(registerMessage), '*');
-            } else {
-                window.opener.postMessage(JSON.stringify(registerMessage), '*');
+            appCtrl.data = {
+                newPayIDName: inputPayIDName,
+                newPayIDPass: inputPayIDPass
             }
+            currentInput.payIDName = inputPayIDName;
+            appCtrl.renderApp(currentInput);
         } else {
             if (!password.isValid) {
                 password.runValidations(password.getPassword());
@@ -489,13 +496,30 @@ $(document).ready(function () {
             }
         }
 
-        let existingMessange = {
-            type: 'editExisting',
-            data: {
-                checkedCurrencies: checkedCurrencies
+        if (appCtrl.isExistingAccount) {
+            let existingMessange = {
+                type: 'editExisting',
+                data: {
+                    checkedCurrencies: checkedCurrencies
+                }
+            };
+            window.parent.postMessage(JSON.stringify(existingMessange), '*');
+        } else {
+            let registerMessage = {
+                type: 'createNew',
+                data: {
+                    newPayIDName: appCtrl.data.newPayIDName,
+                    newPayIDPass: appCtrl.data.newPayIDPass,
+                    checkedCurrencies: checkedCurrencies
+                }
+            };
+
+            if (currentInput.experience == 'iframe') {
+                window.parent.postMessage(JSON.stringify(registerMessage), '*');
+            } else {
+                window.opener.postMessage(JSON.stringify(registerMessage), '*');
             }
-        };
-        window.parent.postMessage(JSON.stringify(existingMessange), '*');
+        }
     }
 
     $('#updateCustomization').on('click', handleCustomisation);
@@ -503,30 +527,15 @@ $(document).ready(function () {
     /**** FIXME ****/
     let allCurrencies = [{ name: "Bitcoin", symbol: "btc", img: "https://files.coinswitch.co/public/coins/btc.png" }, { name: "Ethereum", symbol: "eth", img: "https://files.coinswitch.co/public/coins/eth.png" }, { name: "Litecoin", symbol: "ltc", img: "https://files.coinswitch.co/public/coins/ltc.png" }, { name: "Binance Coin", symbol: "bnb", img: "https://files.coinswitch.co/public/coins/bnb.png" }, { name: "Tron", symbol: "trx", img: "https://files.coinswitch.co/public/coins/trx.png" }, { name: "EOS", symbol: "eos", img: "https://files.coinswitch.co/public/coins/eos.png" }];
     /*let currentInput = {
-        payIDName: 'amitasaurus.exodus.id',
+        payIDName: '', //amitasaurus.exodus.id
         availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS'],
         publicAddressCurrencies: ['BTC', 'EOS']
     }
-    appCtrl.renderState('customisation');
-    currency.init({
-        payIDName: currentInput.payIDName,
-        availableCurrencies: currentInput.availableCurrencies,
-        publicAddressCurrencies: currentInput.publicAddressCurrencies
-    });*/
+    appCtrl.renderApp(currentInput);*/
     /**** End of FIXME ****/
-    let currentInput;
     window.addEventListener('message', function (event) {
         currentInput = JSON.parse(event.data);
-        if (currentInput && currentInput.payIDName) {
-            appCtrl.renderState('customisation');
-            currency.init({
-                payIDName: currentInput.payIDName,
-                availableCurrencies: currentInput.availableCurrencies,
-                publicAddressCurrencies: currentInput.publicAddressCurrencies
-            });
-        } else {
-            appCtrl.renderState('registration')
-        }
+        appCtrl.renderApp(currentInput);
     }, false);
 
 });
