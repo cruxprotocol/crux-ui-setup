@@ -497,14 +497,15 @@ $(document).ready(function () {
         }
 
         if (appCtrl.isExistingAccount) {
-            let existingMessange = {
+            let existingMessage = {
                 type: 'editExisting',
                 data: {
                     checkedCurrencies: checkedCurrencies
                 }
             };
-            existingMessange.data = OpenPay.Encryption.eciesEncryptString(existingMessange.data, this.encryptionKey)
-            window.parent.postMessage(JSON.stringify(existingMessange), '*');
+            existingMessage = JSON.stringify(existingMessage)
+            existingMessage = OpenPay.Encryption.eciesEncryptString(existingMessage, window.encryptionKey)
+            window.parent.postMessage(existingMessage, '*');
         } else {
             let registerMessage = {
                 type: 'createNew',
@@ -514,8 +515,8 @@ $(document).ready(function () {
                     checkedCurrencies: checkedCurrencies
                 }
             };
-            registerMessage.data = OpenPay.Encryption.eciesEncryptString(registerMessage.data, this.encryptionKey)
-            window.parent.postMessage(JSON.stringify(registerMessage), '*');
+            registerMessage = OpenPay.Encryption.eciesEncryptString(JSON.stringify(registerMessage), window.encryptionKey)
+            window.parent.postMessage(registerMessage, '*');
         }
     }
 
@@ -533,15 +534,20 @@ $(document).ready(function () {
     
     window.addEventListener('message', function (event) {
         currentInput = JSON.parse(event.data);
+        if(currentInput.type == 'register'){
+            if(currentInput.encryptionKey){
+                window.encryptionKey = currentInput.encryptionKey;
+            }
+            if(currentInput.assetList){
+                window.assetList = currentInput.assetList;
+            }
+        }
         appCtrl.renderApp(currentInput);
     }, false);
 
-    window.addEventListener('register', function(event){
-        currentInput = JSON.parse(event.data);
-        if(currentInput.encryptionKey){
-            this.encryptionKey = currentInput.encryptionKey;
-        }
-    }, false);
+    // window.addEventListener('register', function(event){
+    //     currentInput = JSON.parse(event.data);
+    // }, false);
 
 });
 
