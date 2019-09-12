@@ -39,10 +39,8 @@ $(document).ready(function () {
                     availableCurrencies: currentInput.availableCurrencies,
                     publicAddressCurrencies: currentInput.publicAddressCurrencies
                 });
-                this.isExistingAccount = true;
             } else {
                 this.renderState('registration')
-                this.isExistingAccount = false;
             }
         }
     }
@@ -534,6 +532,7 @@ $(document).ready(function () {
     
     window.addEventListener('message', function (event) {
         currentInput = JSON.parse(event.data);
+        appCtrl.isExistingAccount = currentInput.payIDName ? true : false;
         if(currentInput.type == 'register'){
             if(currentInput.encryptionKey){
                 window.encryptionKey = currentInput.encryptionKey;
