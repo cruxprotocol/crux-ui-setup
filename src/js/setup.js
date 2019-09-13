@@ -542,7 +542,7 @@ $(document).ready(function () {
     appCtrl.renderApp(currentInput);*/
     /**** End of FIXME ****/
     
-    window.addEventListener('message', function (event) {
+    /*window.addEventListener('message', function (event) {
         currentInput = JSON.parse(event.data);
         appCtrl.isExistingAccount = currentInput.payIDName ? true : false;
         if(currentInput.type == 'register'){
@@ -551,7 +551,20 @@ $(document).ready(function () {
             }
         }
         appCtrl.renderApp(currentInput);
-    }, false);
+    }, false);*/
+
+    function datalookup(){
+        if(window.walletInfo){
+            currentInput = window.walletInfo
+            appCtrl.isExistingAccount = currentInput.payIDName ? true : false;
+            appCtrl.renderApp(currentInput);
+        }else{
+            setTimeout(() => {
+                datalookup();
+            }, 500);
+        }
+    }
+    datalookup();
 
     // window.addEventListener('register', function(event){
     //     currentInput = JSON.parse(event.data);
