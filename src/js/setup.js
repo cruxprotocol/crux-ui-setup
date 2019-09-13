@@ -109,7 +109,7 @@ $(document).ready(function () {
     function isUserIdAvailable(id) {
         $.ajax({
             type: "GET",
-            url: `https://167.71.234.131:3000/status/${id}`,
+            url: `https://registrar-prod.coinswitch.co:3000/status/${id}`,
             success: function (response) {
                 cruxpayId.isValid = false;
                 cruxpayId.displayError(`${id} is unavailable`);
