@@ -1,190 +1,199 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-	<title>Login V19</title>
-	<script src="https://npmcdn.com/vue/dist/vue.js"></script>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<!--===============================================================================================-->
-	<style type="text/css">
-		.idDisplay {
-			display: block;
-			font-size: 21px;
-			color: #555555;
-			line-height: 1.2;
-			text-align: center;
-		}
-	</style>
-
+    <meta charset="utf-8">
+    <title>Cruxpay Setup</title>
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="build/css/setup.min.css">
+    <style>
+        :root {
+            --mdc-theme-secondary: #736df8;
+        }
+    </style>
 </head>
-<body style="background-color: #fff0;">
 
-	<div id="appBase" class="limiter">
-		<div class="container-login100" style="background-color: #ffffff00;">
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-				<form class="login100-form validate-form">
-					<span class="login100-form-title p-b-33">
-						OpenPay Setup
-					</span>
+<body>
 
-				<div id="newIDSetup" v-if="!payIDName">
-					<div class="wrap-input100 validate-input" data-validate = "Valid OpenPay Name is Required - Minimum 6 characters">
-						<input v-model="inputPayIDName" class="input100" type="text" name="openPayName" placeholder="Please choose an OpenPay Name">
-						<span class="focus-input100-1"></span>
-						<span class="focus-input100-2"></span>
-					</div>
+    <div class="setup">
+        <div class="mdc-card mdc-card--outlined">
+            <div class="setup-card cs-hide" id="registration">
+                <div class="setup-card__form">
+                    <div class="setup-card__brand">CruxPay</div>
+                    <div class="setup-card__headline">Create your CruxPay Account</div>
+                    <div class="setup-card__body">Continue to CruxPay</div>
 
-					<div class="wrap-input100 rs1 validate-input" data-validate="Minimum 6 characters">
-						<input v-model="inputPayIDPass" class="input100" type="password" name="pass" placeholder="Password">
-						<span class="focus-input100-1"></span>
-						<span class="focus-input100-2"></span>
-					</div>
+                    <form autocomplete="off">
+                        <input autocomplete="false" name="hidden" type="text" style="display:none;">
+                        <div class="text-field-container">
+                            <div class="mdc-text-field mdc-text-field--outlined cruxpay-id__container">
+                                <input class="mdc-text-field__input" id="cruxpayId" type="text">
+                                <div class="mdc-notched-outline">
+                                    <div class="mdc-notched-outline__leading"></div>
+                                    <div class="mdc-notched-outline__notch">
+                                        <label for="text-field-hero-input" class="mdc-floating-label">CruxPay ID</label>
+                                    </div>
+                                    <div class="mdc-notched-outline__trailing">
+                                        <div class="id-status">
+                                            .curxpay.id
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mdc-text-field-helper-line">
+                                <p class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg"
+                                    id="cruxpay-id__helper-text">Enter a unique user id</p>
+                            </div>
+                        </div>
 
-					<div class="container-login100-form-btn m-t-20">
-						<button type="button" v-on:click="createNewID" class="login100-form-btn">
-							<img v-if="showButtonLoader" src="images/ajax-loader.gif" alt="" style="height:20px; padding-right:20px;">
-							<span>Create New ID</span>
-						</button>
-					</div>
-				</div>
+                        <div class="text-field-container">
+                            <div class="mdc-text-field mdc-text-field--outlined cruxpay-password__container">
+                                <input class="mdc-text-field__input" id="cruxpayPassword" type="password">
+                                <div class="mdc-notched-outline">
+                                    <div class="mdc-notched-outline__leading"></div>
+                                    <div class="mdc-notched-outline__notch">
+                                        <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
+                                    </div>
+                                    <div class="mdc-notched-outline__trailing"></div>
+                                </div>
+                            </div>
+                            <div class="mdc-text-field-helper-line">
+                                <p class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg"
+                                    id="cruxpay-password__helper-text">Use 8 or more characters with a mix of letters,
+                                    numbers & symbols</p>
+                            </div>
+                            <div class="validation-rules">
+                                <div class="rule rule-isInvalid" id="validation-charLen">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must be 8 or more characters</span>
+                                </div>
+                                <div class="rule rule-isInvalid" id="validation-sameAsId">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Should not be similar to CruxPay Id</span>
+                                </div>
+                                <div class="rule rule-isInvalid" id="validation-digit">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must have atleast one number</span>
+                                </div>
+                                <div class="rule rule-isInvalid" id="validation-lowercase">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must have atleast one lowercase letter</span>
+                                </div>
+                                <div class="rule rule-isInvalid" id="validation-uppercase">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must have atleast one lowercase uppercase letter</span>
+                                </div>
+                                <div class="rule rule-isInvalid" id="validation-specialCharater">
+                                    <i class="material-icons icon-invalid">
+                                        clear
+                                    </i>
+                                    <i class="material-icons icon-valid">
+                                        done
+                                    </i>
+                                    <span>Must have atleast one special characters</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="setup-card__description">
+                    <img src="./images/mobile-pay.svg" width="250" />
+                    <div class="setup__footer">
+                        <button class="mdc-button mdc-button--raised mdc-crux-action" id="createId" type="button">
+                            <span>Create ID</span>
+                            <span class="donut"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="customisation cs-hide" id="customisation">
+                <div class="customisation__selection">
+                    <div class="customisation__brand">CruxPay</div>
+                    <div class="customisation__headline">Select Currencies</div>
+                    <form class="customisation__search" autocomplete="off">
+                        <input autocomplete="false" name="hidden" type="text" style="display:none;">
+                        <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+                            <i class="material-icons mdc-text-field__icon">search</i>
+                            <input class="mdc-text-field__input" id="cruxSearchCur">
+                            <div class="mdc-notched-outline">
+                                <div class="mdc-notched-outline__leading"></div>
+                                <div class="mdc-notched-outline__notch">
+                                    <label for="cruxSearchCur" class="mdc-floating-label">Search
+                                        Currencies</label>
+                                </div>
+                                <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="customisation__radio-select">
 
-				<div id="existingIDSetup"  class="idDisplay" v-if="payIDName">
-					<span>Your ID is {{payIDName}}</span><br>
-                    <span>Public Currencies:</span>
-                    <ul id="availableCurrencyList">
-                        <li v-for="cur in availableCurrencies">
+                    </div>
+                    <div class="customisation__currency-list" id="currencyContainer">
 
-							<input type="checkbox"  :value="cur" v-model="checkedCurrencies">
-							<label>{{cur}}</label>
+                    </div>
+                </div>
+                <div class="customisation__description">
+                    <div class="customisation__description-id">
+                        <div class="description-heading">
+                            Your CruxPay Id
+                        </div>
+                        <div class="description-id" id="cruxpayIdName">
 
-                        </li>
+                        </div>
+                    </div>
+                    <div class="customisation__selected-currencies">
+                        <div class="description-heading">
+                            Public Currencies
+                        </div>
+                        <div class="customisation__selected-currencies-list" id="selectedCurContainer">
 
-                    </ul>
-					<div class="container-login100-form-btn m-t-20">
-						<button type="button" v-on:click="backToWallet" class="login100-form-btn">
-							<img v-if="showButtonLoader" src="images/ajax-loader.gif" alt="" style="height:20px; padding-right:20px;">
-							<span>Save</span>
-						</button>
-					</div>
+                        </div>
+                    </div>
+                    <div class="setup__footer">
+                        <button class="mdc-button mdc-button--raised mdc-crux-action" id="updateCustomization"
+                            type="button">
+                            <span>Save</span>
+                            <span class="donut"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-				</div>
-
-			</form>
-		</div>
-	</div>
-</div>
-
-
-<script type="text/javascript">
-
-	var currentInput = {
-	    // payIDName: 'abcdef',
-        // availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS'],
-		// publicAddressCurrencies: ['BTC', 'EOS']
-    };
-
-	window.addEventListener('message', function (event) {
-        console.log('event message received');
-        console.log(event);
-        var data = JSON.parse(event.data);
-        if (data.type === 'close') {
-        	console.log("Close message received")
-            // window.close();
-        } else if (data.type === 'register') {
-            currentInput = data;
-			console.log("Register message received")
-            initVue();
-		}
-	}, false);
-
-	let initVue = function(){
-		new Vue({
-			el: '#appBase',
-			data: function(){
-				return {
-					...currentInput,
-					checkedCurrencies: [],
-					showButtonLoader: false
-				}
-			},
-			mounted() {
-				console.log("== Mounted setup page ==")
-				console.log(currentInput);
-				this.checkedCurrencies = [...this.publicAddressCurrencies];
-			},
-			methods: {
-				createNewID: function () {
-					this.showButtonLoader = true;
-					let registerMessage = {
-						type: 'createNew',
-						data: {
-							newPayIDName: this.inputPayIDName,
-							newPayIDPass: this.inputPayIDPass
-						}
-					};
-
-					window.parent.postMessage(JSON.stringify(registerMessage), '*');
-
-
-				},
-				backToWallet: function() {
-					console.log('===back to wallet==');
-					this.showButtonLoader = true;
-					console.log(this.checkedCurrencies);
-					//if(this.checkedCurrencies === )
-					let existingMessange = {
-						type: 'editExisting',
-						data: {
-							checkedCurrencies: this.checkedCurrencies
-						}
-					};
-					window.parent.postMessage(JSON.stringify(existingMessange), '*');
-				}
-			}
-		})
-	}
-	//initVue();
-</script>
-
-
-<!--===============================================================================================-->
-<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/bootstrap/js/popper.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/daterangepicker/moment.min.js"></script>
-<script src="vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-<script src="js/main.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    
+    <script src="http://127.0.0.1:8777/dist/openpay-dom.js"></script>
+    <script src="http://127.0.0.1:8777/dist/openpay-setup/build/js/setup.min.js"></script>
 </body>
+
 </html>
