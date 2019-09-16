@@ -521,6 +521,16 @@ $(document).ready(function () {
 
     $('#updateCustomization').on('click', handleCustomisation);
 
+    function handleCloseSetup() {
+        let closeIframeMessage = {
+            type: 'closeIframe'
+        }
+        closeIframeMessage = JSON.stringify(closeIframeMessage)
+        closeIframeMessage = OpenPay.Encryption.eciesEncryptString(JSON.stringify(closeIframeMessage), window.encryptionKey)
+        window.parent.postMessage(closeIframeMessage, '*')
+    }
+    $('#closeSetup').on('click', handleCloseSetup);
+
     function curlistAdapter(list){
         return list.map((e) => {
             return {
@@ -541,7 +551,7 @@ $(document).ready(function () {
     }
     appCtrl.renderApp(currentInput);*/
     /**** End of FIXME ****/
-    
+
     /*window.addEventListener('message', function (event) {
         currentInput = JSON.parse(event.data);
         appCtrl.isExistingAccount = currentInput.payIDName ? true : false;
