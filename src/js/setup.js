@@ -525,7 +525,6 @@ $(document).ready(function () {
         let closeIframeMessage = {
             type: 'closeIframe'
         }
-        closeIframeMessage = JSON.stringify(closeIframeMessage)
         closeIframeMessage = OpenPay.Encryption.eciesEncryptString(JSON.stringify(closeIframeMessage), window.encryptionKey)
         window.parent.postMessage(closeIframeMessage, '*')
     }
