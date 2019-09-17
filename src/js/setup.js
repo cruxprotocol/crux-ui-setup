@@ -39,7 +39,7 @@ $(document).ready(function () {
                     payIDName: currentInput.payIDName,
                     availableCurrencies: currentInput.availableCurrencies,
                     publicAddressCurrencies: currentInput.publicAddressCurrencies,
-                    allCurrencies: currentInput.assetList && currentInput.assetList.length > 0 ? curlistAdapter(currentInput.assetList) : []
+                    allCurrencies: currentInput.assetList && currentInput.clientMapping && currentInput.assetList.length > 0 && Object.keys(currentInput.clientMapping).length > 0 ? curlistAdapter(currentInput.assetList, currentInput.clientMapping) : [],
                 });
             } else {
                 this.renderState('registration')
@@ -573,20 +573,25 @@ $(document).ready(function () {
         let closeIframeMessage = {
             type: 'closeIframe'
         }
-        closeIframeMessage = JSON.stringify(closeIframeMessage)
         closeIframeMessage = OpenPay.Encryption.eciesEncryptString(JSON.stringify(closeIframeMessage), window.encryptionKey)
         window.parent.postMessage(closeIframeMessage, '*')
     }
     $('#closeSetup').on('click', handleCloseSetup);
 
-    function curlistAdapter(list) {
-        return list.map((e) => {
-            return {
-                name: e.name,
-                symbol: e.symbol,
-                img: e.image_sm_url
+    function curlistAdapter(assetList, clientMapping){
+        let assetIdtoClientidMap = {}
+        for(let clientKey in clientMapping){
+            assetIdtoClientidMap[clientMapping[clientKey]] = clientKey
+        }
+        let applicableAssetIdList = []
+        for(let i in assetList){
+            let current = assetList[i];
+            if(current.asset_id in assetIdtoClientidMap){
+                let currentAsset = {name: current.name, symbol: assetIdtoClientidMap[current.asset_id], img: current.image_sm_url}
+                applicableAssetIdList.push(currentAsset);
             }
-        })
+        }
+        return applicableAssetIdList;
     }
 
     function datalookup() {
