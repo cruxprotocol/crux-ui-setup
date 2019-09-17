@@ -70,5 +70,5 @@ function watchFiles() {
 	gulp.watch("src/index.html", html);
 	gulp.watch("images/**/*.*", images);
 }
-exports.default = series(html, parallel(css, js), images);
+exports.default = series(html, parallel(css, js, images));
 exports.watch = parallel(watchFiles);
