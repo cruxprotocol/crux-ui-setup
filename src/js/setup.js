@@ -532,24 +532,10 @@ $(document).ready(function () {
     $('#closeSetup').on('click', handleCloseSetup);
 
     function curlistAdapter(assetList, clientMapping){
-
-        console.log(`in curlistAdapter adapter, assetList and client mapping are:- `, assetList, clientMapping);
-
-        // {
-        //     "name": "Basic Attention Token",
-        //     "symbol": "bat",
-        //     "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/bat.png"
-        //   }
-
-        // "EOS": "9dbdc727-de68-4f2a-8956-04a38ed71ca6",
-
         let assetIdtoClientidMap = {}
         for(let clientKey in clientMapping){
             assetIdtoClientidMap[clientMapping[clientKey]] = clientKey
         }
-
-        console.log(`assetIdtoClientidMap is:- `, assetIdtoClientidMap);
-
         let applicableAssetIdList = []
         for(let i in assetList){
             let current = assetList[i];
@@ -559,13 +545,6 @@ $(document).ready(function () {
             }
         }
         return applicableAssetIdList;
-        // return assetList.map((e) => {
-        //     return {
-        //         name: e.name,
-        //         symbol: assetIdtoClientidMap[e.asset_id],
-        //         img: e.image_sm_url
-        //     }
-        // })
     }
 
     /**** FIXME ****/
