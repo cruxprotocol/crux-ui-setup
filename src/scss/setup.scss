@@ -196,6 +196,18 @@ $card-height: 500px;
     }
 }
 
+.setup-close {
+	margin-top: 32px;
+}
+
+.setup-close_button {
+	--mdc-ripple-fg-size: 28px;
+	--mdc-ripple-fg-scale: 1.71429;
+	--mdc-ripple-left: 10px;
+	--mdc-ripple-top: 10px;
+	float: right!important;
+}
+
 .customisation {
     display: flex;
 
