@@ -1,5 +1,6 @@
 $(document).ready(function () {
     let currentInput;
+    let registrar = window.isDev ? 'https://registrar.coinswitch.co:3000' : 'https://registrar-prod.coinswitch.co:3000';
     let appCtrl = new function () {
         this.availableStates = ['registration', 'customisation'];
         this.registration = {
@@ -152,7 +153,7 @@ $(document).ready(function () {
     function isUserIdAvailable(id) {
         $.ajax({
             type: "GET",
-            url: `https://registrar.coinswitch.co:3000/status/${id}`,
+            url: `${registrar}/status/${id}`,
             success: function (response) {
                 cruxpayId.isValid = false;
                 cruxpayId.displayError(`${id} is unavailable`);
