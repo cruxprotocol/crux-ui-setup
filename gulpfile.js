@@ -9,6 +9,13 @@ const rename = require("gulp-rename");
 const uglify = require("gulp-uglify");
 const { series, parallel, watch } = require("gulp");
 
+function html(cb) {
+	gulp
+		.src("src/index.html")
+		.pipe(gulp.dest("build/"));
+	cb();
+}
+
 function css(cb) {
 	gulp
 		.src("src/scss/**/*.scss")
@@ -34,7 +41,7 @@ function js(cb) {
 				presets: ["@babel/env"]
 			})
 		)
-		// .pipe(uglify())
+		.pipe(uglify())
 		.pipe(
 			rename({
 				extname: ".min.js"
@@ -43,9 +50,19 @@ function js(cb) {
 		.pipe(gulp.dest("build/js/"));
 	cb();
 }
+
+function images(cb) {
+	gulp
+		.src("images/**/*.*")
+		.pipe(gulp.dest("build/images"));
+	cb();
+}
+
 function watchFiles() {
 	gulp.watch("src/scss/**/*.scss", css);
 	gulp.watch("src/js/**/*.js", js);
+	gulp.watch("src/index.html", html);
+	gulp.watch("images/**/*.*", images);
 }
-exports.default = parallel(css, js);
+exports.default = series(html, parallel(css, js), images);
 exports.watch = parallel(watchFiles);
