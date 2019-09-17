@@ -71,6 +71,7 @@ $(document).ready(function () {
         inputParent: $('.cruxpay-id__container'),
         helperText: $('#cruxpay-id__helper-text'),
         parentContainer: $('.cruxpay-id__container').parent(),
+        isValid: false,
         displayError(message) {
             this.helperText.removeClass('helper-text--success');
             this.inputParent.addClass('mdc-text-field--invalid');
@@ -92,7 +93,40 @@ $(document).ready(function () {
         getId() {
             return this.input.val();
         },
-        isValid: false
+        validation: {
+            hasDigit(id) {
+                const re = /[0-9]/;
+                return re.test(id);
+            },
+            hasAlphabets(id) {
+                const re = /[A-Za-z]/;
+                return re.test(id);
+            },
+            isValid(id) {
+                let isvalid = false;
+                if (this.hasDigit(id)) {
+                    if (this.hasAlphabets(id)) {
+                        isvalid = true
+                    }
+                }
+                return isvalid
+            }
+        },
+        runValidations(id) {
+            if (this.validation.hasDigit(id)) {
+                this.isValid = true;
+            } else {
+                this.isValid = false;
+                this.displayError(`Your ID should contain numbers`);
+            }
+
+            if (this.validation.hasAlphabets(id)) {
+                this.isValid = true;
+            } else {
+                this.isValid = false;
+                this.displayError(`Your ID should contain alphabets`);
+            }
+        }
     }
 
     let timer = null;
@@ -101,15 +135,24 @@ $(document).ready(function () {
         cruxpayId.isValid = false;
         clearTimeout(timer);
         timer = setTimeout(function () {
-            if (e.target.value && e.target.value.length > 0) {
-                isUserIdAvailable(e.target.value)
+            const inputId = e.target.value;
+            if (inputId && inputId.length > 0) {
+                if (cruxpayId.validation.hasDigit(inputId)) {
+                    if (cruxpayId.validation.hasAlphabets(inputId)) {
+                        isUserIdAvailable(inputId);
+                    } else {
+                        cruxpayId.displayError(`Your ID should contain alphabets`);
+                    }
+                } else {
+                    cruxpayId.displayError(`Your ID should contain numbers`);
+                }
             }
         }, 500)
     })
     function isUserIdAvailable(id) {
         $.ajax({
             type: "GET",
-            url: `https://167.71.234.131:3000/status/${id}`,
+            url: `https://registrar.coinswitch.co:3000/status/${id}`,
             success: function (response) {
                 cruxpayId.isValid = false;
                 cruxpayId.displayError(`${id} is unavailable`);
@@ -259,11 +302,15 @@ $(document).ready(function () {
                 password.runValidations(password.getPassword());
             }
             if (!cruxpayId.isValid) {
-                cruxpayId.displayError(
-                    cruxpayId.getId() && cruxpayId.getId().length > 0 ?
-                        `${cruxpayId.getId()} is unavailable` :
-                        'cruxpay id is needed'
-                );
+                if (cruxpayId.getId() && cruxpayId.getId().length > 0) {
+                    if (cruxpayId.validation.isValid(cruxpayId.getId())) {
+                        cruxpayId.displayError(`${cruxpayId.getId()} is unavailable`)
+                    } else {
+                        cruxpayId.runValidations(cruxpayId.getId())
+                    }
+                } else {
+                    cruxpayId.displayError('cruxpay id is needed');
+                }
             }
         }
     }
@@ -279,7 +326,7 @@ $(document).ready(function () {
         search: $('#cruxSearchCur'),
         selectedRadio: 'custom',
         radioContainer: $('.customisation__radio-select'),
-        init({ payIDName, availableCurrencies, publicAddressCurrencies, allCurrencies}) {
+        init({ payIDName, availableCurrencies, publicAddressCurrencies, allCurrencies }) {
             $('#cruxpayIdName').html(payIDName);
             let currenciesToRender = [];
             for (let currency of allCurrencies) {
@@ -531,7 +578,7 @@ $(document).ready(function () {
     }
     $('#closeSetup').on('click', handleCloseSetup);
 
-    function curlistAdapter(list){
+    function curlistAdapter(list) {
         return list.map((e) => {
             return {
                 name: e.name,
@@ -541,12 +588,12 @@ $(document).ready(function () {
         })
     }
 
-    function datalookup(){
-        if(window.walletInfo){
+    function datalookup() {
+        if (window.walletInfo) {
             currentInput = window.walletInfo
             appCtrl.isExistingAccount = currentInput.payIDName ? true : false;
             appCtrl.renderApp(currentInput);
-        }else{
+        } else {
             setTimeout(() => {
                 datalookup();
             }, 500);
