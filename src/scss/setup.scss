@@ -17,6 +17,7 @@ $card-height: 500px;
         max-width: 900px;
         height: auto;
         min-height: $card-height;
+        position: relative;
 
         @media only screen and (max-width: 992px) {
             width: 90%;
@@ -196,16 +197,15 @@ $card-height: 500px;
     }
 }
 
-.setup-close {
-	margin-top: 32px;
-}
-
 .setup-close_button {
-	--mdc-ripple-fg-size: 28px;
-	--mdc-ripple-fg-scale: 1.71429;
-	--mdc-ripple-left: 10px;
-	--mdc-ripple-top: 10px;
-	float: right!important;
+    --mdc-ripple-fg-size: 28px;
+    --mdc-ripple-fg-scale: 1.71429;
+    --mdc-ripple-left: 10px;
+    --mdc-ripple-top: 10px;
+    position: absolute;
+    right: 0;
+    font-size: 20px;
+    color: #666666;
 }
 
 .customisation {
