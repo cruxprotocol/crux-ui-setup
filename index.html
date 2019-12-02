@@ -4,6 +4,7 @@
 <head>
 	<title>Login V19</title>
 	<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/@cruxpay/js-sdk@0.1.4/dist/cruxpay-sdk-dom.js"></script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
@@ -56,12 +57,6 @@
 						<span class="focus-input100-2"></span>
 					</div>
 
-					<div class="wrap-input100 rs1 validate-input" data-validate="Minimum 6 characters">
-						<input v-model="inputPayIDPass" class="input100" type="password" name="pass" placeholder="Password">
-						<span class="focus-input100-1"></span>
-						<span class="focus-input100-2"></span>
-					</div>
-
 					<div class="container-login100-form-btn m-t-20">
 						<button type="button" v-on:click="createNewID" class="login100-form-btn">
 							<img v-if="showButtonLoader" src="images/ajax-loader.gif" alt="" style="height:20px; padding-right:20px;">
@@ -74,11 +69,9 @@
 					<span>Your ID is {{payIDName}}</span><br>
                     <span>Public Currencies:</span>
                     <ul id="availableCurrencyList">
-                        <li v-for="cur in availableCurrencies">
-
+                        <li v-for="(address, cur)  in availableCurrencies">
 							<input type="checkbox"  :value="cur" v-model="checkedCurrencies">
-							<label>{{cur}}</label>
-
+							<label>{{cur}}: <span>{{address}}</span></label>
                         </li>
 
                     </ul>
@@ -100,16 +93,25 @@
 <script type="text/javascript">
 
 	var currentInput = {
-	    // payIDName: 'abcdef',
-        // availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS'],
-		// publicAddressCurrencies: ['BTC', 'EOS']
+	    payIDName: 'lol',
+        availableCurrencies: {
+	    	'BTC': '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy',
+			'ETH': '0xd12Cd8A37F074e7eAFae618C986Ff825666198bd',
+			'TRX': 'TH5hDeF7z8o71jRpSQtQCevizMDm43hvCk',
+			'EOS': 'vuniyuoxoeub'
+		},
+		publicAddressCurrencies: ['BTC', 'EOS']
     };
 
 	window.addEventListener('message', function (event) {
         console.log('event message received');
         console.log(event);
-        var data = JSON.parse(event.data);
-        if (data.type === 'close') {
+        if (event.data !== '') {
+			return;
+		}
+		let data = {type: ''};
+		data = JSON.parse(event.data);
+		if (data.type === 'close') {
         	console.log("Close message received")
             // window.close();
         } else if (data.type === 'register') {
@@ -119,7 +121,30 @@
 		}
 	}, false);
 
+	let notify = function(experience, message) {
+		if (experience === 'react-native') {
+			window.ReactNativeWebView.postMessage(message, '*');
+		} else if (experience === 'iframe') {
+			window.parent.postMessage(message, '*');
+		} else {
+			window.opener.postMessage(message, '*');
+		}
+	}
+
+	let assignData = function(data) {
+		console.log("RNSDK sent " + data);
+		currentInput = JSON.parse(data);
+		initVue();
+	}
+
 	let initVue = function(){
+		let cruxClientOptions = {
+			getEncryptionKey: () => 'foo',
+			walletClientName: 'cruxdev',
+			privateKey: "KxNUxNfsvkWCriYGnaQhqtSp9KWMfjF2xZuAHs7hbc239ZfZT6zT"
+		}
+		let cruxClient = new window.CruxPay.CruxClient(cruxClientOptions);
+
 		new Vue({
 			el: '#appBase',
 			data: function(){
@@ -140,17 +165,10 @@
 					let registerMessage = {
 						type: 'createNew',
 						data: {
-							newPayIDName: this.inputPayIDName,
-							newPayIDPass: this.inputPayIDPass
+							newPayIDName: this.inputPayIDName
 						}
 					};
-
-                    if (currentInput.experience == 'iframe') {
-                        window.parent.postMessage(JSON.stringify(registerMessage), '*');
-                    } else {
-                        window.opener.postMessage(JSON.stringify(registerMessage), '*');
-                    }
-
+					notify(currentInput.experience, JSON.stringify(registerMessage));
 				},
 				backToWallet: function() {
 					console.log('===back to wallet==');
@@ -163,12 +181,11 @@
 							checkedCurrencies: this.checkedCurrencies
 						}
 					};
-					window.parent.postMessage(JSON.stringify(existingMessange), '*');
+					notify(currentInput.experience, JSON.stringify(existingMessange));
 				}
 			}
 		})
 	}
-	//initVue();
 </script>
 
 
