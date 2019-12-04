@@ -50,9 +50,9 @@
 						OpenPay Setup
 					</span>
 
-				<div id="newIDSetup" v-if="!payIDName">
+				<div id="newIDSetup" v-if="!cruxIDSubdomain">
 					<div class="wrap-input100 validate-input" data-validate = "Valid OpenPay Name is Required - Minimum 6 characters">
-						<input v-model="inputPayIDName" class="input100" type="text" name="openPayName" placeholder="Please choose an OpenPay Name">
+						<input v-model="inputCruxIDSubdomain" class="input100" type="text" name="openPayName" placeholder="Please choose an cruxID">
 						<span class="focus-input100-1"></span>
 						<span class="focus-input100-2"></span>
 					</div>
@@ -65,8 +65,8 @@
 					</div>
 				</div>
 
-				<div id="existingIDSetup"  class="idDisplay" v-if="payIDName">
-					<span>Your ID is {{payIDName}}</span><br>
+				<div id="existingIDSetup"  class="idDisplay" v-if="cruxIDSubdomain">
+					<span>Your ID is {{cruxIDSubdomain}}</span><br>
                     <span>Public Currencies:</span>
                     <ul id="availableCurrencyList">
                         <li v-for="(address, cur)  in availableCurrencies">
@@ -93,20 +93,20 @@
 <script type="text/javascript">
 
 	var currentInput = {
-	    payIDName: 'lol',
-        availableCurrencies: {
-	    	'BTC': '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy',
-			'ETH': '0xd12Cd8A37F074e7eAFae618C986Ff825666198bd',
-			'TRX': 'TH5hDeF7z8o71jRpSQtQCevizMDm43hvCk',
-			'EOS': 'vuniyuoxoeub'
-		},
-		publicAddressCurrencies: ['BTC', 'EOS']
+	    // cruxIDSubdomain: 'lol',
+        // availableCurrencies: {
+	    // 	'BTC': '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy',
+		// 	'ETH': '0xd12Cd8A37F074e7eAFae618C986Ff825666198bd',
+		// 	'TRX': 'TH5hDeF7z8o71jRpSQtQCevizMDm43hvCk',
+		// 	'EOS': 'vuniyuoxoeub'
+		// },
+		// publicAddressCurrencies: ['BTC', 'EOS']
     };
 
 	window.addEventListener('message', function (event) {
         console.log('event message received');
         console.log(event);
-        if (event.data !== '') {
+        if (event.data === '') {
 			return;
 		}
 		let data = {type: ''};
@@ -123,7 +123,7 @@
 
 	let notify = function(experience, message) {
 		if (experience === 'react-native') {
-			window.ReactNativeWebView.postMessage(message, '*');
+			window.ReactNativeWebView.postMessage(message);
 		} else if (experience === 'iframe') {
 			window.parent.postMessage(message, '*');
 		} else {
@@ -131,16 +131,10 @@
 		}
 	}
 
-	let assignData = function(data) {
-		console.log("RNSDK sent " + data);
-		currentInput = JSON.parse(data);
-		initVue();
-	}
-
 	let initVue = function(){
 		let cruxClientOptions = {
 			getEncryptionKey: () => 'foo',
-			walletClientName: 'cruxdev',
+			walletClientName: currentInput.walletClientName,
 			privateKey: "KxNUxNfsvkWCriYGnaQhqtSp9KWMfjF2xZuAHs7hbc239ZfZT6zT"
 		}
 		let cruxClient = new window.CruxPay.CruxClient(cruxClientOptions);
@@ -165,7 +159,7 @@
 					let registerMessage = {
 						type: 'createNew',
 						data: {
-							newPayIDName: this.inputPayIDName
+							newCruxIDSubdomain: this.inputCruxIDSubdomain
 						}
 					};
 					notify(currentInput.experience, JSON.stringify(registerMessage));
@@ -174,11 +168,14 @@
 					console.log('===back to wallet==');
 					this.showButtonLoader = true;
 					console.log(this.checkedCurrencies);
-					//if(this.checkedCurrencies === )
+					let newAddressMap = {};
+					this.checkedCurrencies.forEach((cur)=>{
+						newAddressMap[cur] = this.availableCurrencies[cur];
+					})
 					let existingMessange = {
 						type: 'editExisting',
 						data: {
-							checkedCurrencies: this.checkedCurrencies
+							newAddressMap: newAddressMap
 						}
 					};
 					notify(currentInput.experience, JSON.stringify(existingMessange));
