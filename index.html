@@ -1,35 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>Login V19</title>
-	<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
 	<script src="https://unpkg.com/@cruxpay/js-sdk@0.1.4/dist/cruxpay-sdk-dom.js"></script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--======================== Vendor Styles ===================================================-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+	<!--========================= Author Styles ========================================================-->
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<!--===============================================================================================-->
+	<!--========================= Inpage Styles ========================================================-->
 	<style type="text/css">
+		:root {
+			--mdc-theme-primary: #333648;
+			--mdc-theme-secondary: #2948ff;
+		}
+
 		.idDisplay {
 			display: block;
 			font-size: 21px;
@@ -40,168 +32,160 @@
 	</style>
 
 </head>
-<body style="background-color: #fff0;">
 
-	<div id="appBase" class="limiter">
-		<div class="container-login100" style="background-color: #ffffff00;">
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-				<form class="login100-form validate-form">
-					<span class="login100-form-title p-b-33">
-						OpenPay Setup
-					</span>
-
-				<div id="newIDSetup" v-if="!cruxIDSubdomain">
-					<div class="wrap-input100 validate-input" data-validate = "Valid OpenPay Name is Required - Minimum 6 characters">
-						<input v-model="inputCruxIDSubdomain" class="input100" type="text" name="openPayName" placeholder="Please choose an cruxID">
-						<span class="focus-input100-1"></span>
-						<span class="focus-input100-2"></span>
+<body>
+	<div id="appBase">
+		<div class="app__header">
+			<div class="header-main">
+				<i class="material-icons header-icon">
+					settings
+				</i>
+				<div>
+					<div class="header-heading">CRUXPay Setup</div>
+					<div class="header-subheading">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+				</div>
+			</div>
+		</div>
+		<div class="app-setup">
+			<div class="setup-card">
+				<div id="existingIDSetup" v-if="cruxIDSubdomain">
+					<div class="setup-header">
+						<i class="material-icons setup-header__icon">
+							person
+						</i>
+						<div>
+							<div class="setup-header__heading">Your CRUXPay ID</div>
+							<div class="setup-header__body">{{cruxIDSubdomain}}</div>
+						</div>
 					</div>
-
-					<div class="container-login100-form-btn m-t-20">
-						<button type="button" v-on:click="createNewID" class="login100-form-btn">
-							<img v-if="showButtonLoader" src="images/ajax-loader.gif" alt="" style="height:20px; padding-right:20px;">
-							<span>Create New ID</span>
-						</button>
+					<div class="public-list">
+						<div class="public-list__heading">
+							Public Currencies
+						</div>
+						<ul id="availableCurrencyList" class="currency-list">
+							<li v-for="(address, cur)  in availableCurrencies">
+								<div class="mdc-form-field">
+									<div class="mdc-checkbox">
+										<input type="checkbox" class="mdc-checkbox__native-control" :id="cur"
+											:value="cur" v-model="checkedCurrencies" />
+										<div class="mdc-checkbox__background">
+											<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+												<path class="mdc-checkbox__checkmark-path" fill="none"
+													d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+											</svg>
+											<div class="mdc-checkbox__mixedmark"></div>
+										</div>
+										<div class="mdc-checkbox__ripple"></div>
+									</div>
+									<label :for="cur">{{cur}}: <span>{{address}}</span></label>
+								</div>
+							</li>
+						</ul>
 					</div>
 				</div>
-
-				<div id="existingIDSetup"  class="idDisplay" v-if="cruxIDSubdomain">
-					<span>Your ID is {{cruxIDSubdomain}}</span><br>
-                    <span>Public Currencies:</span>
-                    <ul id="availableCurrencyList">
-                        <li v-for="(address, cur)  in availableCurrencies">
-							<input type="checkbox"  :value="cur" v-model="checkedCurrencies">
-							<label>{{cur}}: <span>{{address}}</span></label>
-                        </li>
-
-                    </ul>
-					<div class="container-login100-form-btn m-t-20">
-						<button type="button" v-on:click="backToWallet" class="login100-form-btn">
-							<img v-if="showButtonLoader" src="images/ajax-loader.gif" alt="" style="height:20px; padding-right:20px;">
-							<span>Save</span>
-						</button>
-					</div>
-
-				</div>
-
-			</form>
+			</div>
 		</div>
 	</div>
-</div>
 
 
-<script type="text/javascript">
 
-	var currentInput = {
-	    // cruxIDSubdomain: 'lol',
-        // availableCurrencies: {
-	    // 	'BTC': '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy',
-		// 	'ETH': '0xd12Cd8A37F074e7eAFae618C986Ff825666198bd',
-		// 	'TRX': 'TH5hDeF7z8o71jRpSQtQCevizMDm43hvCk',
-		// 	'EOS': 'vuniyuoxoeub'
-		// },
-		// publicAddressCurrencies: ['BTC', 'EOS']
-    };
+	<script type="text/javascript">
 
-	window.addEventListener('message', function (event) {
-        console.log('event message received');
-        console.log(event);
-        if (event.data === '') {
-			return;
-		}
-		let data = {type: ''};
-		data = JSON.parse(event.data);
-		if (data.type === 'close') {
-        	console.log("Close message received")
-            // window.close();
-        } else if (data.type === 'register') {
-            currentInput = data;
-			console.log("Register message received")
-            initVue();
-		}
-	}, false);
-
-	let notify = function(experience, message) {
-		if (experience === 'react-native') {
-			window.ReactNativeWebView.postMessage(message);
-		} else if (experience === 'iframe') {
-			window.parent.postMessage(message, '*');
-		} else {
-			window.opener.postMessage(message, '*');
-		}
-	}
-
-	let initVue = function(){
-		let cruxClientOptions = {
-			getEncryptionKey: () => 'foo',
-			walletClientName: currentInput.walletClientName,
-			privateKey: "KxNUxNfsvkWCriYGnaQhqtSp9KWMfjF2xZuAHs7hbc239ZfZT6zT"
-		}
-		let cruxClient = new window.CruxPay.CruxClient(cruxClientOptions);
-
-		new Vue({
-			el: '#appBase',
-			data: function(){
-				return {
-					...currentInput,
-					checkedCurrencies: [],
-					showButtonLoader: false
-				}
+		var currentInput = {
+			inputCruxIDSubdomain: '',
+			cruxIDSubdomain: 'amit@exodus.crux',
+			availableCurrencies: {
+				'BTC': '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy',
+				'ETH': '0xd12Cd8A37F074e7eAFae618C986Ff825666198bd',
+				'TRX': 'TH5hDeF7z8o71jRpSQtQCevizMDm43hvCk',
+				'EOS': 'vuniyuoxoeub'
 			},
-			mounted() {
-				console.log("== Mounted setup page ==")
-				console.log(currentInput);
-				this.checkedCurrencies = [...this.publicAddressCurrencies];
-			},
-			methods: {
-				createNewID: function () {
-					this.showButtonLoader = true;
-					let registerMessage = {
-						type: 'createNew',
-						data: {
-							newCruxIDSubdomain: this.inputCruxIDSubdomain
-						}
-					};
-					notify(currentInput.experience, JSON.stringify(registerMessage));
-				},
-				backToWallet: function() {
-					console.log('===back to wallet==');
-					this.showButtonLoader = true;
-					console.log(this.checkedCurrencies);
-					let newAddressMap = {};
-					this.checkedCurrencies.forEach((cur)=>{
-						newAddressMap[cur] = this.availableCurrencies[cur];
-					})
-					let existingMessange = {
-						type: 'editExisting',
-						data: {
-							newAddressMap: newAddressMap
-						}
-					};
-					notify(currentInput.experience, JSON.stringify(existingMessange));
-				}
+			publicAddressCurrencies: ['BTC', 'EOS']
+		};
+
+		window.addEventListener('message', function (event) {
+			console.log('event message received');
+			console.log(event);
+			if (event.data === '') {
+				return;
 			}
-		})
-	}
-</script>
+			let data = { type: '' };
+			data = JSON.parse(event.data);
+			if (data.type === 'close') {
+				console.log("Close message received")
+				// window.close();
+			} else if (data.type === 'register') {
+				currentInput = data;
+				console.log("Register message received")
+				initVue();
+			}
+		}, false);
 
+		let notify = function (experience, message) {
+			if (experience === 'react-native') {
+				window.ReactNativeWebView.postMessage(message);
+			} else if (experience === 'iframe') {
+				window.parent.postMessage(message, '*');
+			} else {
+				window.opener.postMessage(message, '*');
+			}
+		}
 
-<!--===============================================================================================-->
-<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/bootstrap/js/popper.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/daterangepicker/moment.min.js"></script>
-<script src="vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-<script src="js/main.js"></script>
+		let initVue = function () {
+			let cruxClientOptions = {
+				getEncryptionKey: () => 'foo',
+				walletClientName: currentInput.walletClientName,
+				privateKey: "KxNUxNfsvkWCriYGnaQhqtSp9KWMfjF2xZuAHs7hbc239ZfZT6zT"
+			}
+			let cruxClient = new window.CruxPay.CruxClient(cruxClientOptions);
 
+			new Vue({
+				el: '#appBase',
+				data: function () {
+					return {
+						...currentInput,
+						checkedCurrencies: [],
+						showButtonLoader: false
+					}
+				},
+				mounted() {
+					console.log("== Mounted setup page ==")
+					console.log(currentInput);
+					this.checkedCurrencies = [...this.publicAddressCurrencies];
+				},
+				methods: {
+					createNewID: function () {
+						this.showButtonLoader = true;
+						let registerMessage = {
+							type: 'createNew',
+							data: {
+								newCruxIDSubdomain: this.inputCruxIDSubdomain
+							}
+						};
+						notify(currentInput.experience, JSON.stringify(registerMessage));
+					},
+					backToWallet: function () {
+						console.log('===back to wallet==');
+						this.showButtonLoader = true;
+						console.log(this.checkedCurrencies);
+						let newAddressMap = {};
+						this.checkedCurrencies.forEach((cur) => {
+							newAddressMap[cur] = this.availableCurrencies[cur];
+						})
+						let existingMessange = {
+							type: 'editExisting',
+							data: {
+								newAddressMap: newAddressMap
+							}
+						};
+						notify(currentInput.experience, JSON.stringify(existingMessange));
+					}
+				}
+			})
+		}
+		initVue();
+	</script>
+	<script src="js/main.js"></script>
 </body>
+
 </html>
