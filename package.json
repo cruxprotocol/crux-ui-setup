@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.html",
 	"scripts": {
-		"build:dev": "NODE_ENV=dev gulp",
+		"build:dev": "NODE_ENV=dev gulp default watch",
 		"build:prod": "NODE_ENV=prod gulp"
 	},
 	"repository": {

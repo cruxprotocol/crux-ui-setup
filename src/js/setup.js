@@ -33,6 +33,8 @@ $(document).ready(function () {
 			}
 		}
 		this.renderApp = (currentInput) => {
+			console.log(currentInput);
+
 			if (currentInput && currentInput.payIDName) {
 				this.renderState('customisation');
 				currency.init({
@@ -330,6 +332,8 @@ $(document).ready(function () {
 		init({ payIDName, availableCurrencies, publicAddressCurrencies, allCurrencies }) {
 			$('#cruxpayIdName').html(payIDName);
 			let currenciesToRender = [];
+			console.log('availableCurrencies', availableCurrencies);
+			console.log('allCurrencies', allCurrencies);
 			for (let currency of allCurrencies) {
 				if (availableCurrencies.includes(currency.symbol.toUpperCase())) {
 					if (publicAddressCurrencies.includes(currency.symbol.toUpperCase())) {
