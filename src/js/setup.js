@@ -33,8 +33,6 @@ $(document).ready(function () {
 			}
 		}
 		this.renderApp = (currentInput) => {
-			console.log(currentInput);
-
 			if (currentInput && currentInput.payIDName) {
 				this.renderState('customisation');
 				currency.init({
@@ -332,11 +330,9 @@ $(document).ready(function () {
 		init({ payIDName, availableCurrencies, publicAddressCurrencies, allCurrencies }) {
 			$('#cruxpayIdName').html(payIDName);
 			let currenciesToRender = [];
-			console.log('availableCurrencies', availableCurrencies);
-			console.log('allCurrencies', allCurrencies);
 			for (let currency of allCurrencies) {
-				if (availableCurrencies.includes(currency.symbol.toUpperCase())) {
-					if (publicAddressCurrencies.includes(currency.symbol.toUpperCase())) {
+				if (availableCurrencies[currency.symbol]) {
+					if (publicAddressCurrencies.includes(currency.symbol)) {
 						currency.selected = true;
 					} else {
 						currency.selected = false;
@@ -590,8 +586,8 @@ $(document).ready(function () {
 		let applicableAssetIdList = []
 		for (let i in assetList) {
 			let current = assetList[i];
-			if (current.asset_id in assetIdtoClientidMap) {
-				let currentAsset = { name: current.name, symbol: assetIdtoClientidMap[current.asset_id], img: current.image_sm_url }
+			if (current.assetId in assetIdtoClientidMap) {
+				let currentAsset = { name: current.name, symbol: assetIdtoClientidMap[current.assetId], img: current.image_sm_url }
 				applicableAssetIdList.push(currentAsset);
 			}
 		}
