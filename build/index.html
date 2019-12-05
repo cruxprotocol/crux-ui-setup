@@ -2,225 +2,242 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Cruxpay Setup</title>
-    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/setup.min.css">
-    <style>
-        :root {
-            --mdc-theme-secondary: #736df8;
-        }
-    </style>
+	<meta charset="utf-8">
+	<title>Cruxpay Setup</title>
+	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="./css/setup.min.css">
+	<style>
+		:root {
+			--mdc-theme-secondary: #736df8;
+		}
+	</style>
 </head>
 
 <body>
 
-    <div class="setup">
-        <div class="mdc-card mdc-card--outlined">
-            <button 
-                id="closeSetup"
-                class="mdc-icon-button material-icons mdc-ripple-upgraded--unbounded mdc-ripple-upgraded setup-close_button"
-                title="Close">
-                close
-            </button>
-            <div class="setup-card cs-hide" id="registration">
-                <div class="setup-card__form">
-                    <div class="setup-card__brand">CruxPay</div>
-                    <div class="setup-card__headline">Create your CruxPay Account</div>
-                    <div class="setup-card__body">Continue to CruxPay</div>
+	<div class="setup">
+		<div class="mdc-card mdc-card--outlined">
+			<button id="closeSetup"
+				class="mdc-icon-button material-icons mdc-ripple-upgraded--unbounded mdc-ripple-upgraded setup-close_button"
+				title="Close">
+				close
+			</button>
+			<div class="setup-card cs-hide" id="registration">
+				<div class="setup-card__form">
+					<div class="setup-card__brand">CruxPay</div>
+					<div class="setup-card__headline">Create your CruxPay Account</div>
+					<div class="setup-card__body">Continue to CruxPay</div>
 
-                    <form autocomplete="off">
-                        <input autocomplete="false" name="hidden" type="text" style="display:none;">
-                        <div class="text-field-container">
-                            <div class="mdc-text-field mdc-text-field--outlined cruxpay-id__container">
-                                <input class="mdc-text-field__input" id="cruxpayId" type="text">
-                                <div class="mdc-notched-outline">
-                                    <div class="mdc-notched-outline__leading"></div>
-                                    <div class="mdc-notched-outline__notch">
-                                        <label for="text-field-hero-input" class="mdc-floating-label">CruxPay ID</label>
-                                    </div>
-                                    <div class="mdc-notched-outline__trailing">
-                                        <div class="id-status">
-                                            .curxpay.id
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mdc-text-field-helper-line">
-                                <p class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg"
-                                    id="cruxpay-id__helper-text">Enter a unique alphanumeric user id</p>
-                            </div>
-                        </div>
+					<form autocomplete="off">
+						<input autocomplete="false" name="hidden" type="text" style="display:none;">
+						<div class="text-field-container">
+							<div class="mdc-text-field mdc-text-field--outlined cruxpay-id__container">
+								<input class="mdc-text-field__input" id="cruxpayId" type="text">
+								<div class="mdc-notched-outline">
+									<div class="mdc-notched-outline__leading"></div>
+									<div class="mdc-notched-outline__notch">
+										<label for="text-field-hero-input" class="mdc-floating-label">CruxPay ID</label>
+									</div>
+									<div class="mdc-notched-outline__trailing">
+										<div class="id-status">
+											.curxpay.id
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="mdc-text-field-helper-line">
+								<p class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg"
+									id="cruxpay-id__helper-text">Enter a unique alphanumeric user id</p>
+							</div>
+						</div>
 
-                        <div class="text-field-container">
-                            <div class="mdc-text-field mdc-text-field--outlined cruxpay-password__container">
-                                <input class="mdc-text-field__input" id="cruxpayPassword" type="password">
-                                <div class="mdc-notched-outline">
-                                    <div class="mdc-notched-outline__leading"></div>
-                                    <div class="mdc-notched-outline__notch">
-                                        <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
-                                    </div>
-                                    <div class="mdc-notched-outline__trailing"></div>
-                                </div>
-                            </div>
-                            <div class="mdc-text-field-helper-line">
-                                <p class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg"
-                                    id="cruxpay-password__helper-text">Use 8 or more characters with a mix of letters,
-                                    numbers & symbols</p>
-                            </div>
-                            <div class="validation-rules">
-                                <div class="rule rule-isInvalid" id="validation-charLen">
-                                    <i class="material-icons icon-invalid">
-                                        clear
-                                    </i>
-                                    <i class="material-icons icon-valid">
-                                        done
-                                    </i>
-                                    <span>Must be 8 or more characters</span>
-                                </div>
-                                <div class="rule rule-isInvalid" id="validation-sameAsId">
-                                    <i class="material-icons icon-invalid">
-                                        clear
-                                    </i>
-                                    <i class="material-icons icon-valid">
-                                        done
-                                    </i>
-                                    <span>Should not be similar to CruxPay Id</span>
-                                </div>
-                                <div class="rule rule-isInvalid" id="validation-digit">
-                                    <i class="material-icons icon-invalid">
-                                        clear
-                                    </i>
-                                    <i class="material-icons icon-valid">
-                                        done
-                                    </i>
-                                    <span>Must have atleast one number</span>
-                                </div>
-                                <div class="rule rule-isInvalid" id="validation-lowercase">
-                                    <i class="material-icons icon-invalid">
-                                        clear
-                                    </i>
-                                    <i class="material-icons icon-valid">
-                                        done
-                                    </i>
-                                    <span>Must have atleast one lowercase letter</span>
-                                </div>
-                                <div class="rule rule-isInvalid" id="validation-uppercase">
-                                    <i class="material-icons icon-invalid">
-                                        clear
-                                    </i>
-                                    <i class="material-icons icon-valid">
-                                        done
-                                    </i>
-                                    <span>Must have atleast one uppercase letter</span>
-                                </div>
-                                <div class="rule rule-isInvalid" id="validation-specialCharater">
-                                    <i class="material-icons icon-invalid">
-                                        clear
-                                    </i>
-                                    <i class="material-icons icon-valid">
-                                        done
-                                    </i>
-                                    <span>Must have atleast one special characters</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="setup-card__description">
-                    <img src="./images/mobile-pay.svg" width="250" />
-                    <div class="setup__footer">
-                        <button class="mdc-button mdc-button--raised mdc-crux-action" id="createId" type="button">
-                            <span>Create ID</span>
-                            <span class="donut"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="customisation cs-hide" id="customisation">
-                <div class="customisation__selection">
-                    <div class="customisation__brand">CruxPay</div>
-                    <div class="customisation__headline">Select Currencies</div>
-                    <form class="customisation__search" autocomplete="off">
-                        <input autocomplete="false" name="hidden" type="text" style="display:none;">
-                        <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
-                            <i class="material-icons mdc-text-field__icon">search</i>
-                            <input class="mdc-text-field__input" id="cruxSearchCur">
-                            <div class="mdc-notched-outline">
-                                <div class="mdc-notched-outline__leading"></div>
-                                <div class="mdc-notched-outline__notch">
-                                    <label for="cruxSearchCur" class="mdc-floating-label">Search
-                                        Currencies</label>
-                                </div>
-                                <div class="mdc-notched-outline__trailing"></div>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="customisation__radio-select">
+						<div class="text-field-container">
+							<div class="mdc-text-field mdc-text-field--outlined cruxpay-password__container">
+								<input class="mdc-text-field__input" id="cruxpayPassword" type="password">
+								<div class="mdc-notched-outline">
+									<div class="mdc-notched-outline__leading"></div>
+									<div class="mdc-notched-outline__notch">
+										<label for="text-field-hero-input" class="mdc-floating-label">Password</label>
+									</div>
+									<div class="mdc-notched-outline__trailing"></div>
+								</div>
+							</div>
+							<div class="mdc-text-field-helper-line">
+								<p class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg"
+									id="cruxpay-password__helper-text">Use 8 or more characters with a mix of letters,
+									numbers & symbols</p>
+							</div>
+							<div class="validation-rules">
+								<div class="rule rule-isInvalid" id="validation-charLen">
+									<i class="material-icons icon-invalid">
+										clear
+									</i>
+									<i class="material-icons icon-valid">
+										done
+									</i>
+									<span>Must be 8 or more characters</span>
+								</div>
+								<div class="rule rule-isInvalid" id="validation-sameAsId">
+									<i class="material-icons icon-invalid">
+										clear
+									</i>
+									<i class="material-icons icon-valid">
+										done
+									</i>
+									<span>Should not be similar to CruxPay Id</span>
+								</div>
+								<div class="rule rule-isInvalid" id="validation-digit">
+									<i class="material-icons icon-invalid">
+										clear
+									</i>
+									<i class="material-icons icon-valid">
+										done
+									</i>
+									<span>Must have atleast one number</span>
+								</div>
+								<div class="rule rule-isInvalid" id="validation-lowercase">
+									<i class="material-icons icon-invalid">
+										clear
+									</i>
+									<i class="material-icons icon-valid">
+										done
+									</i>
+									<span>Must have atleast one lowercase letter</span>
+								</div>
+								<div class="rule rule-isInvalid" id="validation-uppercase">
+									<i class="material-icons icon-invalid">
+										clear
+									</i>
+									<i class="material-icons icon-valid">
+										done
+									</i>
+									<span>Must have atleast one uppercase letter</span>
+								</div>
+								<div class="rule rule-isInvalid" id="validation-specialCharater">
+									<i class="material-icons icon-invalid">
+										clear
+									</i>
+									<i class="material-icons icon-valid">
+										done
+									</i>
+									<span>Must have atleast one special characters</span>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="setup-card__description">
+					<img src="./images/mobile-pay.svg" width="250" />
+					<div class="setup__footer">
+						<button class="mdc-button mdc-button--raised mdc-crux-action" id="createId" type="button">
+							<span>Create ID</span>
+							<span class="donut"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="customisation cs-hide" id="customisation">
+				<div class="customisation__selection">
+					<div class="customisation__brand">CruxPay</div>
+					<div class="customisation__headline">Select Currencies</div>
+					<form class="customisation__search" autocomplete="off">
+						<input autocomplete="false" name="hidden" type="text" style="display:none;">
+						<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+							<i class="material-icons mdc-text-field__icon">search</i>
+							<input class="mdc-text-field__input" id="cruxSearchCur">
+							<div class="mdc-notched-outline">
+								<div class="mdc-notched-outline__leading"></div>
+								<div class="mdc-notched-outline__notch">
+									<label for="cruxSearchCur" class="mdc-floating-label">Search
+										Currencies</label>
+								</div>
+								<div class="mdc-notched-outline__trailing"></div>
+							</div>
+						</div>
+					</form>
+					<div class="customisation__radio-select">
 
-                    </div>
-                    <div class="customisation__currency-list" id="currencyContainer">
+					</div>
+					<div class="customisation__currency-list" id="currencyContainer">
 
-                    </div>
-                </div>
-                <div class="customisation__description">
-                    <div class="customisation__description-id">
-                        <div class="description-heading">
-                            Your CruxPay Id
-                        </div>
-                        <div class="description-id" id="cruxpayIdName">
+					</div>
+				</div>
+				<div class="customisation__description">
+					<div class="customisation__description-id">
+						<div class="description-heading">
+							Your CruxPay Id
+						</div>
+						<div class="description-id" id="cruxpayIdName">
 
-                        </div>
-                    </div>
-                    <div class="customisation__selected-currencies">
-                        <div class="description-heading">
-                            Public Currencies
-                        </div>
-                        <div class="customisation__selected-currencies-list" id="selectedCurContainer">
+						</div>
+					</div>
+					<div class="customisation__selected-currencies">
+						<div class="description-heading">
+							Public Currencies
+						</div>
+						<div class="customisation__selected-currencies-list" id="selectedCurContainer">
 
-                        </div>
-                    </div>
-                    <div class="setup__footer">
-                        <button class="mdc-button mdc-button--raised mdc-crux-action" id="updateCustomization"
-                            type="button">
-                            <span>Save</span>
-                            <span class="donut"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        window.walletInfo;
-        window.addEventListener('message', function (event) {
-            window.walletInfo = JSON.parse(event.data);
-            if (window.walletInfo.type == 'register') {
-                if (window.walletInfo.encryptionKey) {
-                    window.encryptionKey = window.walletInfo.encryptionKey;
-                }
-            }
-        }, false);
+						</div>
+					</div>
+					<div class="setup__footer">
+						<button class="mdc-button mdc-button--raised mdc-crux-action" id="updateCustomization"
+							type="button">
+							<span>Save</span>
+							<span class="donut"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		window.walletInfo;
+		window.addEventListener('message', function (event) {
+			window.walletInfo = JSON.parse(event.data);
+			if (window.walletInfo.type == 'register') {
+				if (window.walletInfo.encryptionKey) {
+					window.encryptionKey = window.walletInfo.encryptionKey;
+				}
+			}
+		}, false);
 
-        /**** FIXME ****/
-        /*let allCurrencies = [{ "asset_id": "8dd939ef-b9d2-46f0-8796-4bd8dbaeef1b", "name": "Litecoin", "symbol": "ltc", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/litecoin.png" }, { "asset_id": "508b8f73-4b06-453e-8151-78cb8cfc3bc9", "name": "Ethereum", "symbol": "eth", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/ether.png" }, { "asset_id": "9a267cc3-0e72-4db5-930c-c60a74d64c55", "name": "Basic Attention Token", "symbol": "bat", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/bat.png" }, { "asset_id": "490f7648-7fc1-4f0d-aa23-e08185daf8a5", "name": "DigiByte", "symbol": "dgb", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/digibyte.png" }, { "asset_id": "77a880a0-3443-4eef-8500-bdc8dcdd3370", "name": "Dai", "symbol": "dai", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/dai.png" }, { "asset_id": "902d4bde-f877-486e-813e-135920cc7f33", "name": "0x", "symbol": "zrx", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins/0x.png" }, { "asset_id": "0999c959-f691-4553-b461-b88ea5032e0c", "name": "Monaco", "symbol": "mco", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/monaco.png" }, { "asset_id": "fecfeb26-e612-4df4-aed7-bd4ad0194936", "name": "Civic", "symbol": "cvc", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/civic.png" }, { "asset_id": "20d57d7d-3cc1-428a-ae90-09fb9c5168f5", "name": "Decred", "symbol": "dcr", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/decred.png" }, { "asset_id": "9d796569-0faf-4e4a-b581-676fab3433d9", "name": "DigixDAO", "symbol": "dgd", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/digixdao.png" }, { "asset_id": "d133dd13-a791-4c2b-9c14-b4c8532f6b91", "name": "district0x", "symbol": "dnt", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/district0x.png" }, { "asset_id": "9dbdc727-de68-4f2a-8956-04a38ed71ca5", "name": "Tron", "symbol": "trx", "image_sm_url": "" }, { "asset_id": "1d6e1a99-1e77-41e1-9ebb-0e216faa166a", "name": "Bitcoin", "symbol": "btc", "image_sm_url": "" }, { "asset_id": "b33adc7a-beb9-421f-95d6-d495dc549f79", "name": "Lisk", "symbol": "lsk", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/lisk_v2.png" }, { "asset_id": "3e92f1b6-693c-4654-9b9b-938582d64e4f", "name": "Waves", "symbol": "waves", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/waves.png" }, { "asset_id": "2794e4c6-6bec-45da-b4a6-74996cdad79a", "name": "Golem", "symbol": "gnt", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/golem.png" }, { "asset_id": "86a3f3fa-d616-4f40-b46c-09c49c0187e1", "name": "OmiseGO", "symbol": "omg", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/omisego.png" }, { "asset_id": "8960c3e7-c953-4db1-8497-34b82d9ce322", "name": "Augur", "symbol": "rep", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/augur.png" }]
-        window.walletInfo = {
-            // payIDName: 'amitasaurus.exodus.id',
-            availableCurrencies: ['BTC', 'ETH', 'TRX', 'EOS', 'LTC'],
-            publicAddressCurrencies: ['BTC', 'EOS', 'LTC'],
-            assetList: allCurrencies
-        }*/
+		/**** FIXME ****/
+		// FOR AMIT
+		// Remove password field
+		// make sure the page is lightwight
+		// show addresses
+		// isCruxIdAvailable check UI
+
+		// FOR UMANG
+		// react-native specific postmessage
+		// implement native check of isCruxIdAvailable
+		let allCurrencies = [{ "asset_id": "8dd939ef-b9d2-46f0-8796-4bd8dbaeef1b", "name": "Litecoin", "symbol": "ltc", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/litecoin.png" }, { "asset_id": "508b8f73-4b06-453e-8151-78cb8cfc3bc9", "name": "Ethereum", "symbol": "eth", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/ether.png" }, { "asset_id": "9a267cc3-0e72-4db5-930c-c60a74d64c55", "name": "Basic Attention Token", "symbol": "bat", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/bat.png" }, { "asset_id": "490f7648-7fc1-4f0d-aa23-e08185daf8a5", "name": "DigiByte", "symbol": "dgb", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/digibyte.png" }, { "asset_id": "77a880a0-3443-4eef-8500-bdc8dcdd3370", "name": "Dai", "symbol": "dai", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/dai.png" }, { "asset_id": "902d4bde-f877-486e-813e-135920cc7f33", "name": "0x", "symbol": "zrx", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins/0x.png" }, { "asset_id": "0999c959-f691-4553-b461-b88ea5032e0c", "name": "Monaco", "symbol": "mco", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/monaco.png" }, { "asset_id": "fecfeb26-e612-4df4-aed7-bd4ad0194936", "name": "Civic", "symbol": "cvc", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/civic.png" }, { "asset_id": "20d57d7d-3cc1-428a-ae90-09fb9c5168f5", "name": "Decred", "symbol": "dcr", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/decred.png" }, { "asset_id": "9d796569-0faf-4e4a-b581-676fab3433d9", "name": "DigixDAO", "symbol": "dgd", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/digixdao.png" }, { "asset_id": "d133dd13-a791-4c2b-9c14-b4c8532f6b91", "name": "district0x", "symbol": "dnt", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/district0x.png" }, { "asset_id": "9dbdc727-de68-4f2a-8956-04a38ed71ca5", "name": "Tron", "symbol": "trx", "image_sm_url": "" }, { "asset_id": "1d6e1a99-1e77-41e1-9ebb-0e216faa166a", "name": "Bitcoin", "symbol": "btc", "image_sm_url": "" }, { "asset_id": "b33adc7a-beb9-421f-95d6-d495dc549f79", "name": "Lisk", "symbol": "lsk", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/lisk_v2.png" }, { "asset_id": "3e92f1b6-693c-4654-9b9b-938582d64e4f", "name": "Waves", "symbol": "waves", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/waves.png" }, { "asset_id": "2794e4c6-6bec-45da-b4a6-74996cdad79a", "name": "Golem", "symbol": "gnt", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/golem.png" }, { "asset_id": "86a3f3fa-d616-4f40-b46c-09c49c0187e1", "name": "OmiseGO", "symbol": "omg", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/omisego.png" }, { "asset_id": "8960c3e7-c953-4db1-8497-34b82d9ce322", "name": "Augur", "symbol": "rep", "image_sm_url": "https://s3.ap-south-1.amazonaws.com/crypto-exchange/coins-sm/augur.png" }]
+		window.walletInfo = {
+			payIDName: 'amitasaurus@pillar.crux', // not there
+			cruxIDSubdomain: 'amitasaurus', // will be used to do if condition for register versus update of address.
+			suggestedCruxIDSubdomain: 'amitasaurus', // if cruxIDSubdomain is '' then show prefilled suggestedCruxIDSubdomain in input.
+			walletClientName: 'pillar',
+			availableCurrencies: {
+				'BTC': 'btc add',
+				'ETH': 'eth add',
+				'TRX': 'aa',
+				'EOS': 'aaaaa',
+				'LTC': 'bfbie'
+			},
+			publicAddressCurrencies: ['BTC', 'EOS', 'LTC'],
+			assetList: allCurrencies
+		}
         /**** End of FIXME ****/
-    </script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="http://127.0.0.1:8777/dist/openpay-dom.js"></script>
-<script>window.isDev=true</script>
+	</script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<script src="https://s3-ap-southeast-1.amazonaws.com/files.coinswitch.co/openpay/sdk/exodus-gamma-v0.01/openpay-dom.js"></script>
+<script>window.isDev=false</script>
 <!-- %PUBLIC:BUILD% -->
-    <script src="./js/setup.min.js"></script>
+	<script src="./js/setup.min.js"></script>
 </body>
 
 </html>
