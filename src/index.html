@@ -4,10 +4,10 @@
 <head>
 	<meta charset="utf-8">
 	<title>Cruxpay Setup</title>
-	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 	<link rel="stylesheet" href="./css/setup.min.css">
 	<style>
 		:root {
@@ -146,7 +146,6 @@
 					<form class="customisation__search" autocomplete="off">
 						<input autocomplete="false" name="hidden" type="text" style="display:none;">
 						<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
-							<i class="material-icons mdc-text-field__icon">search</i>
 							<input class="mdc-text-field__input" id="cruxSearchCur">
 							<div class="mdc-notched-outline">
 								<div class="mdc-notched-outline__leading"></div>
@@ -154,7 +153,9 @@
 									<label for="cruxSearchCur" class="mdc-floating-label">Search
 										Currencies</label>
 								</div>
-								<div class="mdc-notched-outline__trailing"></div>
+								<div class="mdc-notched-outline__trailing">
+									<i class="material-icons mdc-text-field__icon">search</i>
+								</div>
 							</div>
 						</div>
 					</form>
