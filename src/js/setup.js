@@ -39,7 +39,7 @@ $(document).ready(function () {
 					payIDName: currentInput.payIDName,
 					availableCurrencies: currentInput.availableCurrencies,
 					publicAddressCurrencies: currentInput.publicAddressCurrencies,
-					allCurrencies: currentInput.assetList && currentInput.clientMapping && currentInput.assetList.length > 0 && Object.keys(currentInput.clientMapping).length > 0 ? curlistAdapter(currentInput.assetList, currentInput.clientMapping) : [],
+					allCurrencies: currentInput.assetList && currentInput.clientMapping && currentInput.assetList.length > 0 && Object.keys(currentInput.clientMapping).length > 0 ? curlistAdapter(currentInput) : [],
 				});
 			} else {
 				this.renderState('registration')
@@ -342,7 +342,6 @@ $(document).ready(function () {
 			}
 
 			this.list = currenciesToRender;
-
 			this.renderRadios();
 			this.search.on('keyup', (event) => {
 				let filteredList = this.filter(this.list, event.target.value);
@@ -402,7 +401,7 @@ $(document).ready(function () {
 						</div>
 					</div>
 					<label for="checkbox-${symbol}" class="customisation__checkbox-label">
-						<img class="customisation__currency-logo" src="${img}" />
+						<img class="customisation__currency-logo" src="data:image/jpeg;base64,${img}" />
 						<div class="customisation__currency-name">${name}</div>
 					</label>
 				</div>
@@ -578,7 +577,7 @@ $(document).ready(function () {
 	}
 	$('#closeSetup').on('click', handleCloseSetup);
 
-	function curlistAdapter(assetList, clientMapping) {
+	function curlistAdapter({ assetList, clientMapping, imageMapping }) {
 		let assetIdtoClientidMap = {}
 		for (let clientKey in clientMapping) {
 			assetIdtoClientidMap[clientMapping[clientKey]] = clientKey
@@ -587,7 +586,7 @@ $(document).ready(function () {
 		for (let i in assetList) {
 			let current = assetList[i];
 			if (current.assetId in assetIdtoClientidMap) {
-				let currentAsset = { name: current.name, symbol: assetIdtoClientidMap[current.assetId], img: current.image_sm_url }
+				let currentAsset = { name: current.name, symbol: assetIdtoClientidMap[current.assetId], img: imageMapping[current.assetId] && imageMapping[current.assetId].image }
 				applicableAssetIdList.push(currentAsset);
 			}
 		}
@@ -595,8 +594,9 @@ $(document).ready(function () {
 	}
 
 	function datalookup() {
-		if (window.walletInfo) {
-			currentInput = window.walletInfo
+		if (window.walletInfo && window.imageMapping) {
+			currentInput = window.walletInfo;
+			currentInput.imageMapping = window.imageMapping;
 			appCtrl.isExistingAccount = currentInput.payIDName ? true : false;
 			appCtrl.renderApp(currentInput);
 		} else {

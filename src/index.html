@@ -195,6 +195,7 @@
 	</div>
 	<script>
 		window.walletInfo;
+		window.imageMapping;
 		window.addEventListener('message', function (event) {
 			window.walletInfo = JSON.parse(event.data);
 			if (window.walletInfo.type == 'register') {
@@ -203,6 +204,10 @@
 				}
 			}
 		}, false);
+
+		window.fetch('https://cruxpay.com/data/metadata.json').then(data => data.json()).then((response) => {
+			window.imageMapping = response;
+		})
 
 		/************** TODO *************************
 		FOR AMIT
