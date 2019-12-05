@@ -485,7 +485,6 @@ input.input100 {
     width: 650px;
     background-color: #ffffff;
     border-radius: 4px;
-    height: 500px;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .15);
     margin-top: -32px;
 }
@@ -534,4 +533,14 @@ input.input100 {
     text-transform: uppercase;
     letter-spacing: 0.0625em;
     margin-bottom: 16px;
+}
+
+.setup-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0px 32px 16px 0px;
+}
+
+.is-type-address {
+    word-break: break-all;
 }

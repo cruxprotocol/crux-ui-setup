@@ -18,7 +18,7 @@
 	<!--========================= Inpage Styles ========================================================-->
 	<style type="text/css">
 		:root {
-			--mdc-theme-primary: #333648;
+			--mdc-theme-primary: #2948ff;
 			--mdc-theme-secondary: #2948ff;
 		}
 
@@ -55,7 +55,7 @@
 						</i>
 						<div>
 							<div class="setup-header__heading">Your CRUXPay ID</div>
-							<div class="setup-header__body">{{cruxIDSubdomain}}</div>
+							<div class="setup-header__body">{{cruxIDSubdomain}}@{{walletClientName}}.crux</div>
 						</div>
 					</div>
 					<div class="public-list">
@@ -77,10 +77,20 @@
 										</div>
 										<div class="mdc-checkbox__ripple"></div>
 									</div>
-									<label :for="cur">{{cur}}: <span>{{address}}</span></label>
+									<label :for="cur"><strong>{{cur}}:</strong> <span
+											class="is-type-address">{{address}}</span></label>
 								</div>
 							</li>
 						</ul>
+					</div>
+					<div class="setup-footer">
+						<button class="mdc-button mdc-button--raised" v-on:click="backToWallet"
+							:disabled="showButtonLoader">
+							<span class="mdc-button__ripple"></span>
+							<img v-if="showButtonLoader" src="images/ajax-loader.gif" alt=""
+								style="height:20px; padding-right:20px;">
+							Update
+						</button>
 					</div>
 				</div>
 			</div>
@@ -92,15 +102,15 @@
 	<script type="text/javascript">
 
 		var currentInput = {
-			inputCruxIDSubdomain: '',
-			cruxIDSubdomain: 'amit@exodus.crux',
+			cruxIDSubdomain: 'amit',
 			availableCurrencies: {
 				'BTC': '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy',
 				'ETH': '0xd12Cd8A37F074e7eAFae618C986Ff825666198bd',
 				'TRX': 'TH5hDeF7z8o71jRpSQtQCevizMDm43hvCk',
 				'EOS': 'vuniyuoxoeub'
 			},
-			publicAddressCurrencies: ['BTC', 'EOS']
+			publicAddressCurrencies: ['BTC', 'EOS'],
+			walletClientName: 'exodus'
 		};
 
 		window.addEventListener('message', function (event) {
@@ -159,7 +169,7 @@
 						let registerMessage = {
 							type: 'createNew',
 							data: {
-								newCruxIDSubdomain: this.inputCruxIDSubdomain
+								newCruxIDSubdomain: this.cruxIDSubdomain
 							}
 						};
 						notify(currentInput.experience, JSON.stringify(registerMessage));
