@@ -1,3 +1,4 @@
+@import "normalize";
 @import "variables";
 $card-height: 500px;
 
@@ -22,6 +23,11 @@ $card-height: 500px;
         @media only screen and (max-width: 992px) {
             width: 90%;
         }
+
+        @media only screen and (max-width: 768px) {
+            width: 100%;
+            margin: 16px 8px;
+        }
     }
 
     &__footer {
@@ -31,6 +37,15 @@ $card-height: 500px;
 
         .mdc-button {
             margin-left: auto;
+        }
+
+        &--mobile {
+            display: none;
+
+            @media only screen and (max-width: 768px) {
+                display: flex;
+                margin-top: 32px;
+            }
         }
     }
 }
@@ -156,6 +171,7 @@ $card-height: 500px;
                 margin-top: 32px;
 
                 .rule {
+                    font-size: 14px;
 
                     .material-icons,
                     strong {
@@ -163,7 +179,10 @@ $card-height: 500px;
                     }
 
                     color: #636e72;
-                    font-size: 14px;
+
+                    span {
+                        font-size: 12px;
+                    }
                 }
             }
         }
