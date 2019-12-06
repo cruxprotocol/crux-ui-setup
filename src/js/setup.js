@@ -113,7 +113,7 @@ $(document).ready(function () {
 			},
 			hasSpecialCharacters(id) {
 				const re = /[~!@#$%^&*()=+,.?":{}|<>:;\[\]]/;
-				return re.test(id);
+				return !re.test(id);
 			},
 			hasMinLength(id) {
 				return id.toString().length >= 4;
@@ -124,15 +124,13 @@ $(document).ready(function () {
 			hasValidStartCharater(id) {
 				return !id.startsWith('_') && !id.startsWith('-');
 			},
-			isValid(id) {
-				let isvalid = false;
-				if (this.hasDigit(id)) {
-					if (this.hasAlphabets(id)) {
-						isvalid = true
-					}
-				}
-				return isvalid
+			hasOnlyLowerCaseAlphabets(id) {
+				const re = /[A-Z]/;
+				return !re.test(id);
 			}
+		},
+		isInputValid() {
+			return this.isValid
 		},
 		runValidations(id) {
 			if (this.validation.hasDigit(id)) {
@@ -140,6 +138,7 @@ $(document).ready(function () {
 			} else {
 				this.isValid = false;
 				this.displayError(`Your ID should contain numbers`);
+				return;
 			}
 
 			if (this.validation.hasAlphabets(id)) {
@@ -147,6 +146,47 @@ $(document).ready(function () {
 			} else {
 				this.isValid = false;
 				this.displayError(`Your ID should contain alphabets`);
+				return;
+			}
+
+			if (this.validation.hasOnlyLowerCaseAlphabets(id)) {
+				this.isValid = true;
+			} else {
+				this.isValid = false;
+				this.displayError(`Only lowercase alphabets are allowed`);
+				return;
+			}
+
+			if (this.validation.hasSpecialCharacters(id)) {
+				this.isValid = true;
+			} else {
+				this.isValid = false;
+				this.displayError(`Only - and _ special characters are allowed`);
+				return;
+			}
+
+			if (this.validation.hasMinLength(id)) {
+				this.isValid = true;
+			} else {
+				this.isValid = false;
+				this.displayError(`CRUX Id should be minimum 4 characters`);
+				return;
+			}
+
+			if (this.validation.hasMaxLength(id)) {
+				this.isValid = true;
+			} else {
+				this.isValid = false;
+				this.displayError(`CRUX Id can have maximum 20 characters`);
+				return;
+			}
+
+			if (this.validation.hasValidStartCharater(id)) {
+				this.isValid = true;
+			} else {
+				this.isValid = false;
+				this.displayError(`CRUX Id can not start with a special character`);
+				return;
 			}
 		}
 	}
@@ -156,18 +196,13 @@ $(document).ready(function () {
 		cruxpayId.displayHelpText(`Checking availability`);
 		cruxpayId.isValid = false;
 		clearTimeout(timer);
+		timer = null;
 		timer = setTimeout(function () {
 			const inputId = e.target.value;
 			if (inputId && inputId.length > 0) {
-				if (cruxpayId.validation.hasDigit(inputId)) {
-					if (cruxpayId.validation.hasAlphabets(inputId)) {
-						isUserIdAvailable(inputId);
-					} else {
-						cruxpayId.displayError(`Your ID should contain alphabets`);
-					}
-				} else {
-					cruxpayId.displayError(`Your ID should contain numbers`);
-				}
+				cruxpayId.runValidations(inputId);
+				console.log('Input Valid', cruxpayId.isInputValid());
+				if (cruxpayId.isInputValid()) isUserIdAvailable(inputId);
 			}
 		}, 500)
 	})
