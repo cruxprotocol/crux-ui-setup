@@ -589,10 +589,10 @@ $(document).ready(function () {
 		}
 	}
 
-	let notify = function(message) {
+	function notify(message) {
 		const experience = window.walletInfo.experience || 'iframe';
 		if (experience === 'react-native') {
-			window.ReactNativeWebView.postMessage(message, '*');
+			window.ReactNativeWebView.postMessage(message);
 		} else if (experience === 'iframe') {
 			window.parent.postMessage(message, '*');
 		} else {
