@@ -201,7 +201,6 @@ $(document).ready(function () {
 			const inputId = e.target.value;
 			if (inputId && inputId.length > 0) {
 				cruxpayId.runValidations(inputId);
-				console.log('Input Valid', cruxpayId.isInputValid());
 				if (cruxpayId.isInputValid()) isUserIdAvailable(inputId);
 			}
 		}, 500)
@@ -347,20 +346,15 @@ $(document).ready(function () {
 		if (cruxpayId.isValid) {
 			loader.show($('#createId'), createNewID);
 			let inputPayIDName = cruxpayId.getId();
-			let inputPayIDPass = password.getPassword();
 			appCtrl.data = {
 				newPayIDName: inputPayIDName,
-				newPayIDPass: inputPayIDPass
 			}
 			currentInput.cruxIDSubdomain = inputPayIDName;
 			appCtrl.renderApp(currentInput);
 		} else {
-			if (!password.isValid) {
-				password.runValidations(password.getPassword());
-			}
 			if (!cruxpayId.isValid) {
 				if (cruxpayId.getId() && cruxpayId.getId().length > 0) {
-					if (cruxpayId.validation.isValid(cruxpayId.getId())) {
+					if (cruxpayId.isInputValid()) {
 						cruxpayId.displayError(`${cruxpayId.getId()} is unavailable`)
 					} else {
 						cruxpayId.runValidations(cruxpayId.getId())
