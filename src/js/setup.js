@@ -559,10 +559,11 @@ $(document).ready(function () {
 
 	function handleCustomisation() {
 		loader.show($('#updateCustomization'), handleCustomisation);
-		let checkedCurrencies = [];
+		let checkedCurrencies = {};
+
 		for (let cur of currency.list) {
 			if (cur.selected) {
-				checkedCurrencies.push(cur.symbol.toUpperCase())
+				checkedCurrencies[cur.symbol] = cur.address;
 			}
 		}
 
@@ -581,7 +582,6 @@ $(document).ready(function () {
 				type: 'createNew',
 				data: {
 					newPayIDName: appCtrl.data.newPayIDName,
-					newPayIDPass: appCtrl.data.newPayIDPass,
 					checkedCurrencies: checkedCurrencies
 				}
 			};
