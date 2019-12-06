@@ -33,16 +33,23 @@ $(document).ready(function () {
 			}
 		}
 		this.renderApp = (currentInput) => {
-			if (currentInput && currentInput.payIDName) {
+			if (currentInput && currentInput.cruxIDSubdomain) {
 				this.renderState('customisation');
 				currency.init({
-					payIDName: currentInput.payIDName,
+					cruxIDSubdomain: currentInput.cruxIDSubdomain,
+					walletClientName: currentInput.walletClientName,
 					availableCurrencies: currentInput.availableCurrencies,
 					publicAddressCurrencies: currentInput.publicAddressCurrencies,
 					allCurrencies: currentInput.assetList && currentInput.clientMapping && currentInput.assetList.length > 0 && Object.keys(currentInput.clientMapping).length > 0 ? curlistAdapter(currentInput) : [],
 				});
 			} else {
 				this.renderState('registration')
+			}
+
+			/** Update Application Theming **/
+			if (currentInput && currentInput.theme) {
+				document.documentElement.style.setProperty('--mdc-theme-secondary', currentInput.theme);
+				document.documentElement.style.setProperty('--mdc-theme-primary', currentInput.theme);
 			}
 		}
 	}
@@ -296,7 +303,7 @@ $(document).ready(function () {
 				newPayIDName: inputPayIDName,
 				newPayIDPass: inputPayIDPass
 			}
-			currentInput.payIDName = inputPayIDName;
+			currentInput.cruxIDSubdomain = inputPayIDName;
 			appCtrl.renderApp(currentInput);
 		} else {
 			if (!password.isValid) {
@@ -327,8 +334,8 @@ $(document).ready(function () {
 		search: $('#cruxSearchCur'),
 		selectedRadio: 'custom',
 		radioContainer: $('.customisation__radio-select'),
-		init({ payIDName, availableCurrencies, publicAddressCurrencies, allCurrencies }) {
-			$('#cruxpayIdName').html(payIDName);
+		init({ cruxIDSubdomain, walletClientName, availableCurrencies, publicAddressCurrencies, allCurrencies }) {
+			$('#cruxpayIdName').html(`${cruxIDSubdomain}@${walletClientName}.crux`);
 			let currenciesToRender = [];
 			for (let currency of allCurrencies) {
 				if (availableCurrencies[currency.symbol]) {
@@ -597,7 +604,7 @@ $(document).ready(function () {
 		if (window.walletInfo && window.imageMapping) {
 			currentInput = window.walletInfo;
 			currentInput.imageMapping = window.imageMapping;
-			appCtrl.isExistingAccount = currentInput.payIDName ? true : false;
+			appCtrl.isExistingAccount = currentInput.cruxIDSubdomain ? true : false;
 			appCtrl.renderApp(currentInput);
 		} else {
 			setTimeout(() => {

@@ -5,7 +5,8 @@
 	"main": "index.html",
 	"scripts": {
 		"build:dev": "NODE_ENV=dev gulp default watch",
-		"build:prod": "NODE_ENV=prod gulp"
+		"build:prod": "NODE_ENV=prod gulp",
+		"serve": "cd build && live-server"
 	},
 	"repository": {
 		"type": "git",
@@ -31,5 +32,8 @@
 	},
 	"browserslist": [
 		"last 2 version"
-	]
+	],
+	"dependencies": {
+		"live-server": "^1.2.1"
+	}
 }
