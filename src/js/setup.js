@@ -349,6 +349,7 @@ $(document).ready(function () {
 	})
 
 	$('#createId').on('click', createNewID);
+	$('#createIdMobile').on('click', createNewID);
 	function createNewID() {
 		if (cruxpayId.isValid) {
 			loader.show($('#createId'), createNewID);
@@ -385,7 +386,7 @@ $(document).ready(function () {
 		selectedRadio: 'custom',
 		radioContainer: $('.customisation__radio-select'),
 		init({ cruxIDSubdomain, walletClientName, availableCurrencies, publicAddressCurrencies, allCurrencies }) {
-			$('#cruxpayIdName').html(`${cruxIDSubdomain}@${walletClientName}.crux`);
+			$('.cruxpayIdName').html(`${cruxIDSubdomain}@${walletClientName}.crux`);
 			let currenciesToRender = [];
 			for (let currency of allCurrencies) {
 				if (availableCurrencies[currency.symbol]) {
@@ -595,6 +596,7 @@ $(document).ready(function () {
 
 	function handleCustomisation() {
 		loader.show($('#updateCustomization'), handleCustomisation);
+		loader.show($('#updateCustomizationMobile'), handleCustomisation);
 		let checkedCurrencies = {};
 
 		for (let cur of currency.list) {
@@ -627,6 +629,7 @@ $(document).ready(function () {
 	}
 
 	$('#updateCustomization').on('click', handleCustomisation);
+	$('#updateCustomizationMobile').on('click', handleCustomisation);
 
 	function handleCloseSetup() {
 		let closeIframeMessage = {

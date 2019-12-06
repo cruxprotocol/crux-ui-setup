@@ -257,6 +257,7 @@ $card-height: 500px;
 
         @media only screen and (max-width: 768px) {
             width: 100%;
+            padding: 32px 16px;
         }
     }
 
@@ -373,6 +374,15 @@ $card-height: 500px;
         margin-top: -3px;
     }
 
+    .customisation__description--mobile {
+        display: none;
+
+        @media only screen and (max-width: 768px) {
+            display: block;
+            margin-top: 24px;
+        }
+    }
+
     &__selected-currencies {
         margin-top: 32px;
     }
@@ -411,8 +421,8 @@ $card-height: 500px;
     font-weight: bold;
 
     .donut {
-        width: 12px;
-        height: 12px;
+        width: 18px;
+        height: 18px;
         margin-left: 8px;
         display: none;
     }
