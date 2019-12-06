@@ -339,6 +339,7 @@ $(document).ready(function () {
 			let currenciesToRender = [];
 			for (let currency of allCurrencies) {
 				if (availableCurrencies[currency.symbol]) {
+					currency.address = availableCurrencies[currency.symbol];
 					if (publicAddressCurrencies.includes(currency.symbol)) {
 						currency.selected = true;
 					} else {
@@ -384,7 +385,7 @@ $(document).ready(function () {
 			$(this.container).html(template);
 			this.bindCheckboxEvents();
 		},
-		renderCur({ name, symbol, img, selected }) {
+		renderCur({ name, symbol, img, selected, address }) {
 			return `
 			<div class="customisation__currency ${selected ? 'customisation__currency--isSelected' : ''} ">
 				<div class="mdc-form-field">
@@ -408,11 +409,13 @@ $(document).ready(function () {
 						</div>
 					</div>
 					<label for="checkbox-${symbol}" class="customisation__checkbox-label">
-						<img class="customisation__currency-logo" src="data:image/jpeg;base64,${img}" />
-						<div class="customisation__currency-name">${name}</div>
+						<div class="customisation__checkbox-label--inner">
+							<img class="customisation__currency-logo" src="data:image/jpeg;base64,${img}" />
+							<div class="customisation__currency-name">${name}</div>
+							<div class="customisation__currency-symbol">${symbol.toUpperCase()}</div>
+						</div>
 					</label>
 				</div>
-				<div class="customisation__currency-symbol">${symbol.toUpperCase()}</div>
 			</div>
 			`
 		},
