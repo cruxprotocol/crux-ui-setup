@@ -16,7 +16,7 @@ const openpaySdk = isDev ? 'http://127.0.0.1:8777/dist/openpay-dom.js' : 'https:
 function html(cb) {
 	gulp
 		.src("src/index.html")
-		.pipe(inject.before('<!-- %PUBLIC:BUILD% -->', '<script src="'+ openpaySdk +'"></script>\n'))
+		// .pipe(inject.before('<!-- %PUBLIC:BUILD% -->', '<script src="'+ openpaySdk +'"></script>\n'))
 		.pipe(inject.before('<!-- %PUBLIC:BUILD% -->', '<script>window.isDev=' + isDev + '</script>\n'))
 		.pipe(gulp.dest("build/"));
 	cb();

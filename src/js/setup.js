@@ -1,6 +1,5 @@
 $(document).ready(function () {
 	let currentInput;
-	let registrar = window.isDev ? 'https://registrar.coinswitch.co:3000' : 'https://registrar-prod.coinswitch.co:3000';
 	let appCtrl = new function () {
 		this.availableStates = ['registration', 'customisation'];
 		this.registration = {
@@ -205,9 +204,13 @@ $(document).ready(function () {
 		}, 500)
 	})
 	function isUserIdAvailable(id) {
+		const registrar = window.walletInfo.subdomainRegistrar || "https://registrar.cruxpay.com";
 		$.ajax({
 			type: "GET",
 			url: `${registrar}/status/${id}`,
+			headers: {
+				"x-domain-name": window.walletInfo.walletClientName + "_crux",
+			},
 			success: function (response) {
 				cruxpayId.isValid = false;
 				cruxpayId.displayError(`${id} is unavailable`);
@@ -586,6 +589,17 @@ $(document).ready(function () {
 		}
 	}
 
+	let notify = function(message) {
+		const experience = window.walletInfo.experience || 'iframe';
+		if (experience === 'react-native') {
+			window.ReactNativeWebView.postMessage(message, '*');
+		} else if (experience === 'iframe') {
+			window.parent.postMessage(message, '*');
+		} else {
+			window.opener.postMessage(message, '*');
+		}
+	}
+
 	function handleCustomisation() {
 		loader.show($('#updateCustomization'), handleCustomisation);
 		loader.show($('#updateCustomizationMobile'), handleCustomisation);
@@ -605,18 +619,17 @@ $(document).ready(function () {
 				}
 			};
 			existingMessage = JSON.stringify(existingMessage)
-			existingMessage = OpenPay.Encryption.eciesEncryptString(existingMessage, window.encryptionKey)
-			window.parent.postMessage(existingMessage, '*');
+			notify(existingMessage);
 		} else {
 			let registerMessage = {
 				type: 'createNew',
 				data: {
-					newPayIDName: appCtrl.data.newPayIDName,
+					newCruxIDSubdomain: appCtrl.data.newPayIDName,
 					checkedCurrencies: checkedCurrencies
 				}
 			};
-			registerMessage = OpenPay.Encryption.eciesEncryptString(JSON.stringify(registerMessage), window.encryptionKey)
-			window.parent.postMessage(registerMessage, '*');
+			registerMessage = JSON.stringify(registerMessage)
+			notify(registerMessage);
 		}
 	}
 
@@ -625,10 +638,10 @@ $(document).ready(function () {
 
 	function handleCloseSetup() {
 		let closeIframeMessage = {
-			type: 'closeIframe'
+			type: 'close'
 		}
-		closeIframeMessage = OpenPay.Encryption.eciesEncryptString(JSON.stringify(closeIframeMessage), window.encryptionKey)
-		window.parent.postMessage(closeIframeMessage, '*')
+		closeIframeMessage = JSON.stringify(closeIframeMessage);
+		notify(closeIframeMessage)
 	}
 	$('#closeSetup').on('click', handleCloseSetup);
 
