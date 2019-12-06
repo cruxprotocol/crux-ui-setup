@@ -75,7 +75,7 @@ $card-height: 500px;
 
             .mdc-floating-label {
                 font-size: 14px;
-                top: 11px;
+                top: 18px;
             }
 
             .mdc-floating-label--float-above {
@@ -98,7 +98,7 @@ $card-height: 500px;
 
         .validation-rules {
             margin-top: 12px;
-            opacity: 0;
+            opacity: 1;
 
             .rule {
                 display: flex;
@@ -149,6 +149,21 @@ $card-height: 500px;
 
                 span {
                     color: $error;
+                }
+            }
+
+            &--cruxid {
+                margin-top: 32px;
+
+                .rule {
+
+                    .material-icons,
+                    strong {
+                        color: #333648;
+                    }
+
+                    color: #636e72;
+                    font-size: 14px;
                 }
             }
         }
@@ -366,6 +381,8 @@ $card-height: 500px;
 }
 
 .mdc-crux-action {
+    font-weight: bold;
+
     .donut {
         width: 12px;
         height: 12px;

@@ -43,7 +43,8 @@ $(document).ready(function () {
 					allCurrencies: currentInput.assetList && currentInput.clientMapping && currentInput.assetList.length > 0 && Object.keys(currentInput.clientMapping).length > 0 ? curlistAdapter(currentInput) : [],
 				});
 			} else {
-				this.renderState('registration')
+				this.renderState('registration');
+				$('.id-status').html(`@${currentInput.walletClientName}.crux`);
 			}
 
 			/** Update Application Theming **/
@@ -295,7 +296,7 @@ $(document).ready(function () {
 
 	$('#createId').on('click', createNewID);
 	function createNewID() {
-		if (cruxpayId.isValid && password.isValid) {
+		if (cruxpayId.isValid) {
 			loader.show($('#createId'), createNewID);
 			let inputPayIDName = cruxpayId.getId();
 			let inputPayIDPass = password.getPassword();
