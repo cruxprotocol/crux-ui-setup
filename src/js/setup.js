@@ -140,14 +140,6 @@ $(document).ready(function () {
 			return this.isValid
 		},
 		runValidations(id) {
-			if (this.validation.hasDigit(id)) {
-				this.isValid = true;
-			} else {
-				this.isValid = false;
-				this.displayError(`Your ID should contain numbers`);
-				return;
-			}
-
 			if (this.validation.hasAlphabets(id)) {
 				this.isValid = true;
 			} else {
