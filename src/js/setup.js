@@ -111,6 +111,19 @@ $(document).ready(function () {
 				const re = /[A-Za-z]/;
 				return re.test(id);
 			},
+			hasSpecialCharacters(id) {
+				const re = /[~!@#$%^&*()=+,.?":{}|<>:;\[\]]/;
+				return re.test(id);
+			},
+			hasMinLength(id) {
+				return id.toString().length >= 4;
+			},
+			hasMaxLength(id) {
+				return id.toString().length <= 20;
+			},
+			hasValidStartCharater(id) {
+				return !id.startsWith('_') && !id.startsWith('-');
+			},
 			isValid(id) {
 				let isvalid = false;
 				if (this.hasDigit(id)) {
