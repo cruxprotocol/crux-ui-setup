@@ -45,6 +45,13 @@ $(document).ready(function () {
 			} else {
 				this.renderState('registration');
 				$('.id-status').html(`@${currentInput.walletClientName}.crux`);
+				if (currentInput.suggestedCruxIDSubdomain) {
+					cruxpayId.input.val(currentInput.suggestedCruxIDSubdomain);
+					const idField = document.querySelector(".cruxpay-id__container");
+					let mdcElement = mdc.textField.MDCTextField.attachTo(idField);
+					mdcElement.foundation_.activateFocus();
+					isUserIdAvailable(currentInput.suggestedCruxIDSubdomain)
+				}
 			}
 
 			/** Update Application Theming **/
