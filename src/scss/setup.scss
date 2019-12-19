@@ -441,11 +441,7 @@ $card-height: 500px;
         display: none;
     }
 
-    &:disabled {
-        .donut {
-            display: block;
-        }
-    }
+    &:disabled {}
 }
 
 .brand-logo {

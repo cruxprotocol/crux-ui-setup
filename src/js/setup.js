@@ -233,6 +233,8 @@ $(document).ready(function () {
 
 	let timer = null;
 	cruxpayId.input.on('keyup', (e) => {
+		document.querySelector('#createIdMobile').setAttribute('disabled', true);
+		document.querySelector('#createId').setAttribute('disabled', true);
 		cruxpayId.displayHelpText(`<span class="donut status-donut"></span> Checking availability`);
 		cruxpayId.isValid = false;
 		clearTimeout(timer);
@@ -261,6 +263,8 @@ $(document).ready(function () {
 				if (xhr.status == 404) {
 					cruxpayId.isValid = true;
 					cruxpayId.displaySuccess(`${id} is available`);
+					document.querySelector('#createIdMobile').removeAttribute('disabled');
+					document.querySelector('#createId').removeAttribute('disabled');
 				}
 			}
 		});
