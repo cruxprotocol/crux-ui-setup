@@ -49,7 +49,11 @@ $(document).ready(function () {
 					const idField = document.querySelector(".cruxpay-id__container");
 					let mdcElement = mdc.textField.MDCTextField.attachTo(idField);
 					mdcElement.foundation_.activateFocus();
-					isUserIdAvailable(currentInput.suggestedCruxIDSubdomain)
+					document.querySelector('#createIdMobile').setAttribute('disabled', true);
+					document.querySelector('#createId').setAttribute('disabled', true);
+					cruxpayId.displayHelpText(`<span class="donut status-donut"></span> Checking availability`);
+					cruxpayId.runValidations(currentInput.suggestedCruxIDSubdomain);
+					if (cruxpayId.isInputValid()) isUserIdAvailable(currentInput.suggestedCruxIDSubdomain);
 				}
 			}
 
