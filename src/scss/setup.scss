@@ -70,6 +70,10 @@ $card-height: 500px;
             margin-top: 16px;
             display: flex;
             flex-direction: column;
+
+            @media only screen and (max-width: 768px) {
+                margin-top: -12px;
+            }
         }
 
         .text-field-container {
@@ -446,6 +450,12 @@ $card-height: 500px;
 
 .brand-logo {
     width: 150px;
+
+    @media only screen and (max-width: 768px) {
+        display: block;
+        margin: 32px auto;
+    }
+
 }
 
 /*****************
@@ -537,4 +547,15 @@ $card-height: 500px;
             display: none;
         }
     }
+}
+
+.status-donut {
+    border-width: 2px;
+    margin-right: 8px;
+}
+
+#cruxpay-id__helper-text {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
 }

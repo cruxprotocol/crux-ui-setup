@@ -233,7 +233,7 @@ $(document).ready(function () {
 
 	let timer = null;
 	cruxpayId.input.on('keyup', (e) => {
-		cruxpayId.displayHelpText(`Checking availability`);
+		cruxpayId.displayHelpText(`<span class="donut status-donut"></span> Checking availability`);
 		cruxpayId.isValid = false;
 		clearTimeout(timer);
 		timer = null;
