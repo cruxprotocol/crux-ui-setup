@@ -374,15 +374,22 @@ $card-height: 500px;
     .description-id {
         color: $dark;
         font-size: 20px;
-        margin-top: -3px;
+        margin-top: 0px;
+        word-break: break-all;
     }
 
     .customisation__description--mobile {
         display: none;
 
         @media only screen and (max-width: 768px) {
-            display: block;
+            display: flex;
             margin-top: 24px;
+
+            img {
+                width: 35px;
+                height: 35px;
+                margin-right: 12px;
+            }
         }
     }
 

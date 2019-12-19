@@ -138,7 +138,49 @@ $(document).ready(function () {
 		isInputValid() {
 			return this.isValid
 		},
+		renderValidationHelpers(id) {
+			if (this.validation.hasOnlyLowerCaseAlphabets(id)) {
+				document.querySelector("[data-type='LOWERCASE']").classList.remove('rule--failed');
+				document.querySelector("[data-type='LOWERCASE']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='LOWERCASE']").classList.add('rule--failed');
+				document.querySelector("[data-type='LOWERCASE']").classList.remove('rule--success');
+			}
+
+			if (this.validation.hasSpecialCharacters(id)) {
+				document.querySelector("[data-type='SPECIAL_CHAR']").classList.remove('rule--failed');
+				document.querySelector("[data-type='SPECIAL_CHAR']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='SPECIAL_CHAR']").classList.add('rule--failed');
+				document.querySelector("[data-type='SPECIAL_CHAR']").classList.remove('rule--success');
+			}
+
+			if (this.validation.hasMinLength(id)) {
+				document.querySelector("[data-type='LEN_MIN']").classList.remove('rule--failed');
+				document.querySelector("[data-type='LEN_MIN']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='LEN_MIN']").classList.add('rule--failed');
+				document.querySelector("[data-type='LEN_MIN']").classList.remove('rule--success');
+			}
+
+			if (this.validation.hasMaxLength(id)) {
+				document.querySelector("[data-type='LEN_MAX']").classList.remove('rule--failed');
+				document.querySelector("[data-type='LEN_MAX']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='LEN_MAX']").classList.add('rule--failed');
+				document.querySelector("[data-type='LEN_MAX']").classList.remove('rule--success');
+			}
+
+			if (this.validation.hasValidStartCharater(id)) {
+				document.querySelector("[data-type='START_TYPE_ERROR']").classList.remove('rule--failed');
+				document.querySelector("[data-type='START_TYPE_ERROR']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='START_TYPE_ERROR']").classList.add('rule--failed');
+				document.querySelector("[data-type='START_TYPE_ERROR']").classList.remove('rule--success');
+			}
+		},
 		runValidations(id) {
+			this.renderValidationHelpers(id);
 			if (this.validation.hasAlphabets(id)) {
 				this.isValid = true;
 			} else {
@@ -149,61 +191,41 @@ $(document).ready(function () {
 
 			if (this.validation.hasOnlyLowerCaseAlphabets(id)) {
 				this.isValid = true;
-				document.querySelector("[data-type='LOWERCASE']").classList.remove('rule--failed');
-				document.querySelector("[data-type='LOWERCASE']").classList.add('rule--success');
 			} else {
 				this.isValid = false;
 				this.displayError(`Only lowercase alphabets are allowed`);
-				document.querySelector("[data-type='LOWERCASE']").classList.add('rule--failed');
-				document.querySelector("[data-type='LOWERCASE']").classList.remove('rule--success');
 				return;
 			}
 
 			if (this.validation.hasSpecialCharacters(id)) {
 				this.isValid = true;
-				document.querySelector("[data-type='SPECIAL_CHAR']").classList.remove('rule--failed');
-				document.querySelector("[data-type='SPECIAL_CHAR']").classList.add('rule--success');
 			} else {
 				this.isValid = false;
 				this.displayError(`Only - and _ special characters are allowed`);
-				document.querySelector("[data-type='SPECIAL_CHAR']").classList.add('rule--failed');
-				document.querySelector("[data-type='SPECIAL_CHAR']").classList.remove('rule--success');
 				return;
 			}
 
 			if (this.validation.hasMinLength(id)) {
 				this.isValid = true;
-				document.querySelector("[data-type='LEN_MIN']").classList.remove('rule--failed');
-				document.querySelector("[data-type='LEN_MIN']").classList.add('rule--success');
 			} else {
 				this.isValid = false;
 				this.displayError(`CRUX Id should be minimum 4 characters`);
-				document.querySelector("[data-type='LEN_MIN']").classList.add('rule--failed');
-				document.querySelector("[data-type='LEN_MIN']").classList.remove('rule--success');
 				return;
 			}
 
 			if (this.validation.hasMaxLength(id)) {
 				this.isValid = true;
-				document.querySelector("[data-type='LEN_MAX']").classList.remove('rule--failed');
-				document.querySelector("[data-type='LEN_MAX']").classList.add('rule--success');
 			} else {
 				this.isValid = false;
 				this.displayError(`CRUX Id can have maximum 20 characters`);
-				document.querySelector("[data-type='LEN_MAX']").classList.add('rule--failed');
-				document.querySelector("[data-type='LEN_MAX']").classList.remove('rule--success');
 				return;
 			}
 
 			if (this.validation.hasValidStartCharater(id)) {
 				this.isValid = true;
-				document.querySelector("[data-type='START_TYPE_ERROR']").classList.remove('rule--failed');
-				document.querySelector("[data-type='START_TYPE_ERROR']").classList.add('rule--success');
 			} else {
 				this.isValid = false;
 				this.displayError(`CRUX Id can not start with a special character`);
-				document.querySelector("[data-type='START_TYPE_ERROR']").classList.add('rule--failed');
-				document.querySelector("[data-type='START_TYPE_ERROR']").classList.remove('rule--success');
 				return;
 			}
 		}
