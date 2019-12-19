@@ -56,40 +56,64 @@
 									id="cruxpay-id__helper-text">Enter a unique alphanumeric user id</p>
 							</div>
 							<div class="validation-rules validation-rules--cruxid">
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="LEN_MIN">
+									<i class="material-icons rule__notice">
 										error_outline
+									</i>
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>Minimum Id length is 4</span>
 								</div>
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="LEN_MAX">
+									<i class="material-icons rule__notice">
 										error_outline
+									</i>
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>Maximum Id length is 20</span>
 								</div>
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="LOWERCASE">
+									<i class="material-icons rule__notice">
 										error_outline
+									</i>
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>Only lowercase alphabets are allowed</span>
 								</div>
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="SPECIAL_CHAR">
+									<i class="material-icons rule__notice">
 										error_outline
+									</i>
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>Only <strong>_</strong> and <strong>-</strong> special characters are
 										allowed</span>
 								</div>
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="START_TYPE_ERROR">
+									<i class="material-icons rule__notice">
 										error_outline
 									</i>
-									<span>CRUX Id can start with an alphabet or number</span>
-								</div>
-								<div class="rule">
-									<i class="material-icons">
-										error_outline
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>CRUX Id cannot start with special characters</span>
 								</div>
