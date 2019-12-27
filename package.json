@@ -1,6 +1,6 @@
 {
 	"name": "cruxpay-setup",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "",
 	"main": "index.html",
 	"scripts": {
@@ -10,11 +10,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+ssh://git@bitbucket.org/coinswitch/openpay-setup.git"
+		"url": "https://github.com/cruxprotocol/crux-ui-setup"
 	},
 	"author": "amit@coinswitch.co",
-	"license": "ISC",
-	"homepage": "https://bitbucket.org/coinswitch/openpay-setup#readme",
+	"license": "GPL-3.0",
 	"devDependencies": {
 		"@babel/core": "7.4.3",
 		"@babel/preset-env": "7.4.3",
