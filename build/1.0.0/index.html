@@ -31,8 +31,7 @@
 			<div class="setup-card cs-hide" id="registration">
 				<div class="setup-card__form">
 					<img src="./images/brand-logo--dark.png" alt="CruxPay" class="brand-logo">
-					<div class="setup-card__headline">Create your CruxPay Account</div>
-					<div class="setup-card__body">Continue to CruxPay</div>
+					<div class="setup-card__headline">Create your CRUX ID</div>
 
 					<form autocomplete="off">
 						<input autocomplete="false" name="hidden" type="text" style="display:none;">
@@ -42,7 +41,7 @@
 								<div class="mdc-notched-outline">
 									<div class="mdc-notched-outline__leading"></div>
 									<div class="mdc-notched-outline__notch">
-										<label for="text-field-hero-input" class="mdc-floating-label">CRUXPay ID</label>
+										<label for="text-field-hero-input" class="mdc-floating-label">CRUX ID</label>
 									</div>
 									<div class="mdc-notched-outline__trailing">
 										<div class="id-status">
@@ -56,40 +55,64 @@
 									id="cruxpay-id__helper-text">Enter a unique alphanumeric user id</p>
 							</div>
 							<div class="validation-rules validation-rules--cruxid">
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="LEN_MIN">
+									<i class="material-icons rule__notice">
 										error_outline
+									</i>
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>Minimum Id length is 4</span>
 								</div>
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="LEN_MAX">
+									<i class="material-icons rule__notice">
 										error_outline
+									</i>
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>Maximum Id length is 20</span>
 								</div>
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="LOWERCASE">
+									<i class="material-icons rule__notice">
 										error_outline
+									</i>
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>Only lowercase alphabets are allowed</span>
 								</div>
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="SPECIAL_CHAR">
+									<i class="material-icons rule__notice">
 										error_outline
+									</i>
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>Only <strong>_</strong> and <strong>-</strong> special characters are
 										allowed</span>
 								</div>
-								<div class="rule">
-									<i class="material-icons">
+								<div class="rule" data-type="START_TYPE_ERROR">
+									<i class="material-icons rule__notice">
 										error_outline
 									</i>
-									<span>CRUX Id can start with an alphabet or number</span>
-								</div>
-								<div class="rule">
-									<i class="material-icons">
-										error_outline
+									<i class="material-icons rule__invalid">
+										clear
+									</i>
+									<i class="material-icons rule__valid">
+										done
 									</i>
 									<span>CRUX Id cannot start with special characters</span>
 								</div>
@@ -98,7 +121,7 @@
 						<div class="setup__footer setup__footer--mobile">
 							<button class="mdc-button mdc-button--raised mdc-crux-action" id="createIdMobile"
 								type="button">
-								<span>Create ID</span>
+								<span>Create your Crux Id</span>
 								<span class="donut"></span>
 							</button>
 						</div>
@@ -108,7 +131,7 @@
 					<img src="./images/mobile-pay.svg" width="250" />
 					<div class="setup__footer">
 						<button class="mdc-button mdc-button--raised mdc-crux-action" id="createId" type="button">
-							<span>Create ID</span>
+							<span>Create your Crux Id</span>
 							<span class="donut"></span>
 						</button>
 					</div>
@@ -119,14 +142,17 @@
 					<img src="./images/brand-logo--dark.png" alt="CruxPay" class="brand-logo">
 
 					<div class="customisation__description-id customisation__description--mobile">
-						<div class="description-heading">
-							Your CruxPay Id
-						</div>
-						<div class="description-id cruxpayIdName">
+						<img src="https://image.flaticon.com/icons/png/512/149/149071.png">
+						<div>
+							<div class="description-heading">
+								Your CRUX ID
+							</div>
+							<div class="description-id cruxpayIdName">
 
+							</div>
 						</div>
 					</div>
-					<div class="customisation__headline">Select Currencies</div>
+					<div class="customisation__mobile-body-text">Select currecies you want to link to your CRUX ID</div>
 					<form class="customisation__search" autocomplete="off">
 						<input autocomplete="false" name="hidden" type="text" style="display:none;">
 						<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
@@ -160,7 +186,7 @@
 				<div class="customisation__description">
 					<div class="customisation__description-id">
 						<div class="description-heading">
-							Your CruxPay Id
+							Your CRUX ID
 						</div>
 						<div class="description-id cruxpayIdName">
 
@@ -216,7 +242,7 @@
 	</script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-	<script>window.isDev=false</script>
+	<script>window.isDev=true</script>
 <!-- %PUBLIC:BUILD% -->
 	<script src="./js/setup.min.js"></script>
 </body>

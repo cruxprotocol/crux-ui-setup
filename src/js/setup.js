@@ -49,7 +49,11 @@ $(document).ready(function () {
 					const idField = document.querySelector(".cruxpay-id__container");
 					let mdcElement = mdc.textField.MDCTextField.attachTo(idField);
 					mdcElement.foundation_.activateFocus();
-					isUserIdAvailable(currentInput.suggestedCruxIDSubdomain)
+					document.querySelector('#createIdMobile').setAttribute('disabled', true);
+					document.querySelector('#createId').setAttribute('disabled', true);
+					cruxpayId.displayHelpText(`<span class="donut status-donut"></span> Checking availability`);
+					cruxpayId.runValidations(currentInput.suggestedCruxIDSubdomain);
+					if (cruxpayId.isInputValid()) isUserIdAvailable(currentInput.suggestedCruxIDSubdomain);
 				}
 			}
 
@@ -138,7 +142,49 @@ $(document).ready(function () {
 		isInputValid() {
 			return this.isValid
 		},
+		renderValidationHelpers(id) {
+			if (this.validation.hasOnlyLowerCaseAlphabets(id)) {
+				document.querySelector("[data-type='LOWERCASE']").classList.remove('rule--failed');
+				document.querySelector("[data-type='LOWERCASE']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='LOWERCASE']").classList.add('rule--failed');
+				document.querySelector("[data-type='LOWERCASE']").classList.remove('rule--success');
+			}
+
+			if (this.validation.hasSpecialCharacters(id)) {
+				document.querySelector("[data-type='SPECIAL_CHAR']").classList.remove('rule--failed');
+				document.querySelector("[data-type='SPECIAL_CHAR']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='SPECIAL_CHAR']").classList.add('rule--failed');
+				document.querySelector("[data-type='SPECIAL_CHAR']").classList.remove('rule--success');
+			}
+
+			if (this.validation.hasMinLength(id)) {
+				document.querySelector("[data-type='LEN_MIN']").classList.remove('rule--failed');
+				document.querySelector("[data-type='LEN_MIN']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='LEN_MIN']").classList.add('rule--failed');
+				document.querySelector("[data-type='LEN_MIN']").classList.remove('rule--success');
+			}
+
+			if (this.validation.hasMaxLength(id)) {
+				document.querySelector("[data-type='LEN_MAX']").classList.remove('rule--failed');
+				document.querySelector("[data-type='LEN_MAX']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='LEN_MAX']").classList.add('rule--failed');
+				document.querySelector("[data-type='LEN_MAX']").classList.remove('rule--success');
+			}
+
+			if (this.validation.hasValidStartCharater(id)) {
+				document.querySelector("[data-type='START_TYPE_ERROR']").classList.remove('rule--failed');
+				document.querySelector("[data-type='START_TYPE_ERROR']").classList.add('rule--success');
+			} else {
+				document.querySelector("[data-type='START_TYPE_ERROR']").classList.add('rule--failed');
+				document.querySelector("[data-type='START_TYPE_ERROR']").classList.remove('rule--success');
+			}
+		},
 		runValidations(id) {
+			this.renderValidationHelpers(id);
 			if (this.validation.hasAlphabets(id)) {
 				this.isValid = true;
 			} else {
@@ -191,7 +237,9 @@ $(document).ready(function () {
 
 	let timer = null;
 	cruxpayId.input.on('keyup', (e) => {
-		cruxpayId.displayHelpText(`Checking availability`);
+		document.querySelector('#createIdMobile').setAttribute('disabled', true);
+		document.querySelector('#createId').setAttribute('disabled', true);
+		cruxpayId.displayHelpText(`<span class="donut status-donut"></span> Checking availability`);
 		cruxpayId.isValid = false;
 		clearTimeout(timer);
 		timer = null;
@@ -219,6 +267,8 @@ $(document).ready(function () {
 				if (xhr.status == 404) {
 					cruxpayId.isValid = true;
 					cruxpayId.displaySuccess(`${id} is available`);
+					document.querySelector('#createIdMobile').removeAttribute('disabled');
+					document.querySelector('#createId').removeAttribute('disabled');
 				}
 			}
 		});

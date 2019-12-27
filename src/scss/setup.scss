@@ -26,7 +26,9 @@ $card-height: 500px;
 
         @media only screen and (max-width: 768px) {
             width: 100%;
-            margin: 16px 8px;
+            height: 100%;
+            margin: 0px;
+            border: none;
         }
     }
 
@@ -61,12 +63,17 @@ $card-height: 500px;
 
         @media only screen and (max-width: 768px) {
             width: 100%;
+            height: 100%;
         }
 
         form {
             margin-top: 16px;
             display: flex;
             flex-direction: column;
+
+            @media only screen and (max-width: 768px) {
+                margin-top: -12px;
+            }
         }
 
         .text-field-container {
@@ -371,15 +378,23 @@ $card-height: 500px;
     .description-id {
         color: $dark;
         font-size: 20px;
-        margin-top: -3px;
+        margin-top: 0px;
+        word-break: break-all;
     }
 
     .customisation__description--mobile {
         display: none;
 
         @media only screen and (max-width: 768px) {
-            display: block;
-            margin-top: 24px;
+            display: flex;
+            margin-top: 8px;
+            margin-bottom: 0px;
+
+            img {
+                width: 35px;
+                height: 35px;
+                margin-right: 12px;
+            }
         }
     }
 
@@ -427,15 +442,17 @@ $card-height: 500px;
         display: none;
     }
 
-    &:disabled {
-        .donut {
-            display: block;
-        }
-    }
+    &:disabled {}
 }
 
 .brand-logo {
     width: 150px;
+
+    @media only screen and (max-width: 768px) {
+        display: block;
+        margin: 32px auto;
+    }
+
 }
 
 /*****************
@@ -468,4 +485,82 @@ $card-height: 500px;
         word-break: break-all;
         margin-top: 8px;
     }
+}
+
+.rule {
+    &__notice {
+        display: block;
+    }
+
+    &__invalid {
+        display: none;
+    }
+
+    &__valid {
+        display: none;
+    }
+
+    &--success {
+        span {
+            color: #2ed573;
+        }
+
+        .material-icons {
+            color: #2ed573 !important;
+        }
+
+        .rule__notice {
+            display: none;
+        }
+
+        .rule__invalid {
+            display: none;
+        }
+
+        .rule__valid {
+            display: block;
+
+        }
+    }
+
+    &--failed {
+        span {
+            color: #ff4757;
+        }
+
+        .material-icons {
+            color: #ff4757 !important;
+        }
+
+        .rule__notice {
+            display: none;
+        }
+
+        .rule__invalid {
+            display: block;
+        }
+
+        .rule__valid {
+            display: none;
+        }
+    }
+}
+
+.status-donut {
+    border-width: 2px;
+    margin-right: 8px;
+}
+
+#cruxpay-id__helper-text {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.customisation__mobile-body-text {
+    color: #333648;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.54;
+    margin-top: 32px;
 }
